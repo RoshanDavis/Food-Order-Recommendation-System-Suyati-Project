@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/static/css/main.4e5ba1c3.css",
-    "main.js": "/static/js/main.47c9c849.js",
-    "static/media/Home-Page-Food.png": "/static/media/Home-Page-Food.83a7f827de24b8d5d27e.png",
-    "index.html": "/index.html",
-    "main.4e5ba1c3.css.map": "/static/css/main.4e5ba1c3.css.map",
-    "main.47c9c849.js.map": "/static/js/main.47c9c849.js.map"
+    "main.css": "/Food-Order-Recommendation-System-Suyati-Project/static/css/main.4e5ba1c3.css",
+    "main.js": "/Food-Order-Recommendation-System-Suyati-Project/static/js/main.6fc062bc.js",
+    "static/media/Home-Page-Food.png": "/Food-Order-Recommendation-System-Suyati-Project/static/media/Home-Page-Food.83a7f827de24b8d5d27e.png",
+    "index.html": "/Food-Order-Recommendation-System-Suyati-Project/index.html",
+    "main.4e5ba1c3.css.map": "/Food-Order-Recommendation-System-Suyati-Project/static/css/main.4e5ba1c3.css.map",
+    "main.6fc062bc.js.map": "/Food-Order-Recommendation-System-Suyati-Project/static/js/main.6fc062bc.js.map"
   },
   "entrypoints": [
     "static/css/main.4e5ba1c3.css",
-    "static/js/main.47c9c849.js"
+    "static/js/main.6fc062bc.js"
   ]
 }
