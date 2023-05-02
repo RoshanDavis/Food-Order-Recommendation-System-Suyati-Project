@@ -1,8 +1,7 @@
 import React from 'react'
 import Navbar from './Navbar'
 import './Home.css'
-import Signup from './Signup'
-import { Link } from 'react-router-dom';
+import Footer from './Footer'
 
 const Home = () => {
   return (
@@ -23,6 +22,9 @@ const Home = () => {
             </div>
             <img src={require('../Assets/Home-Page-Food.png')} alt="" />
         </body>
+        <footer>
+            <Footer/>
+        </footer>
     </div>
   )
 }
