@@ -1,6 +1,9 @@
 import React from 'react'
 import Navbar from './Navbar'
 import './Home.css'
+import Signup from './Signup'
+import { Link } from 'react-router-dom';
+
 const Home = () => {
   return (
     <div>
