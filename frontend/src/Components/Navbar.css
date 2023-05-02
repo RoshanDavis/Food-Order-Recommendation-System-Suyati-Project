@@ -37,5 +37,5 @@
 }
 
 .navbar li :hover{
-    background-color: lightgray;
+    color: red;
 }

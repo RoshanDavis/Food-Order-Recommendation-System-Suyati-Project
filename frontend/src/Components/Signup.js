@@ -1,4 +1,8 @@
 import React, { useState } from 'react';
+import './Signup.css';
+// import { useNavigate } from 'react-router';
+
+
 
 export default function Signup() {
   const [firstName, setFirstName] = useState('');
@@ -6,14 +10,41 @@ export default function Signup() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+ 
+
+
+ 
+
+  // const Login= ()=>{
+  //   const navigate = useNavigate();
+  //   const gotoLogin =()=>{
+  //     navigate("/login");
+  //   }
+  // };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     // handle form submission here
-  };
+    const userdata={ firstName,lastName,email,password};
+    console.log(userdata);
+    
+    fetch('https://localhost:8000',{
+      method: 'POST',
+      headers:{ 'Content-Type': 'application/json'},
+      body: JSON.stringify(userdata),
+      
+    }) //.then(()=>{
+    //   console.log('new user added');
+     
+
+    // })
+    
+  }
+
 
   return (
-    <form onSubmit={handleSubmit}>
+    <div className='formbg'>
+          <form onSubmit={handleSubmit}>
       <h3>Sign Up</h3>
       <div className="form-group">
         <label htmlFor="firstName">First Name</label>
@@ -52,7 +83,7 @@ export default function Signup() {
         />
       </div>
       <div className="form-group">
-        <label htmlFor="password">Password</label>
+        <label htmlFor="password" onSubmit={handleSubmit}>Password</label>
         <input
           type="password"
           className="form-control"
@@ -76,10 +107,16 @@ export default function Signup() {
           required
           minLength="8"
         />
+      
       </div>
       <button type="submit" className="btn btn-primary">
         Sign Up
       </button>
     </form>
+      
+    </div>
+
   );
 }
+
+
