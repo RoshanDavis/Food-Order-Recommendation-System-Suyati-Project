@@ -37,5 +37,6 @@
 }
 
 .navbar li :hover{
-    background-color: lightgray;
+    background-color: coral; 
+    color: floralwhite; 
 }
