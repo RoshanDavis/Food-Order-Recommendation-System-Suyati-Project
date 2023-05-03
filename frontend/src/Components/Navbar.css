@@ -29,6 +29,7 @@
     display: flex;
     gap:1rem;
     font-size:larger;
+    align-items: center;
 }
 .navbar a{
     color: inherit;
