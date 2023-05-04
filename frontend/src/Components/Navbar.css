@@ -8,6 +8,7 @@
     gap: 2rem;
     padding: 1rem;
     font-family: 'Poppins', sans-serif;
+    width: 100vw;
 }
 .site-title{
     font-size: x-large;
