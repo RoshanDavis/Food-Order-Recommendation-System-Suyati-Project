@@ -5,6 +5,28 @@ import "slick-carousel/slick/slick-theme.css";
 import { dataDigitalBestSeller } from './Test-Data-Product-Slider';
 import './ProductSlider.css';
 import imgGirl from '../Assets/Icon.png';
+import { Link } from 'react-router-dom';
+
+function CustomNextArrow(props) {
+    const { className, style, onClick } = props;
+    return (
+      <div
+        className={className}
+        onClick={onClick}
+      />
+    );
+  }
+  
+  function CustomPrevArrow(props) {
+    const { className, style, onClick } = props;
+    return (
+      <div
+        className={className}
+        onClick={onClick}
+      />
+    );
+  }
+
 const Product_Slider = () => {
     const [defaultImage, setDefaultImage] = useState({});
   const settings = {
@@ -14,6 +36,9 @@ const Product_Slider = () => {
     slidesToShow: 4,
     slidesToScroll: 3,
     initialSlide: 0,
+    nextArrow: <CustomNextArrow />,
+    prevArrow: <CustomPrevArrow />,
+  
     responsive: [
       {
         breakpoint: 1024,
@@ -54,7 +79,7 @@ const Product_Slider = () => {
     <div className="ProductSlider">
       <Slider {...settings}>
         {dataDigitalBestSeller.map((item) => (
-          <div className="card">
+          <Link to="" className="card">
             <div className="card-top">
               <img
                 src={
@@ -71,7 +96,7 @@ const Product_Slider = () => {
               <h3>{item.price}</h3>
               <span className="category">{item.category}</span>
             </div>
-          </div>
+          </Link>
         ))}
       </Slider>
     </div>
