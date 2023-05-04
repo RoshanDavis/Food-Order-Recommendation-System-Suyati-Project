@@ -17,7 +17,11 @@
     text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
     
 }
-
+@media (max-width: 1024px) {
+  .bg-img h1 {
+    font-size: 7rem;
+  }
+}
 @media (max-width: 768px) {
   .bg-img h1 {
     font-size: 4rem;

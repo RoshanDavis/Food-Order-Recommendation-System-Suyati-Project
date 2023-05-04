@@ -9,6 +9,8 @@
     padding: 1rem;
     font-family: 'Poppins', sans-serif;
     width: 100vw;
+    position: relative;
+    z-index: 9999;
 }
 .site-title{
     font-size: x-large;
@@ -32,6 +34,7 @@
     font-size:larger;
     align-items: center;
 }
+
 .navbar a{
     color: inherit;
     text-decoration: none;
@@ -42,3 +45,6 @@
     background-color: coral; 
     color: floralwhite; 
 }
+
+
+  
