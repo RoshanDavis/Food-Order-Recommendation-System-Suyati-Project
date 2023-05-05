@@ -3,6 +3,7 @@
     width: 100%;
     margin: 0 auto;
     margin-top: 50px;
+    
   }
   
   .slick-slide > div {
@@ -13,49 +14,69 @@
   }
   
   .card {
-    border: 1px solid #fff;
-    background: black;
+    border: 1px solid lightgrey;
+    background: floralwhite;
     border-radius: 8px;
     overflow: hidden;
   
-    height: 400px;
-    color: #fff;
+    height: 370px;
+    color: black;
     cursor: pointer;
+    text-decoration: none;
+    
+    position: relative;
   }
   .card:hover {
-    transform: scale(1.05);
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    transform: scale(1.02);
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.068), 0 6px 20px 0 rgba(0,0,0,0.19);
     z-index: 1;
   }
-  .card-top h1 {
-    font-size: 0.9rem;
-    margin: 20px;
-  }
+
   
   .card-top > img {
     width: 100%;
     height: 200px;
     object-fit: cover;
-    background: black;
+    background: white;
   }
   
   .card-bottom {
-    margin: 10px 20px;
-  }
-  
-  .category {
-    position: relative;
-  }
-  .category::before {
-    content: '';
-    background: rgb(255, 61, 61);
-    position: absolute;
-    top: calc(100% + 10px);
-    left: 0;
-    right: 0;
-    height: 2px;
+    margin: 10px 10px;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: 1.9fr 1fr;
+    
   }
 
+  .card-bottom h1 {
+    font-size: 1.2rem;
+    
+  }
+  .card-bottom h2 {
+    font-size: 1.6rem;
+  } 
+  .card-bottom h3{
+    font-size: 1.2rem;
+    color: grey;
+  }
+  .rating {
+    display: flex;
+    align-items:start;
+    justify-content: end;
+    color:white;
+  }
+  .rating-bg-color{
+    background-color: green;
+  }
+  .rating h1{
+    font-size: 1.6rem;
+  }
+  .rating img{
+    height: 30px;
+    width: auto;
+    object-fit: contain;
+  
+  }
   .slick-next:before,
   .slick-prev:before {
     font-family: "slick";
@@ -76,3 +97,28 @@
     z-index: 1;
   }
   
+  /* Hide arrows for smaller screens
+  @media (max-width: 1024px) {
+    .slick-next:before,
+  .slick-prev:before {
+    font-family: "slick";
+    font-size:3rem;
+    line-height: 1;
+    color:coral;
+  }
+}
+  @media (max-width: 768px) {
+    .slick-next:before,
+    .slick-prev:before {
+      display: none;
+    }
+    
+  }
+  
+  @media (max-width: 576px) {
+    .slick-next:before,
+  .slick-prev:before {
+    display: none;
+  }
+  
+  } */

@@ -2,13 +2,13 @@ import React,{useState} from 'react'
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
-import { dataDigitalBestSeller } from './Test-Data-Product-Slider';
+import  productSliderData  from './ProductSliderTestData.json';
 import './ProductSlider.css';
 import imgGirl from '../Assets/Icon.png';
 import { Link } from 'react-router-dom';
 
 function CustomNextArrow(props) {
-    const { className, style, onClick } = props;
+    const { className,  onClick } = props;
     return (
       <div
         className={className}
@@ -18,7 +18,7 @@ function CustomNextArrow(props) {
   }
   
   function CustomPrevArrow(props) {
-    const { className, style, onClick } = props;
+    const { className,  onClick } = props;
     return (
       <div
         className={className}
@@ -27,7 +27,7 @@ function CustomNextArrow(props) {
     );
   }
 
-const Product_Slider = () => {
+const ProductSlider = () => {
     const [defaultImage, setDefaultImage] = useState({});
   const settings = {
     dots: true,
@@ -78,23 +78,30 @@ const Product_Slider = () => {
   return (
     <div className="ProductSlider">
       <Slider {...settings}>
-        {dataDigitalBestSeller.map((item) => (
+        {productSliderData.map((item) => (
           <Link to="" className="card">
             <div className="card-top">
               <img
                 src={
-                  defaultImage[item.title] === item.title
+                  defaultImage[item.restaurant] === item.restaurant
                     ? defaultImage.linkDefault
                     : item.linkImg
                 }
-                alt={item.title}
+                alt={item.restaurant}
                 onError={handleErrorImage}
               />
-              <h1>{item.title}</h1>
+                
             </div>
             <div className="card-bottom">
-              <h3>{item.price}</h3>
-              <span className="category">{item.category}</span>
+              <h1>{item.restaurant}</h1>
+              <div className="rating ">
+                <div className="rating-bg-color  container d-flex flex-row rounded">
+                  <h1 className='me-1'>{item.rating}</h1> 
+                  <img src={require('../Assets/Star.png')} alt="" />
+                </div>
+              </div>
+              <h3>{item.food}</h3>
+              <h2>{item.price}</h2>
             </div>
           </Link>
         ))}
@@ -103,4 +110,4 @@ const Product_Slider = () => {
   );
 }
 
-export default Product_Slider
+export default ProductSlider
