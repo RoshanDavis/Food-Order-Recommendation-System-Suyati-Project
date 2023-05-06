@@ -43,38 +43,48 @@
   .card-bottom {
     margin: 10px 10px;
     display: grid;
-    grid-template-columns: 2fr 1fr;
-    grid-template-rows: 1.9fr 1fr;
+    grid-template-columns: 3fr 1fr;
+    grid-template-rows: 77px 50px;
     
   }
 
-  .card-bottom h1 {
+  .card-bottom-restuarant-name{
     font-size: 1.2rem;
+    overflow: hidden;
     
   }
   .card-bottom h2 {
-    font-size: 1.6rem;
+    font-size: 1.4rem;
+    color:dimgrey;
   } 
   .card-bottom h3{
-    font-size: 1.2rem;
+    font-size: 1rem;
     color: grey;
   }
   .rating {
     display: flex;
-    align-items:start;
-    justify-content: end;
+    align-items:flex-start;
+    justify-content: center;
     color:white;
+    
   }
   .rating-bg-color{
     background-color: green;
   }
-  .rating h1{
-    font-size: 1.6rem;
+
+  .rating--large {
+    font-size: 1.5rem;
+    padding-right: 3px;
+  }
+  .rating--small{
+    font-size: 1.4rem;
+    
   }
   .rating img{
-    height: 30px;
-    width: auto;
+    height: 25px;
+    width: 25px;
     object-fit: contain;
+    padding-top: 3px;
   
   }
   .slick-next:before,

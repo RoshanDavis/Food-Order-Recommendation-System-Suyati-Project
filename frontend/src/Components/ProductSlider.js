@@ -75,6 +75,8 @@ const ProductSlider = () => {
     }));
   };
 
+ 
+
   return (
     <div className="ProductSlider">
       <Slider {...settings}>
@@ -83,8 +85,12 @@ const ProductSlider = () => {
             <div className="card-top">
               <img
                 src={
+                  // defaultImage[item.restaurant] === item.restaurant
+                  //   ? defaultImage.linkDefault
+                  //   : item.linkImg
+                  
                   defaultImage[item.restaurant] === item.restaurant
-                    ? defaultImage.linkDefault
+                    ? defaultImage[item.restaurant] === defaultImage["'" + item.restaurant + "'"]? defaultImage.linkDefault: item.linkImg
                     : item.linkImg
                 }
                 alt={item.restaurant}
@@ -93,15 +99,16 @@ const ProductSlider = () => {
                 
             </div>
             <div className="card-bottom">
-              <h1>{item.restaurant}</h1>
+              <h1 className='card-bottom-restuarant-name'>{item.restaurant}</h1>
               <div className="rating ">
-                <div className="rating-bg-color  container d-flex flex-row rounded">
-                  <h1 className='me-1'>{item.rating}</h1> 
-                  <img src={require('../Assets/Star.png')} alt="" />
+                <div className="rating-bg-color  d-flex flex-row rounded ps-2 pe-2 ">
+                  <h1 className={`${ item.rating && item.rating.toString().length === 1 ? 'rating--large' : 'rating--small'}`}>{item.rating}</h1> 
+                  
+                  <img className='pt-1 ps-1' src={require('../Assets/Star.png')} alt="" />
                 </div>
               </div>
               <h3>{item.food}</h3>
-              <h2>{item.price}</h2>
+              <h2>Rs.{item.price}</h2>
             </div>
           </Link>
         ))}
