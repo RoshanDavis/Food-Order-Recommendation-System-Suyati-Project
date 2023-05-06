@@ -1,11 +1,13 @@
+
 import React,{useState} from 'react'
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
-import  productSliderData  from './ProductSliderTestData.json';
 import './ProductSlider.css';
 import imgGirl from '../Assets/Icon.png';
 import { Link } from 'react-router-dom';
+
+
 
 function CustomNextArrow(props) {
     const { className,  onClick } = props;
@@ -27,7 +29,7 @@ function CustomNextArrow(props) {
     );
   }
 
-const ProductSlider = () => {
+const ProductSlider = ({ data }) => {
     const [defaultImage, setDefaultImage] = useState({});
   const settings = {
     dots: true,
@@ -80,7 +82,7 @@ const ProductSlider = () => {
   return (
     <div className="ProductSlider">
       <Slider {...settings}>
-        {productSliderData.map((item) => (
+        {data.map((item) => (
           <Link to="" className="card">
             <div className="card-top">
               <img
