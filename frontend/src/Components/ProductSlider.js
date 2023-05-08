@@ -87,10 +87,6 @@ const ProductSlider = ({ data }) => {
             <div className="card-top">
               <img
                 src={
-                  // defaultImage[item.restaurant] === item.restaurant
-                  //   ? defaultImage.linkDefault
-                  //   : item.linkImg
-                  
                   defaultImage[item.restaurant] === item.restaurant
                     ? defaultImage[item.restaurant] === defaultImage["'" + item.restaurant + "'"]? defaultImage.linkDefault: item.linkImg
                     : item.linkImg

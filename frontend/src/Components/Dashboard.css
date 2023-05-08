@@ -9,15 +9,17 @@
    width: 100vw;
    height: 70vh;
 }
-
-.bg-img h1{
+.fg-content{
+  position: absolute;
+  top:3rem;
+}
+.fg-content h1{
     color:white;
     font-family: 'Freehand', cursive;
     font-size:9rem;
-    text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
+    text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.777);
     
 }
-
 
 @media (max-width: 1024px) {
   .bg-img h1 {
