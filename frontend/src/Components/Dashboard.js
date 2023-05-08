@@ -1,13 +1,10 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import Navbar2 from './Navbar2'
 import Footer from './Footer'
 import './Dashboard.css'
 import ProductSlider from './ProductSlider'
-import recommended from'./ProductSliderTestData'
-import popular from './ProductSliderTestData'
-import offers from './ProductSliderTestData'
 import SearchBar from './SearchBar'
-
+import axios from 'axios'
 
 const Dashboard = () => {
 
@@ -16,6 +13,50 @@ const Dashboard = () => {
   const handleSearchResults = (results) => {
     setSearchResults(results);
   }
+
+  const [recommended, setrecommended] = useState([]);
+  const [popular, setpopular] = useState([]);
+  const [offers, setoffers] = useState([]);
+  const fetchItems=async()=>{
+    try{
+        const response=await axios.get("http://localhost:3030/ProductSlider");
+        if (response && response.data) { // Check if response and response.data exist
+          setrecommended(response.data);
+            
+        }
+        
+    }
+    catch (error) {
+        console.log(error);
+      }
+    try{
+      const response=await axios.get("http://localhost:3030/ProductSlider");
+      if (response && response.data) { // Check if response and response.data exist
+        setpopular(response.data);
+          
+      }
+        
+    }
+    catch (error) {
+        console.log(error);
+      }
+
+    try{
+      const response=await axios.get("http://localhost:3030/ProductSlider");
+      if (response && response.data) { // Check if response and response.data exist
+        setoffers(response.data);
+          
+      }
+        
+    }
+    catch (error) {
+        console.log(error);
+      }
+  }
+
+  useEffect(()=>{
+    fetchItems()
+    },[]);
 
   return (
     <div className='dashboard'>

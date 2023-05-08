@@ -8,7 +8,7 @@ const SearchBar = ({ onSearchResults }) => {
 
     //Fetching data
     const [items, setitems] = useState([]);
-
+    
     const fetchItems=async()=>{
         try{
             const response=await axios.get("http://localhost:3030/ProductSlider");
