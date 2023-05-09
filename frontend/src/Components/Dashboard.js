@@ -79,7 +79,7 @@ const Dashboard = () => {
                       <li key={results.id}>{results.name}</li>
                     )} */}
                   <ProductSlider data={searchResults}/>
-                  {console.log(searchResults)}
+                  
                 </div>
               </div>
             }

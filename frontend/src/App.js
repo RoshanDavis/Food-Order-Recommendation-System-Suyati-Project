@@ -3,8 +3,9 @@ import Dashboard from './Components/Dashboard';
 import Home from './Components/Home';
 // import Login from './Components/Login';
 import Signup from './Components/Signup';
-import {BrowserRouter , Route, Routes, Switch } from 'react-router-dom';
+import {BrowserRouter , Route, Routes} from 'react-router-dom';
 
+import Restaurant from './Components/Restaurant';
 function App() {
   return (
     <BrowserRouter>
@@ -19,6 +20,7 @@ function App() {
               {/* <Route path="/login" component={<Login} /> */}
               <Route path="/Signup" element={<Signup />} />
               <Route path='/Dashboard' element={<Dashboard/>}/>
+              <Route path='/Restaurant' element={<Restaurant/>}/>
             </Routes>
    
           
