@@ -1,8 +1,8 @@
-import { useHistory } from 'react-router-dom';
-
-import React, { useState, Link } from 'react';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import './Signup.css';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 
 export default function Signup() {
@@ -11,39 +11,59 @@ export default function Signup() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const navigate = useNavigate();
 
 
-  const history = useHistory();
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const userData = { firstName, lastName, email, password };
-    console.log(userData);
-  
-    axios.post('http://localhost:8000/api/signup/', userData)
-      .then(res => {
-        console.log(res);
-        if (res.data.success) {
-          // Signup was successful, redirect the user to the login page
-          history.push('/login');
-        } else {
-          // Signup failed, display an error message to the user
-          alert('Signup failed. Please try again.');
-        }
-      })
-      .catch(err => {
-        console.log(err);
-        alert('An error occurred. Please try again.');
-      });
-  };
-  
-
-
+///    useHistory used to redirect---------------------////
+  // const history = useHistory();
 
   // const handleSubmit = (e) => {
   //   e.preventDefault();
   //   const userData = { firstName, lastName, email, password };
   //   console.log(userData);
+  
+  //   axios.post('http://localhost:8000/api/signup/', userData)
+  //     .then(res => {
+  //       console.log(res);
+  //       if (res.data.success) {
+  //         // Signup was successful, redirect the user to the login page
+  //         history.push('/login');
+  //       } else {
+  //         // Signup failed, display an error message to the user
+  //         alert('Signup failed. Please try again.');
+  //       }
+  //     })
+  //     .catch(err => {
+  //       console.log(err);
+  //       alert('An error occurred. Please try again.');
+  //     });
+  // };
+  
+
+
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const userData = { firstName, lastName, email, password };
+    console.log(userData);
+
+//     axios.post('http://localhost:8000/api/signup/', { firstName, lastName, email, password })
+//   .then(res => {
+//     console.log(res);
+//     if (res.data.success) {
+//       // Signup was successful, redirect the user to the login page
+//       history.push('/login');
+//     } else {
+//       // Signup failed, display an error message to the user
+//       alert('Signup failed. Please try again.');
+//     }
+//   })
+//   .catch(err => {
+//     console.log(err);
+//     alert('An error occurred. Please try again.');
+//   });
+// };
+
 
   //   axios.post('http://localhost:8000/api/signup/', userData)
   //     .then(res => {
@@ -53,7 +73,7 @@ export default function Signup() {
   //       console.log(err);
   //     });
 
-  //     axios.post('/signup', { firstname,lastname,email,password })
+  //     axios.post('/signup', { firstName,lastName,email,password })
   //     .then((response) => {
   //       if (response.data.success) {
   //         history.push('/login');
@@ -66,6 +86,19 @@ export default function Signup() {
   //     });
   // };
 
+  axios.post('/signup', { firstName,lastName,email,password })
+  .then((response) => {
+    if (response.data.success) {
+      window.location.href = '/Login';
+    } else {
+      alert('Signup failed. Please try again.');
+    }
+  })
+  .catch((error) => {
+    console.error('Error:', error);
+  });
+
+  };
   return (
     <div className='formbg'>
   
@@ -138,11 +171,12 @@ export default function Signup() {
           Sign Up
         </button>
         <p className='para'>Are you can existing user?</p>
-        <button type="submit" className="btn btn-primary">
-          Login <Link to='/'>Sign Up</Link>
-        </button>
-      </form>
+        <Link to="/Login">
       <button type='submit' className="btn btn-secondary">Login</button>
+    </Link>
+        
+      </form>
+
      </div>
   );
 }
