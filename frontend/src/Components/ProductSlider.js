@@ -6,6 +6,7 @@ import "slick-carousel/slick/slick-theme.css";
 import './ProductSlider.css';
 import imgGirl from '../Assets/Icon.png';
 import { Link } from 'react-router-dom';
+import FoodItem from './FoodItem';
 
 
 
@@ -29,7 +30,19 @@ function CustomNextArrow(props) {
     );
   }
 
-const ProductSlider = ({ data }) => {
+const ProductSlider = ({ data,showItemCountProp }) => {
+
+  // const [count, setCount] = useState(0);
+  
+  //   const handleIncrement = () => {
+  //       setCount(count + 1);
+  //   };
+    
+  //   const handleDecrement = () => {
+  //       if(count>0)
+  //       setCount(count - 1);
+  //   };
+
     const [defaultImage, setDefaultImage] = useState({});
   const settings = {
     dots: true,
@@ -83,8 +96,8 @@ const ProductSlider = ({ data }) => {
     <div className="ProductSlider">
       <Slider {...settings}>
         {data.map((item) => (
-          <Link to="" className="card">
-            <div className="card-top">
+          <Link to="" className='no-text-decoration'>
+            {/* <div className="card-top">
               <img
                 src={
                   defaultImage[item.restaurant] === item.restaurant
@@ -110,6 +123,16 @@ const ProductSlider = ({ data }) => {
               <h3>{item.food}</h3>
               <h2>Rs.{item.price}</h2>
             </div>
+            { showItemCountProp &&
+                    <div className="item-count d-flex flex-row justify-content-around pt-3 pb-3" style={{fontSize: '3rem'}}>
+
+                        <div onClick={handleDecrement} class="btn  restaurant-btn add-sub-btn p-0" >-</div>
+                        <div style={{fontSize: '2rem', color: 'grey'}}>{count}</div>
+                        <div onClick={handleIncrement} class="btn  restaurant-btn add-sub-btn p-0">+</div>
+                    </div>
+            } */}
+            <FoodItem data={[item]} showItemCountProp={showItemCountProp}/>
+            {console.log(item)}
           </Link>
         ))}
       </Slider>

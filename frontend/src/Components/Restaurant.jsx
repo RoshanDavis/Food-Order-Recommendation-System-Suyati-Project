@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom'
 
 const Restaurant = () => {
     
-    const [scrollPosition, setScrollPosition] = useState(0);
+  const [scrollPosition, setScrollPosition] = useState(0);
   const [showButton, setShowButton] = useState(false);
   
   useEffect(() => {
@@ -46,6 +46,8 @@ const Restaurant = () => {
 
       
     const [menu, setmenu] = useState([]);
+
+    
     const fetchItems=async()=>{
         try{
             const response=await axios.get("http://localhost:3030/ProductSlider");
@@ -85,7 +87,7 @@ const Restaurant = () => {
                     
                     
                     <div className='selected-item d-flex flex-column gap-5 pt-3  align-items-center col'>
-                        <FoodItem data={selected}/>
+                        <FoodItem data={selected} showItemCountProp={true}/>
                         <div className='d-flex flex-column gap-3'>
 
                             <Link to='' class="btn custom-button btn-lg ">Proceed to Checkout</Link>
@@ -102,7 +104,7 @@ const Restaurant = () => {
                 <div className="container pb-5">
                 <h2 className='pt-5'>Menu</h2>
                 <div className="container p-0 m-0">
-                    <ProductSlider data={menu}/>
+                    <ProductSlider data={menu} showItemCountProp={true}/>
                 </div>
                 </div>
             </div>
