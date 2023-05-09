@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from FoodApp.views import SignupView, LoginView
+from FoodApp.views import SignupView, LoginView, ResetPasswordView,user_list , UserList, UserDetail,food_list
 
 
 urlpatterns = [
@@ -25,6 +25,15 @@ urlpatterns = [
 
     path('signup/', SignupView.as_view(), name='signup'),
     path('login/', LoginView.as_view(), name='login'),
+    path('reset_password/', ResetPasswordView.as_view(), name='reset_password'),
+    #path('api/users/', user_list, name='user_list'),
+
+    path('api/users/', UserList.as_view(), name='user-list'),
+    path('api/users/<int:pk>/', UserDetail.as_view(), name='user-detail'),
+
+    #dash data
+
+     path('api/food/', food_list, name='food_list'),
 
 ]
 
