@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
+
+import React, { useState, Link } from 'react';
 import './Signup.css';
 import axios from 'axios';
+
 
 export default function Signup() {
   const [firstName, setFirstName] = useState('');
@@ -9,22 +12,64 @@ export default function Signup() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
+
+  const history = useHistory();
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const userData = { firstName, lastName, email, password };
     console.log(userData);
-
+  
     axios.post('http://localhost:8000/api/signup/', userData)
       .then(res => {
         console.log(res);
+        if (res.data.success) {
+          // Signup was successful, redirect the user to the login page
+          history.push('/login');
+        } else {
+          // Signup failed, display an error message to the user
+          alert('Signup failed. Please try again.');
+        }
       })
       .catch(err => {
         console.log(err);
+        alert('An error occurred. Please try again.');
       });
   };
+  
+
+
+
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   const userData = { firstName, lastName, email, password };
+  //   console.log(userData);
+
+  //   axios.post('http://localhost:8000/api/signup/', userData)
+  //     .then(res => {
+  //       console.log(res);
+  //     })
+  //     .catch(err => {
+  //       console.log(err);
+  //     });
+
+  //     axios.post('/signup', { firstname,lastname,email,password })
+  //     .then((response) => {
+  //       if (response.data.success) {
+  //         history.push('/login');
+  //       } else {
+  //         alert('Signup failed. Please try again.');
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.error('Error:', error);
+  //     });
+  // };
 
   return (
     <div className='formbg'>
+  
+ 
       <form onSubmit={handleSubmit}>
         <h3>Sign Up</h3>
         <div className="form-group">
@@ -92,8 +137,13 @@ export default function Signup() {
         <button type="submit" className="btn btn-primary">
           Sign Up
         </button>
+        <p className='para'>Are you can existing user?</p>
+        <button type="submit" className="btn btn-primary">
+          Login <Link to='/'>Sign Up</Link>
+        </button>
       </form>
-    </div>
+      <button type='submit' className="btn btn-secondary">Login</button>
+     </div>
   );
 }
 
