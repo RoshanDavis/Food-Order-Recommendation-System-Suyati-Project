@@ -19,11 +19,13 @@ from django.urls import path
 
 from FoodApp.views import SignupView, LoginView, ResetPasswordView,user_list , UserList, UserDetail,food_list
 
+from django.views.decorators.csrf import csrf_exempt
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    path('signup/', SignupView.as_view(), name='signup'),
+    path('signup/',csrf_exempt( SignupView.as_view()), name='signup'),
     path('login/', LoginView.as_view(), name='login'),
     path('reset_password/', ResetPasswordView.as_view(), name='reset_password'),
     #path('api/users/', user_list, name='user_list'),
@@ -34,6 +36,9 @@ urlpatterns = [
     #dash data
 
      path('api/food/', food_list, name='food_list'),
+
+    #csrf token
+    # path('csrf/', csrf, name='csrf'),
 
 ]
 

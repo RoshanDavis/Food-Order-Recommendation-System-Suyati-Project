@@ -9,12 +9,15 @@ import json
 
 from django.contrib.auth import authenticate, login
 
+from django.views.decorators.csrf import ensure_csrf_cookie, get_token
 '''
 from django.views.decorators.csrf import csrf_exempt
 
 
 @csrf_exempt'''
-class SignupView(View):
+
+#first signup
+'''class SignupView(View):
    
     def post(self, request):
         # Deserialize JSON data from request body
@@ -40,7 +43,39 @@ class SignupView(View):
             response_data = serializers.serialize('json', [user])
             return JsonResponse(response_data, safe=False)
 
-        
+        '''
+
+'''from django.views.decorators.csrf import csrf_exempt
+
+@csrf_exempt'''
+
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.hashers import make_password
+
+
+class SignupView(View):
+    @csrf_exempt
+    def post(self, request):
+        # Deserialize JSON data from request body
+        data = json.loads(request.body)
+
+        print('Received data:', data)
+        # Check that all required fields are present
+        if not all(key in data for key in ('email', 'password', 'first_name', 'last_name')):
+            return JsonResponse({'error': 'Missing required field(s)'})
+
+        # Check if the user already exists in the database
+        existing_user = User.objects.filter(email=data['email']).first()
+        if existing_user is not None:
+            return JsonResponse({'error': 'User with this email already exists'})
+        else:
+            user = User(email=data['email'], password=data['password'], first_name=data['first_name'],last_name=data['last_name'])
+            user.save()
+
+            # Return a JSON response with the serialized user data
+            response_data = serializers.serialize('json', [user])
+            return JsonResponse(response_data, safe=False)
+
 
 
 
@@ -176,10 +211,24 @@ class UserDetail(APIView):
 ### dash data
 
 
-from django.http import JsonResponse
+
 
 def food_list(request):
     with open('data/food_data.json') as f:
         food_data = json.load(f)
     
     return JsonResponse(food_data, safe=False)
+'''
+from django.middleware import csrf
+from django.views.decorators.csrf import ensure_csrf_cookie, get_token
+
+from django.views.decorators.csrf import csrf_protect
+
+@csrf_protect
+@ensure_csrf_cookie
+def csrf(request):
+    token = csrf.get_token(request)
+    print(token)
+    return JsonResponse({'csrftoken': token})
+   # return JsonResponse({'csrftoken': 'success'})
+'''
