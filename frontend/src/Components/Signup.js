@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import './Signup.css';
 import axios from 'axios';
@@ -15,7 +14,7 @@ export default function Signup() {
     const userData = { firstName, lastName, email, password };
     console.log(userData);
 
-    axios.post('https://localhost:8000/register', userData)
+    axios.post('http://localhost:8000/api/signup/', userData)
       .then(res => {
         console.log(res);
       })
@@ -97,6 +96,70 @@ export default function Signup() {
     </div>
   );
 }
+
+
+///referrence code
+// import React, { useState } from 'react';
+// import axios from 'axios';
+
+// function SignupForm() {
+//   const [formData, setFormData] = useState({
+//     email: '',
+//     password: '',
+//     first_name: '',
+//     last_name: '',
+//   });
+
+//   const handleSubmit = (event) => {
+//     event.preventDefault();
+
+//     axios.post('http://localhost:8000/api/signup/', formData)
+//       .then(response => {
+//         console.log(response.data);
+//         // do something with the response data
+//       })
+//       .catch(error => {
+//         console.error(error);
+//         // handle the error
+//       });
+//   }
+
+//   const handleInputChange = (event) => {
+//     const { name, value } = event.target;
+//     setFormData({ ...formData, [name]: value });
+//   }
+
+//   return (
+//     <form onSubmit={handleSubmit}>
+//       <label>
+//         Email:
+//         <input type="email" name="email" value={formData.email} onChange={handleInputChange} />
+//       </label>
+//       <br />
+//       <label>
+//         Password:
+//         <input type="password" name="password" value={formData.password} onChange={handleInputChange} />
+//       </label>
+//       <br />
+//       <label>
+//         First Name:
+//         <input type="text" name="first_name" value={formData.first_name} onChange={handleInputChange} />
+//       </label>
+//       <br />
+//       <label>
+//         Last Name:
+//         <input type="text" name="last_name" value={formData.last_name} onChange={handleInputChange} />
+//       </label>
+//       <br />
+//       <button type="submit">Sign Up</button>
+//     </form>
+//   );
+// }
+
+// export default SignupForm;
+
+
+//////////////////////MAIN  
 
 
 
