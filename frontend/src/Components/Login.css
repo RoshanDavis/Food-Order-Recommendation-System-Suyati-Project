@@ -1,6 +1,5 @@
-
-.formbg {
-    background-image: url('../Assets/loginpg.png');
+.formlbg {
+    background-image: url('../Assets/login.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
