@@ -86,7 +86,7 @@ export default function Signup() {
   //     });
   // };
 
-  axios.post('/signup', { firstName,lastName,email,password })
+  axios.post('http://127.0.0.1:8000/signup/', { firstName,lastName,email,password })
   .then((response) => {
     if (response.data.success) {
       window.location.href = '/Login';

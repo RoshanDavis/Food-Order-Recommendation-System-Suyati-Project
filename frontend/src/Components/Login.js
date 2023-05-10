@@ -157,7 +157,7 @@ export default function Signup() {
     const userData = {  email, password };
     console.log(userData);
 
-    axios.post('http://localhost:8000/api/signup/', userData)
+    axios.post('http://127.0.0.1:8000/login/', userData)
       .then(res => {
         console.log(res);
       })
@@ -169,7 +169,7 @@ export default function Signup() {
       });
   
       if (user) {
-        window.location.href = "/";
+        window.location.href = "/Dashboard";
       } else {
         alert("Invalid username or password.");
       }
