@@ -1,7 +1,7 @@
 
 .navbar{
     background-color:floralwhite;
-    color:coral;
+    color:#ff7f50;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -42,9 +42,6 @@
 }
 
 .navbar li :hover{
-    background-color: coral; 
-    color: floralwhite; 
+    color: red;
 }
 
-
-  
