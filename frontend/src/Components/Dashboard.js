@@ -19,7 +19,7 @@ const Dashboard = () => {
   const [offers, setoffers] = useState([]);
   const fetchItems=async()=>{
     try{
-        const response=await axios.get("http://localhost:3030/ProductSlider");
+        const response=await axios.get("http://127.0.0.1:8000/api/food/");
         if (response && response.data) { // Check if response and response.data exist
           setrecommended(response.data);
             
@@ -30,7 +30,7 @@ const Dashboard = () => {
         console.log(error);
       }
     try{
-      const response=await axios.get("http://localhost:3030/ProductSlider");
+      const response=await axios.get("http://127.0.0.1:8000/api/food/");
       if (response && response.data) { // Check if response and response.data exist
         setpopular(response.data);
           
@@ -42,7 +42,7 @@ const Dashboard = () => {
       }
 
     try{
-      const response=await axios.get("http://localhost:3030/ProductSlider");
+      const response=await axios.get("http://127.0.0.1:8000/api/food/");
       if (response && response.data) { // Check if response and response.data exist
         setoffers(response.data);
           

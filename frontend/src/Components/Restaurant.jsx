@@ -48,7 +48,7 @@ const Restaurant = () => {
     const [menu, setmenu] = useState([]);
     const fetchItems=async()=>{
         try{
-            const response=await axios.get("http://localhost:3030/ProductSlider");
+            const response=await axios.get("http://127.0.0.1:8000/api/food/");
             if (response && response.data) { // Check if response and response.data exist
               setmenu(response.data);
                 
