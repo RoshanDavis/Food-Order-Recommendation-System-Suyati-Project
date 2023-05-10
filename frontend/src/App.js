@@ -1,11 +1,12 @@
 import './App.css';
 import Home from './Components/Home';
 import Login from './Components/Login';
-import Signup from './Components/Signup';
+import Register from './Components/Register';
 
 
 
-import {BrowserRouter , Route, Routes, Switch } from 'react-router-dom';
+
+import {BrowserRouter , Route, Routes } from 'react-router-dom';
 
 
 function App() {
@@ -19,7 +20,9 @@ function App() {
             <Routes> 
               <Route exact path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
-              <Route path="/Signup" element={<Signup />} />
+              <Route path="/Register" element={<Register />} />
+             
+            
              
 
             </Routes>
