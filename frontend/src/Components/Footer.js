@@ -75,6 +75,7 @@ const FooterContainer=styled.footer`
 .footer-middle{
     background: var(--bgOrange);
     padding-top: 3rem;
+    width:100vw;
 }
 
 .footer-bottom{

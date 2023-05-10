@@ -10,22 +10,21 @@
     "axios": "^1.4.0",
     "bootstrap": "^5.3.0-alpha3",
     "components": "^0.1.0",
-<<<<<<< Updated upstream
-    "mdb-react-ui-kit": "^6.0.0",
-=======
-    "json-server": "^0.17.3",
->>>>>>> Stashed changes
+
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.4",
     "react-dom": "^18.2.0",
-<<<<<<< Updated upstream
-    "react-router-dom": "^6.11.1",
-=======
+
     "react-icons": "^4.8.0",
     "react-router-dom": "^6.11.0",
->>>>>>> Stashed changes
+
     "react-scripts": "5.0.1",
+
     "react-toastify": "^9.1.2",
+
+    "react-slick": "^0.29.0",
+    "slick-carousel": "^1.8.1",
+
     "styled": "^1.0.0",
     "styled-components": "^5.3.10",
     "web-vitals": "^2.1.4"

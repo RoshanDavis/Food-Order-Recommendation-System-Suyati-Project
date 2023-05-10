@@ -1,7 +1,10 @@
 import './App.css';
+import Dashboard from './Components/Dashboard';
 import Home from './Components/Home';
 import Login from './Components/Login';
-import Register from './Components/Register';
+import Signup from './Components/Signup';
+import Restaurant from './Components/Restaurant';
+
 
 
 
@@ -19,11 +22,12 @@ function App() {
           
             <Routes> 
               <Route exact path="/" element={<Home />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/Register" element={<Register />} />
-             
-            
-             
+
+              <Route path="/Login" element={<Login />} />
+
+              <Route path="/Signup" element={<Signup />} />
+              <Route path='/Dashboard' element={<Dashboard/>}/>
+              <Route path='/Restaurant' element={<Restaurant/>}/>
 
             </Routes>
    

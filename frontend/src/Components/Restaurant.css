@@ -1,0 +1,48 @@
+.restaurant-img{
+    width: 50vw;
+    height: 70vh;
+    object-fit:fill;
+}
+.restaurant-name{
+    font-family: 'Poppins', sans-serif;
+    font-weight: 900;
+    color:coral;
+}
+.restaurant-details{ 
+
+    font-family: 'Poppins', sans-serif;
+}
+.restaurant-details h2{ 
+
+    font-size: 1.2rem;
+}
+.restaurant-details h3{ 
+
+    font-size: 1.2rem;
+}
+
+.restaurant-btn{
+    background-color: gray;
+    color:floralwhite;
+}
+
+.restaurant-btn:hover {
+    background-color: floralwhite; 
+    color: gray; 
+    border: 2px solid gray;
+  }
+.center-button{
+    height: fit-content;
+    width: fit-content;
+}
+.scroll-to-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: coral;
+    color: floralwhite;
+    padding: 10px 15px;
+    border-radius: 5px;
+    
+  }
+  
