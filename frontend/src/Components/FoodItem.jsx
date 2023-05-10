@@ -24,8 +24,8 @@ const FoodItem = ({data,showItemCountProp}) => {
         }));
         };
   return (
-    <div>
-        <div style={{ width: '300px' }}>
+    <div className='d-flex flex-row justify-content-center'>
+        <div style={{ width: '300px'}}>
             {data.map((item) => (
             <div className="card">
                 <div className="card-top">

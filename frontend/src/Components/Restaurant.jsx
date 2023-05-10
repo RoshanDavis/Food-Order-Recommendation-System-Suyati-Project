@@ -2,14 +2,23 @@ import React,{useState,useEffect,useRef} from 'react'
 import Navbar2 from './Navbar2'
 import Footer from './Footer'
 import './Restaurant.css'
-import selected from './ItemTestData.json'
+// import selected from './ItemTestData.json'
 import FoodItem from './FoodItem'
 import ProductSlider from './ProductSlider'
 import axios from 'axios'
-import { Link } from 'react-router-dom'
+import { Link,useLocation} from 'react-router-dom'
+import imgGirl from '../Assets/Icon.png';
 
 const Restaurant = () => {
-    
+
+  const location = useLocation();
+  const [selected, setSelected] = useState(location.state.data);
+
+  useEffect(() => {
+    setSelected(location.state.data);
+    console.log(selected);
+  }, [location.state, selected]);
+
   const [scrollPosition, setScrollPosition] = useState(0);
   const [showButton, setShowButton] = useState(false);
   
@@ -65,6 +74,15 @@ const Restaurant = () => {
       useEffect(()=>{
         fetchItems()
         },[]);
+        
+        const [defaultImage, setDefaultImage] = useState({});
+        const handleErrorImage = (data) => {
+          setDefaultImage((prev) => ({
+              ...prev,
+              [data.target.alt]: data.target.alt,
+              linkDefault: imgGirl,
+          }));
+          };
 
   return (
     <div>
@@ -74,10 +92,18 @@ const Restaurant = () => {
         <body>
             
             <div className='restaurant'>
-                <h1 className='restaurant-name ps-3'>Burger Corner</h1>
+                <h1 className='restaurant-name ps-3'>{selected.restaurant}</h1>
                 <div className="row">
                     <div className='col ps-4'>
-                        <img className='restaurant-img img-fluid rounded ps-1' src='https://static2.therichestimages.com/wordpress/wp-content/uploads/2014/02/21_1_Toul.jpg' alt=''></img>
+                        <img className='restaurant-img'
+                        src={
+                        defaultImage[selected.restaurant] === selected.restaurant
+                            ? defaultImage[selected.restaurant] === defaultImage["'" + selected.restaurant + "'"]? defaultImage.linkDefault: selected.restaurantImg
+                            : selected.restaurantImg
+                        }
+                        alt={selected.restaurantImg}
+                        onError={handleErrorImage}
+                        />
                         <div className="restaurant-details d-flex flex-column justify-content-center ps-2 pt-3">
                             
                             <h2 className='restaurant-details'>Louis Lane, Pandit Karuppan Road, Perumanoor Thevera, Kochi</h2>
@@ -87,7 +113,7 @@ const Restaurant = () => {
                     
                     
                     <div className='selected-item d-flex flex-column gap-5 pt-3  align-items-center col'>
-                        <FoodItem data={selected} showItemCountProp={true}/>
+                        <FoodItem data={[selected]} showItemCountProp={true}/>
                         <div className='d-flex flex-column gap-3'>
 
                             <Link to='' class="btn custom-button btn-lg ">Proceed to Checkout</Link>

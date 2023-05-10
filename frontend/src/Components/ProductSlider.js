@@ -31,7 +31,6 @@ function CustomNextArrow(props) {
 
 const ProductSlider = ({ data,showItemCountProp }) => {
 
-
   const settings = {
     dots: true,
     infinite: false,
@@ -44,7 +43,7 @@ const ProductSlider = ({ data,showItemCountProp }) => {
   
     responsive: [
       {
-        breakpoint: 1024,
+        breakpoint: 1400,
         settings: {
           slidesToShow: 3,
           slidesToScroll: 3,
@@ -53,33 +52,34 @@ const ProductSlider = ({ data,showItemCountProp }) => {
         },
       },
       {
-        breakpoint: 600,
+        breakpoint: 991,
         settings: {
           slidesToShow: 2,
           slidesToScroll: 2,
-          initialSlide: 2,
+          initialSlide: 0,
         },
       },
       {
-        breakpoint: 480,
+        breakpoint: 768,
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
+          initialSlide:0,
         },
       },
     ],
   };
 
-  
-
  
 
   return (
     <div className="ProductSlider">
-      <Slider {...settings}>
+      <Slider   {...settings}>
         {data.map((item) => (
-          <Link to="" className='no-text-decoration'>
+          <Link to={{pathname: "/Restaurant"}} state={{data:item}} className='no-text-decoration'>
+
             <FoodItem data={[item]} showItemCountProp={showItemCountProp}/>
+
           </Link>
         ))}
       </Slider>
