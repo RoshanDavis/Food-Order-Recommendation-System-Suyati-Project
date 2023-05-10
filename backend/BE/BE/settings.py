@@ -29,7 +29,7 @@ DEBUG = True
 #ALLOWED_HOSTS = []
 
 #for signup
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'http://localhost:3000/signup']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'http://localhost:3000/signup','http://localhost:3000/Login']
 
 
 
@@ -148,3 +148,12 @@ CORS_ORIGIN_ALLOW_ALL = True
 
 CORS_ORIGIN_WHITELIST = ['http://localhost:3000',]
 
+# BE/settings.py
+
+# ...
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    
+
+    # Add any other allowed origins here
+]

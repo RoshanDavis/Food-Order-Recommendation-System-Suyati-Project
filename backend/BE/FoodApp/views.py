@@ -61,7 +61,7 @@ class SignupView(View):
 
         print('Received data:', data)
         # Check that all required fields are present
-        if not all(key in data for key in ('email', 'password', 'first_name', 'last_name')):
+        '''if not all(key in data for key in ('email', 'password', 'first_name', 'last_name')):
             return JsonResponse({'error': 'Missing required field(s)'})
 
         # Check if the user already exists in the database
@@ -70,17 +70,19 @@ class SignupView(View):
             return JsonResponse({'error': 'User with this email already exists'})
         else:
             user = User(email=data['email'], password=data['password'], first_name=data['first_name'],last_name=data['last_name'])
-            user.save()
+            user.save()'''
 
             # Return a JSON response with the serialized user data
-            response_data = serializers.serialize('json', [user])
-            return JsonResponse(response_data, safe=False)
+            #response_data = serializers.serialize('json', [user])
+            #return JsonResponse(response_data, safe=False)
+        return JsonResponse({'success': True})
 
 
 
 
 
 class LoginView(View):
+    @csrf_exempt
     def post(self, request):
         # Deserialize JSON data from request body
         data = json.loads(request.body)
@@ -88,8 +90,8 @@ class LoginView(View):
         print('Received data:', data)
 
         # Check that all required fields are present
-        if not all(key in data for key in ('email', 'password')):
-            return JsonResponse({'error': 'Missing required field(s)'})
+        '''if not all(key in data for key in ('email', 'password')):
+            return JsonResponse({'error': 'Missing required field(s)'})'''
 
         # Authenticate user using provided credentials
         user = authenticate(request, email=data['email'], password=data['password'])
@@ -97,7 +99,8 @@ class LoginView(View):
         if user is not None:
             # Login the user and return a success message
             login(request, user)
-            return JsonResponse({'message': 'Login successful'})
+            #return JsonResponse({'message': 'Login successful'})
+            return JsonResponse({'success': True})
         else:
             # Return an error message if the authentication failed
             return JsonResponse({'error': 'Invalid email or password'})
