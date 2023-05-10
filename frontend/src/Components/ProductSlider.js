@@ -1,11 +1,11 @@
 
-import React,{useState} from 'react'
+import React from 'react'
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
 import './ProductSlider.css';
-import imgGirl from '../Assets/Icon.png';
 import { Link } from 'react-router-dom';
+import FoodItem from './FoodItem';
 
 
 
@@ -29,8 +29,8 @@ function CustomNextArrow(props) {
     );
   }
 
-const ProductSlider = ({ data }) => {
-    const [defaultImage, setDefaultImage] = useState({});
+const ProductSlider = ({ data,showItemCountProp }) => {
+
   const settings = {
     dots: true,
     infinite: false,
@@ -43,7 +43,7 @@ const ProductSlider = ({ data }) => {
   
     responsive: [
       {
-        breakpoint: 1024,
+        breakpoint: 1400,
         settings: {
           slidesToShow: 3,
           slidesToScroll: 3,
@@ -52,64 +52,34 @@ const ProductSlider = ({ data }) => {
         },
       },
       {
-        breakpoint: 600,
+        breakpoint: 991,
         settings: {
           slidesToShow: 2,
           slidesToScroll: 2,
-          initialSlide: 2,
+          initialSlide: 0,
         },
       },
       {
-        breakpoint: 480,
+        breakpoint: 768,
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
+          initialSlide:0,
         },
       },
     ],
-  };
-
-  const handleErrorImage = (data) => {
-    setDefaultImage((prev) => ({
-      ...prev,
-      [data.target.alt]: data.target.alt,
-      linkDefault: imgGirl,
-    }));
   };
 
  
 
   return (
     <div className="ProductSlider">
-      <Slider {...settings}>
+      <Slider   {...settings}>
         {data.map((item) => (
-          <Link to="" className="card">
-            <div className="card-top">
-              <img
-                src={
-                  defaultImage[item.restaurant] === item.restaurant
-                    ? defaultImage[item.restaurant] === defaultImage["'" + item.restaurant + "'"]? defaultImage.linkDefault: item.linkImg
-                    : item.linkImg
-                }
-                alt={item.restaurant}
-                onError={handleErrorImage}
-              />
-                
-            </div>
-            <div className="card-bottom">
-              <h1 className='card-bottom-restuarant-name'>{item.restaurant}</h1>
-              <div className="rating ">
-                {item.rating &&
-                <div className="rating-bg-color  d-flex flex-row rounded ps-2 pe-2 ">
-                  <h1 className={`${ item.rating && item.rating.toString().length === 1 ? 'rating--large' : 'rating--small'}`}>{item.rating}</h1> 
-                  
-                  <img className='pt-1 ps-1' src={require('../Assets/Star.png')} alt="" />
-                </div>
-                }
-              </div>
-              <h3>{item.food}</h3>
-              <h2>Rs.{item.price}</h2>
-            </div>
+          <Link to={{pathname: "/Restaurant"}} state={{data:item}} className='no-text-decoration'>
+
+            <FoodItem data={[item]} showItemCountProp={showItemCountProp}/>
+
           </Link>
         ))}
       </Slider>

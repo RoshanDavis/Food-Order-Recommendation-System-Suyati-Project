@@ -5,7 +5,9 @@
     margin-top: 50px;
     
   }
-  
+  .no-text-decoration{
+    text-decoration: none;
+  }
   .slick-slide > div {
     margin: 0 10px;
   }
@@ -19,7 +21,8 @@
     border-radius: 8px;
     overflow: hidden;
   
-    height: 370px;
+    height: fit-content;
+
     color: black;
     cursor: pointer;
     text-decoration: none;
