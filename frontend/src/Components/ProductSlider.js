@@ -37,7 +37,7 @@ const ProductSlider = ({ data,showItemCountProp }) => {
     speed: 500,
     slidesToShow: 4,
     slidesToScroll: 3,
-    initialSlide: 0,
+    initialSlide: 1,
     nextArrow: <CustomNextArrow />,
     prevArrow: <CustomPrevArrow />,
   
@@ -47,8 +47,6 @@ const ProductSlider = ({ data,showItemCountProp }) => {
         settings: {
           slidesToShow: 3,
           slidesToScroll: 3,
-          infinite: true,
-          dots: true,
         },
       },
       {
@@ -56,7 +54,7 @@ const ProductSlider = ({ data,showItemCountProp }) => {
         settings: {
           slidesToShow: 2,
           slidesToScroll: 2,
-          initialSlide: 0,
+          
         },
       },
       {
@@ -64,7 +62,7 @@ const ProductSlider = ({ data,showItemCountProp }) => {
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
-          initialSlide:0,
+          
         },
       },
     ],
