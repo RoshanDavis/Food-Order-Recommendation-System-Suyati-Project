@@ -9,6 +9,8 @@ import FoodItem from './FoodItem';
 
 
 
+
+
 function CustomNextArrow(props) {
     const { className,  onClick } = props;
     return (
@@ -20,26 +22,33 @@ function CustomNextArrow(props) {
   }
   
   function CustomPrevArrow(props) {
+    
     const { className,  onClick } = props;
+    console.log({onClick})
+
+    
     return (
       <div
+        
         className={className}
         onClick={onClick}
       />
+      
     );
   }
 
 const ProductSlider = ({ data,showItemCountProp }) => {
+
 
   const settings = {
     dots: true,
     infinite: false,
     speed: 500,
     slidesToShow: 4,
-    slidesToScroll: 3,
-    initialSlide: 1,
+    slidesToScroll: 4,
+    initialSlide: 0,
     nextArrow: <CustomNextArrow />,
-    prevArrow: <CustomPrevArrow />,
+    prevArrow: <CustomPrevArrow/>,
   
     responsive: [
       {

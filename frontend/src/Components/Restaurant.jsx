@@ -16,8 +16,10 @@ const Restaurant = () => {
 
   useEffect(() => {
     setSelected(location.state.data);
-    console.log(selected);
   }, [location.state, selected]);
+
+
+
 
   const [scrollPosition, setScrollPosition] = useState(0);
   const [showButton, setShowButton] = useState(false);
@@ -46,13 +48,14 @@ const Restaurant = () => {
   };
 
     const menuRef = useRef(null);
-    const handleScroll = (ref) => {
+    function handleScroll(ref){
         window.scrollTo({
           top: ref.current.offsetTop,
           behavior: "smooth"
         });
+        console.log(window)
       }
-
+      
       
     const [menu, setmenu] = useState([]);
 
@@ -83,7 +86,7 @@ const Restaurant = () => {
               linkDefault: imgGirl,
           }));
           };
-
+          
   return (
     <div>
         <nav>
@@ -104,10 +107,10 @@ const Restaurant = () => {
                         alt={selected.restaurantImg}
                         onError={handleErrorImage}
                         />
-                        <div className="restaurant-details d-flex flex-column justify-content-center ps-2 pt-3">
+                        <div className=" d-flex flex-column justify-content-center ps-2 pt-3">
                             
                             <h2 className='restaurant-details'>Louis Lane, Pandit Karuppan Road, Perumanoor Thevera, Kochi</h2>
-                            <h3 className='restaurant-contact'>Call : +919633276393</h3>
+                            <h2 className='restaurant-details'>Call : +919633276393</h2>
                         </div>
                     </div>
                     
@@ -118,7 +121,7 @@ const Restaurant = () => {
 
                             <Link to='' class="btn custom-button btn-lg ">Proceed to Checkout</Link>
                             <div className='d-flex flex-row justify-content-around gap-5'>
-                                <div to='' class="btn  restaurant-btn" onClick={() => handleScroll(menuRef)}>Menu</div>
+                                <div to='' class="btn  restaurant-btn" onClick={handleScroll}>Menu</div>
                                 <Link to='' class="btn  restaurant-btn">Review</Link>
                             </div>
                         </div>

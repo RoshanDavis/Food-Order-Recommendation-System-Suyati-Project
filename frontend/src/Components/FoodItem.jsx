@@ -27,8 +27,8 @@ const FoodItem = ({data,showItemCountProp}) => {
     <div className='d-flex flex-row justify-content-center'>
         <div style={{ width: '300px'}}>
             {data.map((item) => (
-            <div className="card">
-                <div className="card-top">
+            <div className="card food-card">
+                <div className="card-top food-card-top">
                 <img
                     src={
                     defaultImage[item.restaurant] === item.restaurant
@@ -40,7 +40,7 @@ const FoodItem = ({data,showItemCountProp}) => {
                 />
                     
                 </div>
-                <div className="card-bottom">
+                <div className="card-bottom food-card-bottom">
                 <h1 className='card-bottom-restuarant-name'>{item.restaurant}</h1>
                 
                 <div className="rating ">

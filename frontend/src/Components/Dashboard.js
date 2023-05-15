@@ -87,7 +87,7 @@ const Dashboard = () => {
             <div className="container pb-5">
               <h2 className='pt-5'>Recommended for you</h2>
               <div className="container p-0 m-0">
-                {console.log(recommended)}
+                
                 <ProductSlider data={recommended}/>
               </div>
             </div>
