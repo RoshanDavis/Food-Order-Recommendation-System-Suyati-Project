@@ -12,9 +12,11 @@ import imgGirl from '../Assets/Icon.png';
 const Restaurant = () => {
 
   const location = useLocation();
-  const [selected, setSelected] = useState(location.state.data);
-
+  
+  const [selected, setSelected] = useState(location.state?.data || null);
+  
   useEffect(() => {
+    if(location.state.data)
     setSelected(location.state.data);
   }, [location.state, selected]);
 
@@ -48,13 +50,12 @@ const Restaurant = () => {
   };
 
     const menuRef = useRef(null);
-    function handleScroll(ref){
-        window.scrollTo({
-          top: ref.current.offsetTop,
-          behavior: "smooth"
-        });
-        console.log(window)
-      }
+    const handleMenuClick = (ref) => {
+      window.scrollTo({
+        top: ref.current.offsetTop,
+        behavior: "smooth"
+      });
+    }
       
       
     const [menu, setmenu] = useState([]);
@@ -121,15 +122,16 @@ const Restaurant = () => {
 
                             <Link to='' class="btn custom-button btn-lg ">Proceed to Checkout</Link>
                             <div className='d-flex flex-row justify-content-around gap-5'>
-                                <div to='' class="btn  restaurant-btn" onClick={handleScroll}>Menu</div>
-                                <Link to='' class="btn  restaurant-btn">Review</Link>
+                                <div to='' class="btn  restaurant-btn" onClick={() => handleMenuClick(menuRef)}>Menu</div>
+                                {console.log(selected.restaurant)}
+                                <Link to={{pathname: "/Review"}} state={{data:selected}} class="btn  restaurant-btn" >Review</Link>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div className="menu" ref={menuRef}>
+            <div className="menu" ref={menuRef} >
                 <div className="container pb-5">
                 <h2 className='pt-5'>Menu</h2>
                 <div className="container p-0 m-0">

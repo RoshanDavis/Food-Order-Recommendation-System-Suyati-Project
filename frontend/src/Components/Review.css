@@ -3,8 +3,14 @@
     
 }
 .review-card{
-    border-radius: 3rem;
+    border-radius: 2rem;
     background-color: floralwhite;
+   height: 7rem;
+}
+.write-review-card{
+    border-radius: 2rem;
+    background-color: floralwhite;
+    
 }
 .write-review textarea {
     width: 100%;

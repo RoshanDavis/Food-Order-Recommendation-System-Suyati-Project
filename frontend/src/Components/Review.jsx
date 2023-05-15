@@ -1,16 +1,48 @@
-import React,{useState,useRef} from 'react'
+import React,{useState,useRef,useEffect,useCallback} from 'react'
 import Navbar2 from './Navbar2'
 import Footer from './Footer'
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
-import { Link } from 'react-router-dom';
+import { Link,useLocation } from 'react-router-dom';
 import './Review.css';
-import reviewData from'./ReviewTestData'
+import axios from 'axios';
+import imgGirl from '../Assets/Icon.png';
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css"; 
+import "slick-carousel/slick/slick-theme.css";
 
-let rating = 3;
 
 const Review = () => {
 
+    const location = useLocation();
+    const [selected, setSelected] = useState(location.state?.data || null);
     
+
+    useEffect(() => {
+        if(location.state.data)
+            setSelected(location.state.data);
+    }, [location.state]);
+
+    
+
+    const [reviewData, setreviewData] = useState([])
+    const fetchItems = useCallback(async () => {
+        try {
+          const response = await axios.get("http://localhost:3030/Reviews");
+          
+          if (response && response.data[selected.restaurant]) {
+            setreviewData(response.data[selected.restaurant]);
+            
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      }, [selected.restaurant]);
+    
+      useEffect(()=>{
+        fetchItems()
+        },[fetchItems]);
+      
+      
 
     const [number, setNumber] = useState(0);
     const [hoverStar, setHoverStar] = useState(undefined);
@@ -23,7 +55,15 @@ const Review = () => {
         });
       }
 
-     
+      const [defaultImage, setDefaultImage] = useState({});
+        const handleErrorImage = (data) => {
+          setDefaultImage((prev) => ({
+              ...prev,
+              [data.target.alt]: data.target.alt,
+              linkDefault: imgGirl,
+          }));
+          };
+      
     
   return (
     <div>
@@ -37,14 +77,19 @@ const Review = () => {
                 
                 <div className="row">
                     <div className='col ps-4'>
-                        <img className='restaurant-img'
-                        src= "https://img2.10bestmedia.com/Images/Photos/226509/p-DSC-0595Final_54_990x660_201404240828.jpg"
-                        alt=""
+                    <img className='restaurant-img'
+                        src={
+                        defaultImage[selected.restaurant] === selected.restaurant
+                            ? defaultImage[selected.restaurant] === defaultImage["'" + selected.restaurant + "'"]? defaultImage.linkDefault: selected.restaurantImg
+                            : selected.restaurantImg
+                        }
+                        alt={selected.restaurantImg}
+                        onError={handleErrorImage}
                         />
                         
                     </div>
                     <div className=" d-flex flex-column justify-content-center align-items-center ps-2 pt-3 col ">
-                        <h1 className='restaurant-name ps-3'>Burger Corner</h1>
+                        <h1 className='restaurant-name ps-3'>{selected.restaurant}</h1>
                         <h2 className='restaurant-details'>Louis Lane, Pandit Karuppan Road, Perumanoor Thevera, Kochi</h2>
                         <h2 className='restaurant-details'>Call : +919633276393</h2>
                         <div className='text-center card rate-card m-5'>
@@ -73,7 +118,7 @@ const Review = () => {
                         </div>
                         <div className='d-flex flex-column gap-3 '>
                             <div to='' class="btn  restaurant-btn btn-lg center-btn" onClick={() => handleScroll(reviewRef)}>Leave a Review</div>
-                            <Link to='' class="btn restaurant-btn btn-lg center-btn">Continue Browsing</Link>    
+                            <Link to={{pathname: "/Restaurant"}} state={{data:selected}}  class="btn restaurant-btn btn-lg center-btn">Continue Browsing</Link>    
                         </div>
                         
                     </div>
@@ -81,14 +126,15 @@ const Review = () => {
                 <div className="container pb-5">
                     <h2 className='pt-5'>Reviews</h2>
                     <div className="Review" ref={reviewRef}>
-                        <ReviewCard/>
+                        
+                        <ReviewCard reviewData={reviewData}/>
                     </div> 
                 </div>
 
                 
                 
                 <div className="write-review ms-5 me-5 mb-5">
-                    <div className='card review-card ps-5 pt-3 pb-2'>
+                    <div className='card write-review-card ps-5 pt-3 pb-2'>
                         
                         <div className="card-top d-flex flex-row gap-3 align-items-center">
                                 <div>
@@ -122,6 +168,7 @@ const Review = () => {
                         
                     </div>   
                 </div>
+                
             </div>
         </body>
 
@@ -131,42 +178,113 @@ const Review = () => {
     </div>
   )
 }
+function CustomNextArrow(props) {
+    const { className,  onClick } = props;
+    return (
+      <div
+        className={className}
+        onClick={onClick}
+      />
+    );
+  }
+  
+  function CustomPrevArrow(props) {
+    
+    const { className,  onClick } = props;
+    console.log({onClick})
 
-const ReviewCard= () => {
+    
+    return (
+      <div
+        
+        className={className}
+        onClick={onClick}
+      />
+      
+    );
+  }
+
+const ReviewCard= (reviewData) => {
+
+    const settings = {
+        dots: true,
+        infinite: false,
+        speed: 500,
+        slidesToShow: 3,
+        slidesToScroll: 3,
+        initialSlide: 0,
+        nextArrow: <CustomNextArrow />,
+        prevArrow: <CustomPrevArrow/>,
+      
+        responsive: [
+          {
+            breakpoint: 1400,
+            settings: {
+              slidesToShow: 2,
+              slidesToScroll: 2,
+            },
+          },
+          {
+            breakpoint: 991,
+            settings: {
+              slidesToShow: 1,
+              slidesToScroll: 1,
+              
+            },
+          },
+          {
+            breakpoint: 768,
+            settings: {
+              slidesToShow: 1,
+              slidesToScroll: 1,
+              
+            },
+          },
+        ],
+      };
+
     return(
-        
+        <div>
+           <Slider   {...settings}>
+      {reviewData.reviewData.length === 0 ? (
+        <div>
+          <h1 style={{ color: "grey", fontSize: "2rem" }}>
+            No reviews available. Be the first to review!
+          </h1>
+        </div>
+      ) : (
+        reviewData.reviewData.map((item) => (
+            <div className="Review-Card-Slider d-flex flex row ms-1">
+                
             
-                <div className='card review-card ps-5 pt-3 pb-2'>
-                    <div className="card-top d-flex flex-row gap-3">
-                        <div>Name</div>
-                        <div>
-                            {
-                            Array(5)
-                            .fill()
-                            .map((_, index) =>
-                                rating >= index + 1 ? (
-                                <AiFillStar
-                                    style={{ color: "orange", fontSize: "1.51rem" }}
-                                    
-                                />
-                                ) : (
-                                <AiOutlineStar
-                                    style={{ color: "orange", fontSize: "1.51rem" }}
-                                    
-                                />
-                                )
-                            )
-                            }
-                        </div>
-                        
-                        
-                    </div>
-                    <div className="card-bottom">Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae maiores voluptatum dicta 
-                    quae libero autem aliquid voluptas id neque saepe facere magni aliquam, nostrum unde.
-                    </div>
-                </div>       
+            <div className="card review-card ps-5 pt-3 pb-2 mt-3">
+                <div className="card-top d-flex flex-row gap-3 justify-content-between">
+                <div>{item.Name}</div>
+                <div>
+                    {Array(5)
+                    .fill()
+                    .map((_, index) =>
+                        item.Rating >= index + 1 ? (
+                        <AiFillStar
+                            style={{ color: "orange", fontSize: "1.51rem" }}
+                        />
+                        ) : (
+                        <AiOutlineStar
+                            style={{ color: "orange", fontSize: "1.51rem" }}
+                        />
+                        )
+                    )}
+                </div>
+                </div>
+                <div className="card-bottom">{item.Review}</div>
+            </div>
             
-        
+          </div>
+        ))
+      )}
+      </Slider>
+    </div>      
     )
 }
+
 export default Review
