@@ -123,7 +123,7 @@ const Restaurant = () => {
                             <Link to='' class="btn custom-button btn-lg ">Proceed to Checkout</Link>
                             <div className='d-flex flex-row justify-content-around gap-5'>
                                 <div to='' class="btn  restaurant-btn" onClick={() => handleMenuClick(menuRef)}>Menu</div>
-                                {console.log(selected.restaurant)}
+                                
                                 <Link to={{pathname: "/Review"}} state={{data:selected}} class="btn  restaurant-btn" >Review</Link>
                             </div>
                         </div>

@@ -63,7 +63,44 @@ const Review = () => {
               linkDefault: imgGirl,
           }));
           };
+
+          const [reviewText, setReviewText] = useState('');
+          const [reviewStar, setReviewStar] = useState(0);
+
+        const submitReview = async () => {
+            setReviewStar(number);
+            if(number!==0){ 
+              setreviewIsSubmitted(true)
+              try {
+                const response = await axios.post('http://localhost:3030/Review-Post', {
+                  restaurant: selected.restaurant,
+                  Name: "current user",
+                  Rating: reviewStar,
+                  Review: reviewText
+                });
+                
+                console.log(response.data);
+              } catch (error) {
+                console.error(error);
+              }
+            }
+            else{
+                    alert("Please give a rating before submitting ")
+                    return
+            }
+        };
+
+        const handleInputChange = (event) => {
+            setReviewText(event.target.value);
+        };
+
+        const handleKeyDown = (event) => {
+            if (event.key === 'Enter') {
+            submitReview();
+            }
+        };
       
+        const [reviewIsSubmitted, setreviewIsSubmitted] = useState(false)
     
   return (
     <div>
@@ -127,43 +164,88 @@ const Review = () => {
                     <h2 className='pt-5'>Reviews</h2>
                     <div className="Review" ref={reviewRef}>
                         
-                        <ReviewCard reviewData={reviewData}/>
+                        <ReviewCard reviewData={reviewData} reviewIsSubmitted={reviewIsSubmitted}/>
                     </div> 
                 </div>
 
-                
+                {reviewIsSubmitted &&
+                    <div className="write-review ms-5 me-5 mb-5">
+                    <div className=' card write-review-card ps-5 pt-3 pb-2'>
+                        
+                        <div className="card-top d-flex flex-row gap-3 align-items-start justify-content-between">
+                                <div className='d-flex flex-column '>
+                                    <div>Your Review</div>
+                                    <text> {reviewText}</text>
+                                </div>
+                                
+                                <div >  
+                                    <div className='w-100 d-flex flex-row justify-content-end pe-5'>
+                                    {Array(5)
+                                      .fill()
+                                      .map((_, index) =>
+                                          reviewStar >= index + 1 ? (
+                                          <AiFillStar
+                                              style={{ color: "orange", fontSize: "1.51rem" }}
+                                          />
+                                          ) : (
+                                          <AiOutlineStar
+                                              style={{ color: "orange", fontSize: "1.51rem" }}
+                                          />
+                                          )
+                                      )}
+                                    </div >
+                                    
+                                    
+                                </div>
+                                
+                        </div>
+                        
+                    </div>   
+                </div>
+                }
                 
                 <div className="write-review ms-5 me-5 mb-5">
-                    <div className='card write-review-card ps-5 pt-3 pb-2'>
+                    <div className=' card write-review-card ps-5 pt-3 pb-2'>
                         
                         <div className="card-top d-flex flex-row gap-3 align-items-center">
                                 <div>
                                     <div>Current User</div>
-                                    <textarea name="write-review-area"  cols="150" rows="3"></textarea>
+                                    <textarea name="write-review-area"  cols="150" rows="5" value={reviewText} onChange={handleInputChange} onKeyDown={handleKeyDown}></textarea>
                                 </div>
                                 
-                                <div className='w-25 d-flex flex-row justify-content-end pe-5'>  
-                                {Array(5)
-                                    .fill()
-                                    .map((_, index) =>
-                                        number >= index + 1 || hoverStar >= index + 1 ? (
-                                        <AiFillStar
-                                            onMouseOver={() => !number && setHoverStar(index + 1)}
-                                            onMouseLeave={() => setHoverStar(undefined)}
-                                            style={{ color: "orange", fontSize: "3.1rem" }}
-                                            onClick={() => setNumber(index + 1)}
-                                        />
-                                        ) : (
-                                        <AiOutlineStar
-                                            onMouseOver={() => !number && setHoverStar(index + 1)}
-                                            onMouseLeave={() => setHoverStar(undefined)}
-                                            style={{ color: "orange", fontSize: "3rem" }}
-                                            onClick={() => setNumber(index + 1)}
-                                        />
-                                        )
-                                    )}
+                                <div >  
+                                    <div className='w-100 d-flex flex-row justify-content-end pe-5'>
+                                        {Array(5)
+                                            .fill()
+                                            .map((_, index) =>
+                                                number >= index + 1 || hoverStar >= index + 1 ? (
+                                                <AiFillStar
+                                                    onMouseOver={() => !number && setHoverStar(index + 1)}
+                                                    onMouseLeave={() => setHoverStar(undefined)}
+                                                    style={{ color: "orange", fontSize: "3.1rem" }}
+                                                    onClick={() => {
+                                                        setNumber(index+1);
+                                                        
+                                                      }}
+                                                />
+                                                ) : (
+                                                <AiOutlineStar
+                                                    onMouseOver={() => !number && setHoverStar(index + 1)}
+                                                    onMouseLeave={() => setHoverStar(undefined)}
+                                                    style={{ color: "orange", fontSize: "3rem" }}
+                                                    onClick={() => {
+                                                        setNumber(index+1);
+                                                      }}
+                                                />
+                                                )
+                                            )}
+                                    </div >
+                                    <div className='btn custom-button d-flex justify-content-center me-4' onClick={submitReview}>
+                                        Submit
+                                    </div>
+                                    
                                 </div>
-                            
+                                
                         </div>
                         
                     </div>   
@@ -191,7 +273,7 @@ function CustomNextArrow(props) {
   function CustomPrevArrow(props) {
     
     const { className,  onClick } = props;
-    console.log({onClick})
+    
 
     
     return (
@@ -204,7 +286,7 @@ function CustomNextArrow(props) {
     );
   }
 
-const ReviewCard= (reviewData) => {
+const ReviewCard= (reviewData,reviewIsSubmitted) => {
 
     const settings = {
         dots: true,
@@ -248,9 +330,11 @@ const ReviewCard= (reviewData) => {
            <Slider   {...settings}>
       {reviewData.reviewData.length === 0 ? (
         <div>
+          {reviewIsSubmitted &&
           <h1 style={{ color: "grey", fontSize: "2rem" }}>
             No reviews available. Be the first to review!
           </h1>
+          }
         </div>
       ) : (
         reviewData.reviewData.map((item) => (

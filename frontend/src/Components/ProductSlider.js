@@ -24,7 +24,7 @@ function CustomNextArrow(props) {
   function CustomPrevArrow(props) {
     
     const { className,  onClick } = props;
-    console.log({onClick})
+    
 
     
     return (
