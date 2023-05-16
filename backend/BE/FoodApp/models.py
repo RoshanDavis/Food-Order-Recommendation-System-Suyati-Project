@@ -1,16 +1,30 @@
 from django.db import models
+import string, random
 
 # Create your models here.
 
 class User(models.Model):
+    user_id = models.CharField(max_length=7, unique=True,default='')
     email = models.EmailField()
     password = models.CharField(max_length=100)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     
     class Meta:
-        db_table= 'users'
+        db_table= 'userTests'
    
+    def save(self, *args, **kwargs):
+        if not self.user_id:
+            self.user_id = self.generate_user_id()
+        super(User, self).save(*args, **kwargs)
+
+    def generate_user_id(self):
+        # Generate a 7-digit alphanumeric ID
+        alphabet = string.ascii_letters + string.digits
+        while True:
+            user_id = ''.join(random.choice(alphabet) for i in range(7))
+            if not User.objects.filter(user_id=user_id).exists():
+                return user_id
 
 class FoodDataTest(models.Model):
     id = models.IntegerField(primary_key=True)

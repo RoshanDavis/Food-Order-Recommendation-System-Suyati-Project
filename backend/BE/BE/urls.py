@@ -38,7 +38,7 @@ urlpatterns = [
  #saveing the reviews
      path('save_reviews', csrf_exempt(save_reviews), name='save_reviews'),
      path('get_reviews', csrf_exempt(get_reviews), name='get_reviews'),
-      path('save_data', csrf_exempt(save_restaurant_data), name='save_restaurant_data'),
+    path('save_data', csrf_exempt(save_restaurant_data), name='save_restaurant_data'),
 
     #csrf token
     # path('csrf/', csrf, name='csrf'),

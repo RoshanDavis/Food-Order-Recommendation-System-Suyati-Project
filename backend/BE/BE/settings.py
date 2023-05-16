@@ -91,7 +91,7 @@ WSGI_APPLICATION = 'BE.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'f',
+        'NAME': 'x',
         'USER': 'root',
         'PASSWORD': '123456',
         'HOST': 'localhost', # optional, default value is 'localhost'
@@ -157,3 +157,4 @@ CORS_ALLOWED_ORIGINS = [
 
     # Add any other allowed origins here
 ]
+

@@ -18,6 +18,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.hashers import make_password
 
 from django.core.exceptions import ValidationError
+
 class SignupView(View):
     @csrf_exempt
     def post(self, request):
@@ -25,8 +26,7 @@ class SignupView(View):
         data = json.loads(request.body)
         existing_user = None
         print('Received data:', data)
-     
-       
+
         existing_user = User.objects.filter(email=data.get('email')).first()
         # Check if the user already exists in the database
         
@@ -68,8 +68,8 @@ class LoginView(View):
         # existing_user = User.objects.filter(email=data[0]['email']).first()
         if existing_user is not None:
             #url = reverse('dashboard', kwargs={'user_id': existing_user.id})
-            user_id= existing_user.id
-            print(existing_user.id)
+            user_id= existing_user.user_id
+            print(existing_user.user_id)
             return JsonResponse({'success':True, 'user_id': user_id})
             #return JsonResponse({'success':True})
         else:
@@ -243,7 +243,7 @@ mydb = mysql.connector.connect(
   host="localhost",
   user="root",
   password="123456",
-  database="f"
+  database="x"
 )
 
 @csrf_exempt
