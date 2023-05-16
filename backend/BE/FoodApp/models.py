@@ -2,7 +2,6 @@ from django.db import models
 
 # Create your models here.
 
-
 class User(models.Model):
     email = models.EmailField()
     password = models.CharField(max_length=100)
@@ -12,3 +11,43 @@ class User(models.Model):
     class Meta:
         db_table= 'users'
    
+
+class FoodDataTest(models.Model):
+    id = models.IntegerField(primary_key=True)
+    restaurant = models.CharField(max_length=200)
+    price = models.CharField(max_length=10)
+    food = models.CharField(max_length=200)
+    rating = models.FloatField(null=True, blank=True)
+    linkImg = models.URLField(max_length=500)
+    restaurantImg = models.URLField(max_length=500)
+
+    class Meta:
+        db_table='FoodTest'
+
+class Review(models.Model):
+    id = models.IntegerField(primary_key=True)
+    restaurant = models.CharField(max_length=100)
+    name = models.CharField(max_length=100)
+    rating = models.IntegerField()
+    review = models.TextField()
+    class Meta:
+        db_table='ReviewTest'
+
+class Restaurant(models.Model):
+    id = models.IntegerField(primary_key=True)
+    authentication_id = models.IntegerField()
+    vendor_category_en = models.CharField(max_length=255)
+    vendor_category_id = models.IntegerField()
+    delivery_charge = models.FloatField()
+    serving_distance = models.IntegerField()
+    OpeningTime = models.CharField(max_length=255)
+    prepration_time = models.IntegerField()
+    discount_percentage = models.FloatField()
+    vendor_rating = models.FloatField()
+    vendor_tag = models.CharField(max_length=255)
+    vendor_tag_name = models.CharField(max_length=255)
+    created_at = models.DateTimeField()
+    vendor_name = models.CharField(max_length=255)
+
+    class Meta:
+        db_table='dataTest'
