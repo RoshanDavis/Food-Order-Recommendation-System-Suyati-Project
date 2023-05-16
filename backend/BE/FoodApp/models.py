@@ -39,7 +39,7 @@ class FoodDataTest(models.Model):
         db_table='FoodTest'
 
 class Review(models.Model):
-    id = models.IntegerField(primary_key=True)
+    #id = models.IntegerField(primary_key=True)
     restaurant = models.CharField(max_length=100)
     name = models.CharField(max_length=100)
     rating = models.IntegerField()

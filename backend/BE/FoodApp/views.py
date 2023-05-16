@@ -172,6 +172,21 @@ def food_list(request):
     food_data = list(FoodDataTest.objects.values())
     return JsonResponse(food_data, safe=False)
 
+class SaveReviewView(View):
+    @csrf_exempt
+    def post(self, request):
+        data = json.loads(request.body)
+        
+        restaurant = data.get('restaurant')
+        name = data.get('Name')
+        rating = data.get('Rating')
+        review = data.get('Review')
+        
+        # Create a new review object and save it to the database
+        review = Review(restaurant=restaurant, name=name, rating=rating, review=review)
+        review.save()
+        
+        return JsonResponse({'success': True})
 
 @csrf_exempt
 def save_reviews(request):
