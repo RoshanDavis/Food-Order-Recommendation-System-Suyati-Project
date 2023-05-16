@@ -66,6 +66,7 @@ const Review = () => {
 
           const [reviewText, setReviewText] = useState('');
           const [reviewStar, setReviewStar] = useState(0);
+          const [userReview, setuserReview] = useState('')
 
         const submitReview = async () => {
             setReviewStar(number);
@@ -78,7 +79,7 @@ const Review = () => {
                   Rating: reviewStar,
                   Review: reviewText
                 });
-                
+                setuserReview(reviewText)
                 console.log(response.data);
               } catch (error) {
                 console.error(error);
@@ -94,11 +95,12 @@ const Review = () => {
             setReviewText(event.target.value);
         };
 
-        const handleKeyDown = (event) => {
-            if (event.key === 'Enter') {
-            submitReview();
-            }
-        };
+        // Click enter to submit
+        // const handleKeyDown = (event) => {
+        //     if (event.key === 'Enter') {
+        //     submitReview();
+        //     }
+        // };
       
         const [reviewIsSubmitted, setreviewIsSubmitted] = useState(false)
     
@@ -175,7 +177,7 @@ const Review = () => {
                         <div className="card-top d-flex flex-row gap-3 align-items-start justify-content-between">
                                 <div className='d-flex flex-column '>
                                     <div>Your Review</div>
-                                    <text> {reviewText}</text>
+                                    <text> {userReview}</text>
                                 </div>
                                 
                                 <div >  
@@ -210,7 +212,7 @@ const Review = () => {
                         <div className="card-top d-flex flex-row gap-3 align-items-center">
                                 <div>
                                     <div>Current User</div>
-                                    <textarea name="write-review-area"  cols="150" rows="5" value={reviewText} onChange={handleInputChange} onKeyDown={handleKeyDown}></textarea>
+                                    <textarea name="write-review-area"  cols="150" rows="5" value={reviewText} onChange={handleInputChange} ></textarea>
                                 </div>
                                 
                                 <div >  
