@@ -10,6 +10,7 @@ import Restaurant from './Components/Restaurant';
 
 
 import {BrowserRouter , Route, Routes } from 'react-router-dom';
+import Review from './Components/Review';
 
 
 function App() {
@@ -28,7 +29,7 @@ function App() {
               <Route path="/Signup" element={<Signup />} />
               <Route path='/Dashboard' element={<Dashboard/>}/>
               <Route path='/Restaurant' element={<Restaurant/>}/>
-
+              <Route path='/Review' element={<Review/>}/>
             </Routes>
    
           

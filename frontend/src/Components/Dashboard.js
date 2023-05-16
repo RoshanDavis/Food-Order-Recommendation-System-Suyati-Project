@@ -20,9 +20,8 @@ const Dashboard = () => {
   const fetchItems=async()=>{
     try{
         const response=await axios.get("http://127.0.0.1:8000/api/food/");
-        if (response && response.data) { // Check if response and response.data exist
-          setrecommended(response.data);
-            
+        if (response && response.data.ProductSlider) { // Check if response and response.data exist
+          setrecommended(response.data.ProductSlider);
         }
         
     }
@@ -31,8 +30,8 @@ const Dashboard = () => {
       }
     try{
       const response=await axios.get("http://127.0.0.1:8000/api/food/");
-      if (response && response.data) { // Check if response and response.data exist
-        setpopular(response.data);
+      if (response && response.data.ProductSlider) { // Check if response and response.data exist
+        setpopular(response.data.ProductSlider);
           
       }
         
@@ -43,8 +42,8 @@ const Dashboard = () => {
 
     try{
       const response=await axios.get("http://127.0.0.1:8000/api/food/");
-      if (response && response.data) { // Check if response and response.data exist
-        setoffers(response.data);
+      if (response && response.data.ProductSlider) { // Check if response and response.data exist
+        setoffers(response.data.ProductSlider);
           
       }
         
@@ -58,6 +57,7 @@ const Dashboard = () => {
     fetchItems()
     },[]);
 
+    
   return (
     <div className='dashboard'>
         <nav>
@@ -87,6 +87,7 @@ const Dashboard = () => {
             <div className="container pb-5">
               <h2 className='pt-5'>Recommended for you</h2>
               <div className="container p-0 m-0">
+                
                 <ProductSlider data={recommended}/>
               </div>
             </div>

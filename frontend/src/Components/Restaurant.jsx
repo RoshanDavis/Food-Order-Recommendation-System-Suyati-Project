@@ -12,12 +12,16 @@ import imgGirl from '../Assets/Icon.png';
 const Restaurant = () => {
 
   const location = useLocation();
-  const [selected, setSelected] = useState(location.state.data);
-
+  
+  const [selected, setSelected] = useState(location.state?.data || null);
+  
   useEffect(() => {
+    if(location.state.data)
     setSelected(location.state.data);
-    console.log(selected);
   }, [location.state, selected]);
+
+
+
 
   const [scrollPosition, setScrollPosition] = useState(0);
   const [showButton, setShowButton] = useState(false);
@@ -46,13 +50,13 @@ const Restaurant = () => {
   };
 
     const menuRef = useRef(null);
-    const handleScroll = (ref) => {
-        window.scrollTo({
-          top: ref.current.offsetTop,
-          behavior: "smooth"
-        });
-      }
-
+    const handleMenuClick = (ref) => {
+      window.scrollTo({
+        top: ref.current.offsetTop,
+        behavior: "smooth"
+      });
+    }
+      
       
     const [menu, setmenu] = useState([]);
 
@@ -60,8 +64,8 @@ const Restaurant = () => {
     const fetchItems=async()=>{
         try{
             const response=await axios.get("http://127.0.0.1:8000/api/food/");
-            if (response && response.data) { // Check if response and response.data exist
-              setmenu(response.data);
+            if (response && response.data.ProductSlider) { // Check if response and response.data exist
+              setmenu(response.data.ProductSlider);
                 
             }
             
@@ -83,7 +87,7 @@ const Restaurant = () => {
               linkDefault: imgGirl,
           }));
           };
-
+          
   return (
     <div>
         <nav>
@@ -104,10 +108,10 @@ const Restaurant = () => {
                         alt={selected.restaurantImg}
                         onError={handleErrorImage}
                         />
-                        <div className="restaurant-details d-flex flex-column justify-content-center ps-2 pt-3">
+                        <div className=" d-flex flex-column justify-content-center ps-2 pt-3">
                             
                             <h2 className='restaurant-details'>Louis Lane, Pandit Karuppan Road, Perumanoor Thevera, Kochi</h2>
-                            <h3 className='restaurant-contact'>Call : +919633276393</h3>
+                            <h2 className='restaurant-details'>Call : +919633276393</h2>
                         </div>
                     </div>
                     
@@ -118,15 +122,16 @@ const Restaurant = () => {
 
                             <Link to='' class="btn custom-button btn-lg ">Proceed to Checkout</Link>
                             <div className='d-flex flex-row justify-content-around gap-5'>
-                                <div to='' class="btn  restaurant-btn" onClick={() => handleScroll(menuRef)}>Menu</div>
-                                <Link to='' class="btn  restaurant-btn">Review</Link>
+                                <div to='' class="btn  restaurant-btn" onClick={() => handleMenuClick(menuRef)}>Menu</div>
+                                
+                                <Link to={{pathname: "/Review"}} state={{data:selected}} class="btn  restaurant-btn" >Review</Link>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div className="menu" ref={menuRef}>
+            <div className="menu" ref={menuRef} >
                 <div className="container pb-5">
                 <h2 className='pt-5'>Menu</h2>
                 <div className="container p-0 m-0">
