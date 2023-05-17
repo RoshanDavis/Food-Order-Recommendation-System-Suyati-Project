@@ -72,6 +72,7 @@ const Review = () => {
             setReviewStar(number);
             if(number!==0){ 
               setreviewIsSubmitted(true)
+              setuserReview(reviewText)
               try {
                 const response = await axios.post('http://localhost:3030/Review-Post', {
                   restaurant: selected.restaurant,
@@ -79,7 +80,7 @@ const Review = () => {
                   Rating: reviewStar,
                   Review: reviewText
                 });
-                setuserReview(reviewText)
+                
                 console.log(response.data);
               } catch (error) {
                 console.error(error);
