@@ -11,7 +11,7 @@ class User(models.Model):
     last_name = models.CharField(max_length=50)
     
     class Meta:
-        db_table= 'userTests'
+        db_table= 'users'
     
     def save(self, *args, **kwargs):
         if not self.user_id:
@@ -56,7 +56,7 @@ class Restaurant(models.Model):
     vendor_name = models.CharField(max_length=255)
 
     class Meta:
-        db_table='dataTest'
+        db_table='data'
 
 class Review(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE,default='')
