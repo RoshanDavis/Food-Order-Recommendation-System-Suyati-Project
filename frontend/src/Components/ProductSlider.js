@@ -37,7 +37,7 @@ function CustomNextArrow(props) {
     );
   }
 
-const ProductSlider = ({ data,showItemCountProp }) => {
+const ProductSlider = ({ data,showItemCountProp,showCancelButtonProp }) => {
 
 
   const settings = {
@@ -83,11 +83,14 @@ const ProductSlider = ({ data,showItemCountProp }) => {
     <div className="ProductSlider">
       <Slider   {...settings}>
         {data.map((item) => (
-          <Link to={{pathname: "/Restaurant"}} state={{data:item}} className='no-text-decoration'>
-
-            <FoodItem data={[item]} showItemCountProp={showItemCountProp}/>
-
+          <Link to={{
+            pathname: showCancelButtonProp ? "" : "/Restaurant",
+            state: { data: item }
+          }}
+           state={{data:item}} className='no-text-decoration'>
+            <FoodItem data={[item]} showItemCountProp={showItemCountProp} showCancelButtonProp={showCancelButtonProp}/>
           </Link>
+          
         ))}
       </Slider>
     </div>
