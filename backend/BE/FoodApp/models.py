@@ -4,7 +4,7 @@ import string, random
 # Create your models here.
 
 class User(models.Model):
-    user_id = models.CharField(max_length=7, primary_key=True,unique=True)
+    user_id = models.CharField(max_length=7, primary_key=True)
     email = models.EmailField()
     password = models.CharField(max_length=100)
     first_name = models.CharField(max_length=50)
@@ -20,7 +20,7 @@ class User(models.Model):
 
     def generate_user_id(self):
         # Generate a 7-digit alphanumeric ID
-        alphabet = string.ascii_letters + string.digits
+        alphabet = string.ascii_uppercase + string.digits
         while True:
             user_id = ''.join(random.choice(alphabet) for i in range(7))
             if not User.objects.filter(user_id=user_id).exists():

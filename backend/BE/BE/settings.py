@@ -91,7 +91,7 @@ WSGI_APPLICATION = 'BE.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'z',
+        'NAME': 'foodiko',
         'USER': 'root',
         'PASSWORD': '123456',
         'HOST': 'localhost', # optional, default value is 'localhost'

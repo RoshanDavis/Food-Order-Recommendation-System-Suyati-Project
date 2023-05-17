@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from FoodApp.views import SignupView, LoginView, ResetPasswordView,user_list , UserList, UserDetail,food_list,save_reviews,save_restaurant_data,get_reviews,SaveReviewView
+from FoodApp.views import SignupView, LoginView, ResetPasswordView,user_list , UserList, UserDetail,food_list,save_reviews,save_restaurant_data,get_reviews,SaveReviewView,complaint_status
 
 from django.views.decorators.csrf import csrf_exempt
 
@@ -41,6 +41,8 @@ urlpatterns = [
      path('save-review/', csrf_exempt( SaveReviewView.as_view()), name='save_review'),
      path('get_reviews', csrf_exempt(get_reviews), name='get_reviews'),
     path('save_data', csrf_exempt(save_restaurant_data), name='save_restaurant_data'),
+
+    path('status/', csrf_exempt(complaint_status), name='complaint_status'),
 
     #csrf token
     # path('csrf/', csrf, name='csrf'),

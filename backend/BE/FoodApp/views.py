@@ -5,7 +5,7 @@ from django.views import View
 from django.http import JsonResponse,HttpResponse
 from django.core import serializers
 from django.urls import reverse
-from .models import User, FoodDataTest,Review,Restaurant
+from .models import User, FoodDataTest,Review,Restaurant,Complaint
 import json
 
 from django.contrib.auth import authenticate, login
@@ -36,6 +36,7 @@ class SignupView(View):
         else:
             
             user = User(
+            user_id=data['user_id'],
             email=data['email'], 
             password=data['password'], 
             first_name=data['first_name'],
@@ -208,12 +209,7 @@ def save_restaurant_data(request):
     else:
         return JsonResponse({'status': 'failure', 'message': 'Invalid request method'})
 
-'''def food_list(request):
-  
-    food_data = FoodDataTest.objects.all()
-     with open('data/food_data.json') as f:
-        food_data = json.load(f)
-    return JsonResponse(food_data, safe=False)'''
+
 
 
 
@@ -240,7 +236,7 @@ mydb = mysql.connector.connect(
   host="localhost",
   user="root",
   password="123456",
-  database="z"
+  database="foodiko"
 )
 
 @csrf_exempt
@@ -278,3 +274,29 @@ def get_reviews(request):
     print(json_string)
 
     return HttpResponse(json_string)
+
+
+def complaint_status(request):
+    data = json.loads(request.body)
+  # Assuming the vendor ID is passed in the request body
+    print(data)  # Debugging statement to check the request data
+    
+    vendor_id = data.get('vendor_id')
+    print(vendor_id)  # Debugging statement to check the value of vendor_id
+    
+    complaints_count = 0
+    # Calculate the count of complaints with 'yes' status for the specific vendor ID
+    complaints_count = Complaint.objects.filter( vendor_id_id=vendor_id).count()
+    print(complaints_count)
+    # Assign the status based on the count
+    if complaints_count < 2:
+        status = 1
+    elif 2<= complaints_count <= 4:
+        status = 2
+    else:
+        status = 3
+
+    
+
+    # Return the status as a JSON response
+    return JsonResponse({'status': status})
