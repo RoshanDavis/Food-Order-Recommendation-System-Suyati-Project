@@ -34,19 +34,14 @@ class SignupView(View):
         if existing_user is not None:
             return JsonResponse({'error': 'User with this email already exists'})
         else:
-            user = User(email=data['email'], 
+            
+            user = User(
+            email=data['email'], 
             password=data['password'], 
             first_name=data['first_name'],
             last_name=data['last_name'])
         user.save()
         return JsonResponse({'success': True})
-
-            #user.save()
-
-            # Return a JSON response with the serialized user data
-            #response_data = serializers.serialize('json', [user])
-            #return JsonResponse(response_data, safe=False)
-       
 
 
 
@@ -65,9 +60,8 @@ class LoginView(View):
         existing_user = User.objects.filter(email=data.get('email'), password=data.get('password')).first()
     
         
-        # existing_user = User.objects.filter(email=data[0]['email']).first()
         if existing_user is not None:
-            #url = reverse('dashboard', kwargs={'user_id': existing_user.id})
+           
             user_id= existing_user.user_id
             print(existing_user.user_id)
             return JsonResponse({'success':True, 'user_id': user_id})
@@ -75,19 +69,7 @@ class LoginView(View):
         else:
             return JsonResponse({'error': 'User does not exist'})
       
-'''
-        # Authenticate user using provided credentials
-        user = authenticate(request, email=data['email'], password=data['password'])
-        print(user)
-        if user is not None:
-            # Login the user and return a success message
-            login(request, user)
-            #return JsonResponse({'message': 'Login successful'})
-            return JsonResponse({'success': True})
-        else:
-            # Return an error message if the authentication failed
-            return JsonResponse({'error': 'Invalid email or password'})'''
-        
+
 
 class ResetPasswordView(View):
     def post(self, request):
@@ -258,7 +240,7 @@ mydb = mysql.connector.connect(
   host="localhost",
   user="root",
   password="123456",
-  database="x"
+  database="z"
 )
 
 @csrf_exempt

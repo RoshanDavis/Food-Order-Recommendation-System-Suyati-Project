@@ -4,7 +4,7 @@ import string, random
 # Create your models here.
 
 class User(models.Model):
-    user_id = models.CharField(max_length=7, unique=True,default='')
+    user_id = models.CharField(max_length=7, primary_key=True,unique=True)
     email = models.EmailField()
     password = models.CharField(max_length=100)
     first_name = models.CharField(max_length=50)
@@ -12,7 +12,7 @@ class User(models.Model):
     
     class Meta:
         db_table= 'userTests'
-   
+    
     def save(self, *args, **kwargs):
         if not self.user_id:
             self.user_id = self.generate_user_id()
@@ -38,17 +38,9 @@ class FoodDataTest(models.Model):
     class Meta:
         db_table='FoodTest'
 
-class Review(models.Model):
-    #id = models.IntegerField(primary_key=True)
-    restaurant = models.CharField(max_length=100)
-    name = models.CharField(max_length=100)
-    rating = models.IntegerField()
-    review = models.TextField()
-    class Meta:
-        db_table='ReviewTest'
 
 class Restaurant(models.Model):
-    id = models.IntegerField(primary_key=True)
+    vendor_id = models.IntegerField(primary_key=True)
     authentication_id = models.IntegerField()
     vendor_category_en = models.CharField(max_length=255)
     vendor_category_id = models.IntegerField()
@@ -65,3 +57,27 @@ class Restaurant(models.Model):
 
     class Meta:
         db_table='dataTest'
+
+class Review(models.Model):
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE,default='')
+    vendor_id = models.ForeignKey(Restaurant, on_delete=models.CASCADE,default='')
+    vendor_name = models.CharField(max_length=100)
+    first_name = models.CharField(max_length=100)
+    rating = models.IntegerField()
+    review = models.TextField()
+    class Meta:
+        db_table='ReviewTest'
+
+
+
+
+
+class Complaint(models.Model):
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE,default='')
+    vendor_id= models.ForeignKey(Restaurant, on_delete=models.CASCADE,default='')
+    vendor_name = models.CharField(max_length=100)
+    first_name = models.CharField(max_length=100)
+    complaint = models.BooleanField(default=True)
+    review = models.TextField()
+    class Meta:
+        db_table='ComplaintTest'
