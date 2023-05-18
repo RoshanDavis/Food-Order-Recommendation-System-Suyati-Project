@@ -6,13 +6,13 @@ const Items = ({restaurant, price, food, id ,linkImg, quantity}) => {
     const {removeItem, increment, decrement} = useContext(CartContext);
   return (
     <>
-        <div className='items-info'>
+        <div className='items-info Cart-Container'>
             <div className='product-img'>
-                <img src={linkImg } alt="image" />  
+                <img src={linkImg } alt="" />  
             </div>
             <div className='title'>
-                <h2>{food}</h2>
-                <p>{restaurant}</p>
+                <h2 className='cart-text'>{food}</h2>
+                <p className='cart-text'>{restaurant}</p>
             </div>
             <div className='add-minus-quantity'>
                 <i className='fas fa-minus minus' onClick={()=> decrement(id)}></i>

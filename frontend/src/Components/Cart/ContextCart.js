@@ -9,14 +9,20 @@ const ContextCart = () => {
     if(item.length === 0){
         return(
             <>
+            
+            <div className="Cart-Container">
+
+            
      <header>
+            
         <div className='continue-shopping'>
-            <img src="./arrow.png" alt="arrow" className='arrow-icon' />
+            <img src={require('../../Assets/arrow.png')} alt="arrow" className='arrow-icon' />
             <h3>Continue Shopping</h3>
             <div className='cart-icon'>
-                <img src="../Assets/cart.png" alt="cart" />
+                <img src={require('../../Assets/cart.png')} alt="cart" />
                 <p>0</p>
             </div>
+            
             
         </div>
     </header>
@@ -24,6 +30,7 @@ const ContextCart = () => {
         <h1> Your Ordered Food </h1>
         <p className='total items'>you have <span className='total-items-count'></span> items in your cart</p>
         </section>
+        </div>
         
             </>
 
@@ -31,12 +38,16 @@ const ContextCart = () => {
     }
   return (
     <>
+    
+    <div className="Cart-Container ">
      <header>
+            
         <div className='continue-shopping'>
-            <img src="/arrow.png" alt="arrow" className='arrow-icon' />
+            <img src={require('../../Assets/arrow.png')} alt="arrow" className='arrow-icon' />
             <h3>Continue Shopping</h3>
             <div className='cart-icon'>
-                <img src="../Assets/cart.png" alt="cart" />
+                <img src={require('../../Assets/cart.png')} alt="cart" />
+                
                 <p>2</p>
             </div>
             
@@ -46,7 +57,7 @@ const ContextCart = () => {
         <h1>Shopping cart</h1>
         <p className='total items'>you have <span className='total-items-count'>7</span> items in your cart</p>
 
-        <div className='cart-items'>
+        <div className='cart-items w-90'>
             <div className='cart-items-container'>
                 <Scrollbars>
                     {
@@ -61,13 +72,14 @@ const ContextCart = () => {
                 </Scrollbars>  
             </div>
         </div>
-        <div className='card-total'>
+        <div className='card-total pb-5'>
             <h3>cart Total: <span>Rs {totalAmount}</span></h3>
             <button>Checkout</button>
             <button className='clear-cart' onClick={clearCart}>Clear Cart</button>
         </div>
     </section>
-
+    </div>
+    
     </>
   )
 }
