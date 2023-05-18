@@ -4,12 +4,11 @@ import Home from './Components/Home';
 import Login from './Components/Login';
 import Signup from './Components/Signup';
 import Restaurant from './Components/Restaurant';
-
-
-
+import Cart from './Components/Cart/Cart';
 
 
 import {BrowserRouter , Route, Routes } from 'react-router-dom';
+
 
 
 function App() {
@@ -28,6 +27,8 @@ function App() {
               <Route path="/Signup" element={<Signup />} />
               <Route path='/Dashboard' element={<Dashboard/>}/>
               <Route path='/Restaurant' element={<Restaurant/>}/>
+               <Route path='/Cart' element={<Cart/>}/> 
+ 
 
             </Routes>
    

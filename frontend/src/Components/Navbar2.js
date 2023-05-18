@@ -16,7 +16,7 @@ const Navbar2 = () => {
                 <Link to='/Dashboard'>Dashboard</Link>
             </li>
             <li className='nav-item'>
-                <Link to='/Dashboard'>Cart</Link>
+                <Link to='/Cart'>Cart</Link>
             </li>
             <li className='nav-item'>
                 <img src={require('../Assets/Profile.png')}  alt="" className='img-fluid w-50'/>
