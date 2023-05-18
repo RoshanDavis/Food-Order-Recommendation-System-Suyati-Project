@@ -5,7 +5,7 @@ import { CartContext } from './Cart';
 
 const ContextCart = () => {
 
-    const {item , clearCart,totalAmount}= useContext(CartContext);
+    const {item , clearCart,totalAmount , totalItem}= useContext(CartContext);
     if(item.length === 0){
         return(
             <>
@@ -27,8 +27,8 @@ const ContextCart = () => {
         </div>
     </header>
     <section className='main-cart-section'>
-        <h1> Your Ordered Food </h1>
-        <p className='total items'>you have <span className='total-items-count'></span> items in your cart</p>
+        <h1> Shopping Cart </h1>
+        <p className='total items'>you have <span className='total-items-count'> </span> items in your cart</p>
         </section>
         </div>
         
@@ -48,14 +48,14 @@ const ContextCart = () => {
             <div className='cart-icon'>
                 <img src={require('../../Assets/cart.png')} alt="cart" />
                 
-                <p>2</p>
+                <p>{totalItem}</p>
             </div>
             
         </div>
     </header>
     <section className='main-cart-section'>
-        <h1>Shopping cart</h1>
-        <p className='total items'>you have <span className='total-items-count'>7</span> items in your cart</p>
+        <h1>Your Selection</h1>
+        <p className='total items'>You have <span className='total-items-count'>{totalItem}</span> items in your cart</p>
 
         <div className='cart-items w-90'>
             <div className='cart-items-container'>

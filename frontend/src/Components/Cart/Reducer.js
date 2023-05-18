@@ -38,14 +38,14 @@ export const reducer = (state,action)=>{
             let updatedTotalAmount= price * quantity;
             accum.totalAmount += updatedTotalAmount;
 
-            accum.totalItem = accum.totalItem + quantity
+            accum.totalItem = accum.totalItem + quantity;
             return accum;
         },
         {
             totalItem:0,
             totalAmount:0,
         });
-        return{...state,totalItem, totalAmount};
+        return{...state, totalItem, totalAmount};
     }
 
     return state;
