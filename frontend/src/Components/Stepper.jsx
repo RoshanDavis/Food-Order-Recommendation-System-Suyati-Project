@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useCallback } from "react";
 import { TiTick } from "react-icons/ti";
 import './Stepper.css'
 
@@ -7,7 +7,8 @@ const Stepper = ({onStepChange}) => {
   const [currentStep, setCurrentStep] = useState(1);
   const [complete, setComplete] = useState(false);
 
-  const goToNextStep=() => {
+   // Define the goToNextStep function using useCallback
+   const goToNextStep = useCallback(() => {
     const nextStep = currentStep + 1;
     setCurrentStep(nextStep);
     onStepChange(nextStep); // Notify the parent component about the step change
@@ -15,7 +16,7 @@ const Stepper = ({onStepChange}) => {
     if (nextStep === steps.length) {
       setComplete(true);
     }
-  }
+  }, [currentStep, onStepChange, steps.length]);
 
   //For showing how the stepper will be implemented with deleviry logistics
   useEffect(() => {
@@ -27,7 +28,7 @@ const Stepper = ({onStepChange}) => {
     return () => {
       clearInterval(interval);
     };
-  }, [goToNextStep]);
+  }, [goToNextStep,complete]);
 
   return (
     <>
