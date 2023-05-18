@@ -45,3 +45,27 @@
     color: red;
 }
 
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    right: 25px;
+    width: 200px;
+    padding: 10px;
+    background-color: floralwhite;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+  }
+  
+  .dropdown-menu li {
+    list-style: none;
+    padding: 5px 0;
+    color:coral;
+  }
+  
+  .dropdown-menu li:hover {
+    background-color: #f1f1f1;
+  }
+
+  .profile-picture:hover{
+    background-color: #f1f1f1;
+  }
