@@ -31,7 +31,7 @@ const Navbar2 = () => {
                 {isDropdownOpen && (
                     <ul className="dropdown-menu d-flex flex-column">
                     <li><Link to=''>About us</Link></li>
-                    <li><Link to=''>Complaints</Link></li>
+                    <li><Link to='/Complaint'>Complaint</Link></li>
                     <li><Link to=''>Sign out</Link></li>
                     </ul>
                 )}
