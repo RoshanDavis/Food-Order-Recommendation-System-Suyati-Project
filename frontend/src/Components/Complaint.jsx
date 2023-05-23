@@ -4,11 +4,13 @@ import Footer from './Footer'
 import ComplaintFormPopUp from './ComplaintFormPopUp'
 import axios from 'axios'
 import { ImMenu3 } from 'react-icons/im';
+import complaintData from './ComplaintsTestData.json'
 const Complaint = () => {
     
 
     const [hasComplaint, sethasComplaint] = useState(false)
     const [triggerPopUp,setTriggerPopUp]=useState(false)
+    const [currentComplaints, setCurrentComplaints] = useState([])
 
     const addComplaint=()=>{
         setTriggerPopUp(true)
@@ -32,6 +34,14 @@ const Complaint = () => {
         }
         catch (error) {
             console.log(error);
+          }
+          
+          //Change when implementing api
+          if(complaintData)
+          {
+            sethasComplaint(true);
+            setCurrentComplaints(complaintData.Complaints);
+            console.log(currentComplaints);
           }
     }
     
@@ -81,10 +91,19 @@ const Complaint = () => {
             }
             {hasComplaint &&
             <div className="complaints-container">
-                <div className="container pb-5">
+                <div className="container">
                     <h2 className='pt-5'>Complaints</h2>
-                    <div className="complaint-cards-container">
-
+                    <div className="complaint-cards-container" style={{ height: "500px", overflowY: "auto" }}>
+                        {currentComplaints.map((item) => (
+                            <div className="card" style={{backgroundColor:"floralwhite",marginTop:"1rem",paddingLeft:"1.2rem"}}>
+                                <div className="card-top" style={{fontWeight:"700"}}>
+                                    {item.Name}
+                                </div>
+                                <div className="card-bottom">
+                                    {item.Complaint}
+                                </div>
+                            </div>
+                        ))}
                     </div>
                 </div>
             </div>
@@ -142,7 +161,7 @@ const Complaint = () => {
                     </div>
                 </ComplaintFormPopUp>
             </div>
-            <div className="d-flex flex-row justify-content-around pt-3 pb-3" style={{fontSize: '3rem'}}>
+            <div className="d-flex flex-row justify-content-around  pb-3 mb-5" style={{fontSize: '3rem'}}>
                 <button className='btn custom-button' onClick={addComplaint}>Add Complaint</button>
             </div>
             
