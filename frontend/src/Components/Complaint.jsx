@@ -128,7 +128,7 @@ const Complaint = () => {
                                 {(search.length>0 || SearchDropDown) && 
                                     <div className="search-dropdown d-flex flex-column" >
                                         {filtered.length>0?
-                                            filtered.map((result,index)=>{
+                                            filtered.slice(0, 9).map((result,index)=>{
                                             return(
                                                 <div className="search-result-card ps-3" style={{ backgroundColor: "white" }} key={index} 
                                                 onClick={(e)=>{
