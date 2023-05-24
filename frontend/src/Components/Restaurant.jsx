@@ -7,7 +7,7 @@ import FoodItem from './FoodItem'
 import ProductSlider from './ProductSlider'
 import axios from 'axios'
 import { Link,useLocation} from 'react-router-dom'
-import imgGirl from '../Assets/Icon.png';
+// import imgGirl from '../Assets/Icon.png';
 
 const Restaurant = () => {
 
@@ -79,14 +79,14 @@ const Restaurant = () => {
         fetchItems()
         },[]);
         
-        const [defaultImage, setDefaultImage] = useState({});
-        const handleErrorImage = (data) => {
-          setDefaultImage((prev) => ({
-              ...prev,
-              [data.target.alt]: data.target.alt,
-              linkDefault: imgGirl,
-          }));
-          };
+        // const [defaultImage, setDefaultImage] = useState({});
+        // const handleErrorImage = (data) => {
+        //   setDefaultImage((prev) => ({
+        //       ...prev,
+        //       [data.target.alt]: data.target.alt,
+        //       linkDefault: imgGirl,
+        //   }));
+        //   };
           
   return (
     <div>
@@ -101,12 +101,13 @@ const Restaurant = () => {
                     <div className='col ps-4'>
                         <img className='restaurant-img'
                         src={
-                        defaultImage[selected.restaurant] === selected.restaurant
-                            ? defaultImage[selected.restaurant] === defaultImage["'" + selected.restaurant + "'"]? defaultImage.linkDefault: selected.restaurantImg
-                            : selected.restaurantImg
+                        // defaultImage[selected.restaurant] === selected.restaurant
+                        //     ? defaultImage[selected.restaurant] === defaultImage["'" + selected.restaurant + "'"]? defaultImage.linkDefault: selected.restaurantImg
+                        //     : selected.restaurantImg
+                        selected.restaurantImg
                         }
                         alt={selected.restaurantImg}
-                        onError={handleErrorImage}
+                        // onError={handleErrorImage}
                         />
                         <div className=" d-flex flex-column justify-content-center ps-2 pt-3">
                             
