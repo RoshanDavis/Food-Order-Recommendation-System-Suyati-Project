@@ -111,8 +111,8 @@ const Restaurant = () => {
                         />
                         <div className=" d-flex flex-column justify-content-center ps-2 pt-3">
                             
-                            <h2 className='restaurant-details'>Louis Lane, Pandit Karuppan Road, Perumanoor Thevera, Kochi</h2>
-                            <h2 className='restaurant-details'>Call : +919633276393</h2>
+                            <h2 className='restaurant-details'>{selected.address}</h2>
+                            <h2 className='restaurant-details'>Call : {selected.contact}</h2>
                         </div>
                     </div>
                     
