@@ -41,7 +41,7 @@ const ProductSlider = ({ data,showItemCountProp,showCancelButtonProp }) => {
 
 
   const settings = {
-    dots: true,
+    dots: (data.length <= 100),
     infinite: false,
     speed: 500,
     slidesToShow: 4,

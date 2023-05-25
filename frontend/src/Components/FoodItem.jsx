@@ -49,6 +49,7 @@ const FoodItem = ({data,showItemCountProp,showCancelButtonProp}) => {
             {data.map((item) => (
             <div className="card food-card">
                 <div className="card-top food-card-top">
+                 {item.linkImg?(    
                 <img
                     src={
                     defaultImage[item.restaurant] === item.restaurant
@@ -58,7 +59,10 @@ const FoodItem = ({data,showItemCountProp,showCancelButtonProp}) => {
                     alt={item.restaurant}
                     onError={handleErrorImage}
                 />
-                    
+                 ):(
+                    <img src={imgGirl} alt={item.restaurant}/>
+                 )
+                }   
                 </div>
                 <div className="card-bottom food-card-bottom">
                 <h1 className='card-bottom-restuarant-name'>{item.restaurant}</h1>

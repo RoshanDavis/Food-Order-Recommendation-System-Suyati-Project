@@ -12,6 +12,7 @@ import Restaurant from './Components/Restaurant';
 import {BrowserRouter , Route, Routes } from 'react-router-dom';
 import Review from './Components/Review';
 import Order from './Components/Order';
+import Complaint from './Components/Complaint';
 
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
               <Route path='/Restaurant' element={<Restaurant/>}/>
               <Route path='/Review' element={<Review/>}/>
               <Route path='/Order' element={<Order/>}/>
+              <Route path='/Complaint' element={<Complaint/>}/>
             </Routes>
    
           
