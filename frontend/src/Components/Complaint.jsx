@@ -72,7 +72,29 @@ const Complaint = () => {
     const [SearchResults, setSearchResults] = useState({})
     const [SearchDropDown, setSearchDropDown] = useState(false);
 
+    const [complaintDetails, setComplaintDetails] = useState({
+        item: '',
+        description: '',
+      });
     const submitComplaint=()=>{
+        // Create a new complaint object using the complaintDetails state
+        const newComplaint = {
+            Name: complaintDetails.item,
+            Complaint: complaintDetails.description,
+        };
+
+        // Add the new complaint to the current complaints
+        setCurrentComplaints([...currentComplaints, newComplaint]);
+
+        // Clear the complaint details
+        setComplaintDetails({
+            item: '',
+            description: '',
+        });
+
+        // Close the complaint form pop-up
+        setTriggerPopUp(false);
+
         //Post complaint to backend
     }
   return (
@@ -97,10 +119,10 @@ const Complaint = () => {
                         {currentComplaints.map((item) => (
                             <div className="card" style={{backgroundColor:"floralwhite",marginTop:"1rem",paddingLeft:"1.2rem"}}>
                                 <div className="card-top" style={{fontWeight:"700"}}>
-                                    {item.Name}
+                                   Item: {item.Name}
                                 </div>
                                 <div className="card-bottom">
-                                    {item.Complaint}
+                                    Complaint: {item.Complaint}
                                 </div>
                             </div>
                         ))}
@@ -119,7 +141,15 @@ const Complaint = () => {
                                 <div className="search-box d-flex gap-3 align-items-center">
                                     <input className='search-input' type="text"
                                         placeholder='Search for restaurants or dishes...'
-                                        onChange={(e)=>setsearch(e.target.value)}
+                                        value={complaintDetails.item}
+                                        onChange={(e) => {
+                                            const value = e.target.value;
+                                            setsearch(value);
+                                            setComplaintDetails((prevDetails) => ({
+                                              ...prevDetails,
+                                              item: searchRef.current.value,
+                                            }));
+                                          }}
                                         ref={searchRef}
                                         
                                     />
@@ -135,6 +165,10 @@ const Complaint = () => {
                                                     
                                                     (searchRef.current.value=result.restaurant + '-'+ result.food)
                                                     setsearch('');
+                                                    setComplaintDetails((prevDetails) => ({
+                                                        ...prevDetails,
+                                                        item: searchRef.current.value,
+                                                      }));
                                                     setSearchResults([result]);
                                                     toggleDropdown()
                                                     }}>
@@ -152,7 +186,20 @@ const Complaint = () => {
                         </div>
                         <div>
                             <h5 className='pt-4'>Please provide a desciption for the complaint</h5>
-                            <textarea style={{ height: 'fit-content', width: '100%' }} name="" id="" cols="10" rows="10"></textarea>
+                            <textarea
+                                style={{ height: 'fit-content', width: '100%' }}
+                                name=""
+                                id=""
+                                cols="10"
+                                rows="10"
+                                value={complaintDetails.description}
+                                onChange={(e) =>
+                                    setComplaintDetails({
+                                    ...complaintDetails,
+                                    description: e.target.value,
+                                    })
+                                }
+                            ></textarea>
 
                         </div>
                         <div className='btn custom-button d-flex justify-content-center ' onClick={submitComplaint}>
