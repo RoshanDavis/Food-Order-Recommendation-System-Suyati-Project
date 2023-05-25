@@ -75,27 +75,42 @@ const Complaint = () => {
     const [complaintDetails, setComplaintDetails] = useState({
         item: '',
         description: '',
+        res_Id:'',
       });
     const submitComplaint=()=>{
         // Create a new complaint object using the complaintDetails state
         const newComplaint = {
             Name: complaintDetails.item,
             Complaint: complaintDetails.description,
+            res_Id:complaintDetails.res_Id,
         };
 
         // Add the new complaint to the current complaints
         setCurrentComplaints([...currentComplaints, newComplaint]);
 
+        // Post complaint to backend
+        axios
+        .post('http://localhost:3030/Complaint-Post', newComplaint)
+        .then((response) => {
+            console.log('Complaint posted successfully:', response.data);
+            // Perform any additional actions or handle the response as needed
+        })
+        .catch((error) => {
+            console.error('Error posting complaint:', error);
+            // Handle the error appropriately
+        });
+
+
         // Clear the complaint details
         setComplaintDetails({
             item: '',
             description: '',
+            res_Id:'',
         });
 
         // Close the complaint form pop-up
         setTriggerPopUp(false);
 
-        //Post complaint to backend
     }
   return (
     <div>
@@ -123,6 +138,7 @@ const Complaint = () => {
                                 </div>
                                 <div className="card-bottom">
                                     Complaint: {item.Complaint}
+                                    res_id:{item.res_Id}
                                 </div>
                             </div>
                         ))}
@@ -168,6 +184,7 @@ const Complaint = () => {
                                                     setComplaintDetails((prevDetails) => ({
                                                         ...prevDetails,
                                                         item: searchRef.current.value,
+                                                        res_Id:result.res_Id?result.res_Id:0
                                                       }));
                                                     setSearchResults([result]);
                                                     toggleDropdown()
