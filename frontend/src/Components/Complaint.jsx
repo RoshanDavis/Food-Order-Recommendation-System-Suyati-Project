@@ -41,7 +41,6 @@ const Complaint = () => {
           {
             sethasComplaint(true);
             setCurrentComplaints(complaintData.Complaints);
-            console.log(currentComplaints);
           }
     }
     
@@ -69,7 +68,7 @@ const Complaint = () => {
         setSearchDropDown(!SearchDropDown)
     }
 
-    const [SearchResults, setSearchResults] = useState({})
+    // const [SearchResults, setSearchResults] = useState({})
     const [SearchDropDown, setSearchDropDown] = useState(false);
 
     const [complaintDetails, setComplaintDetails] = useState({
@@ -78,6 +77,31 @@ const Complaint = () => {
         res_Id:'',
       });
     const submitComplaint=()=>{
+
+        //If form is not completely filled
+        if (!complaintDetails.item || !complaintDetails.description) {
+            alert("Please fill in the details before submitting")
+            // Perform any necessary actions or error handling
+            return;
+        }
+
+        // Split complaintDetails.item into restaurant and food
+        const [restaurant, food] = complaintDetails.item.split('-');
+
+        // Check if the restaurant and food exist in the items array
+        const complaintItem = items.find(
+            (unit) =>
+            unit.restaurant.toLowerCase().includes(restaurant.toLowerCase()) &&
+            unit.food.toLowerCase().includes(food.toLowerCase())
+        );
+
+        if (!complaintItem) {
+            console.log('Item not found in the items array:', complaintDetails.item);
+            alert("Item not found.Please select the item from drop down menu")
+            // Perform any necessary actions or error handling
+            return;
+        }
+
         // Create a new complaint object using the complaintDetails state
         const newComplaint = {
             Name: complaintDetails.item,
@@ -85,8 +109,8 @@ const Complaint = () => {
             res_Id:complaintDetails.res_Id,
         };
 
-        // Add the new complaint to the current complaints
-        setCurrentComplaints([...currentComplaints, newComplaint]);
+        // Add the new complaint at the beginning of the current complaints
+        setCurrentComplaints([newComplaint, ...currentComplaints]);
 
         // Post complaint to backend
         axios
@@ -133,12 +157,11 @@ const Complaint = () => {
                     <div className="complaint-cards-container" style={{ height: "500px", overflowY: "auto" }}>
                         {currentComplaints.map((item) => (
                             <div className="card" style={{backgroundColor:"floralwhite",marginTop:"1rem",paddingLeft:"1.2rem"}}>
-                                <div className="card-top" style={{fontWeight:"700"}}>
+                                <div className="card-top" style={{fontWeight:"700",fontSize:"1.4rem"}}>
                                    Item: {item.Name}
                                 </div>
-                                <div className="card-bottom">
+                                <div className="card-bottom" style={{fontSize:"1.2rem"}}>
                                     Complaint: {item.Complaint}
-                                    res_id:{item.res_Id}
                                 </div>
                             </div>
                         ))}
@@ -186,7 +209,7 @@ const Complaint = () => {
                                                         item: searchRef.current.value,
                                                         res_Id:result.res_Id?result.res_Id:0
                                                       }));
-                                                    setSearchResults([result]);
+                                                    // setSearchResults([result]);
                                                     toggleDropdown()
                                                     }}>
                                                     <p className='ps-3'>{result.restaurant}-{result.food}</p>
