@@ -2,79 +2,46 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.views import View
-from django.http import JsonResponse
+from django.http import JsonResponse,HttpResponse
 from django.core import serializers
-from .models import User
+from django.urls import reverse
+from .models import User, FoodDataTest,Review,Restaurant,Complaint
 import json
 
 from django.contrib.auth import authenticate, login
 
 from django.views.decorators.csrf import ensure_csrf_cookie, get_token
-'''
-from django.views.decorators.csrf import csrf_exempt
 
 
-@csrf_exempt'''
-
-#first signup
-'''class SignupView(View):
-   
-    def post(self, request):
-        # Deserialize JSON data from request body
-        data = json.loads(request.body)
-
-        print('Received data:', data)
-        # Check that all required fields are present
-        if not all(key in data for key in ('email', 'password', 'first_name', 'last_name')):
-            return JsonResponse({'error': 'Missing required field(s)'})
-
-        # Check if the user already exists in the database
-        existing_user = User.objects.filter(email=data['email']).first()
-        if existing_user is not None:
-            return JsonResponse({'error': 'User with this email already exists'})
-        else:
-            user = User(email=data['email'],
-                        password=data['password'],
-                        first_name=data['first_name'],
-                        last_name=data['last_name'])
-            user.save()
-
-            # Return a JSON response with the serialized user data
-            response_data = serializers.serialize('json', [user])
-            return JsonResponse(response_data, safe=False)
-
-        '''
-
-'''from django.views.decorators.csrf import csrf_exempt
-
-@csrf_exempt'''
 
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.hashers import make_password
 
+from django.core.exceptions import ValidationError
 
 class SignupView(View):
     @csrf_exempt
     def post(self, request):
         # Deserialize JSON data from request body
         data = json.loads(request.body)
-
+        existing_user = None
         print('Received data:', data)
-        # Check that all required fields are present
-        '''if not all(key in data for key in ('email', 'password', 'first_name', 'last_name')):
-            return JsonResponse({'error': 'Missing required field(s)'})
 
+        existing_user = User.objects.filter(email=data.get('email')).first()
         # Check if the user already exists in the database
-        existing_user = User.objects.filter(email=data['email']).first()
+        
+        # existing_user = User.objects.filter(email=data[0]['email']).first()
         if existing_user is not None:
             return JsonResponse({'error': 'User with this email already exists'})
         else:
-            user = User(email=data['email'], password=data['password'], first_name=data['first_name'],last_name=data['last_name'])
-            user.save()'''
-
-            # Return a JSON response with the serialized user data
-            #response_data = serializers.serialize('json', [user])
-            #return JsonResponse(response_data, safe=False)
+            
+            user = User(
+            user_id=data['user_id'],
+            email=data['email'], 
+            password=data['password'], 
+            first_name=data['first_name'],
+            last_name=data['last_name'])
+        user.save()
         return JsonResponse({'success': True})
 
 
@@ -85,26 +52,25 @@ class LoginView(View):
     @csrf_exempt
     def post(self, request):
         # Deserialize JSON data from request body
-        data = json.loads(request.body)
-
+        data = json.loads(request.body)        
+        existing_user = None
         print('Received data:', data)
-
-        # Check that all required fields are present
-        '''if not all(key in data for key in ('email', 'password')):
-            return JsonResponse({'error': 'Missing required field(s)'})'''
-
-        # Authenticate user using provided credentials
-        user = authenticate(request, email=data['email'], password=data['password'])
-
-        if user is not None:
-            # Login the user and return a success message
-            login(request, user)
-            #return JsonResponse({'message': 'Login successful'})
-            return JsonResponse({'success': True})
-        else:
-            # Return an error message if the authentication failed
-            return JsonResponse({'error': 'Invalid email or password'})
+     
+       
+        # Check if the user already exists in the database
+        existing_user = User.objects.filter(email=data.get('email'), password=data.get('password')).first()
+    
         
+        if existing_user is not None:
+           
+            user_id= existing_user.user_id
+            print(existing_user.user_id)
+            return JsonResponse({'success':True, 'user_id': user_id})
+            #return JsonResponse({'success':True})
+        else:
+            return JsonResponse({'error': 'User does not exist'})
+      
+
 
 class ResetPasswordView(View):
     def post(self, request):
@@ -112,10 +78,7 @@ class ResetPasswordView(View):
         data = json.loads(request.body)
 
         print('Received data:', data)
-        # Check that all required fields are present
-        if not all(key in data for key in ('email', 'new_password', 'confirm_password')):
-            return JsonResponse({'error': 'Missing required field(s)'})
-
+        
         # Check if the user with the given email exists in the database
         user = User.objects.filter(email=data['email']).first()
         if user is None:
@@ -138,31 +101,7 @@ def user_list(request):
     data = serializers.serialize('json', users)
     return JsonResponse(data, safe=False)
 
-'''
-class LoginView(View):
-    def post(self, request):
-        # Load test data from fixtures file
-        with open('FoodApp/fixtures/test_login.json', 'r') as f:
-            test_data = json.load(f)
-        
-        # Find user with given email in test data
-        user = None
-        for data in test_data:
-            if data['model'] == 'FoodApp.User' and data['fields']['email'] == request.POST.get('email'):
-                user = User(**data['fields'])
-                break
 
-        if user is None:
-            return JsonResponse({'error': 'User not found'})
-
-        # Authenticate user using provided credentials
-        if user.check_password(request.POST.get('password')):
-            # Login the user and return a success message
-            login(request, user)
-            return JsonResponse({'message': 'Login successful'})
-        else:
-            # Return an error message if the authentication failed
-            return JsonResponse({'error': 'Invalid email or password'})'''
 
 
 
@@ -212,15 +151,68 @@ class UserDetail(APIView):
 
 
 ### dash data
-
-
-
-
 def food_list(request):
-    with open('data/food_data.json') as f:
-        food_data = json.load(f)
-    
+    food_data = list(FoodDataTest.objects.values())
     return JsonResponse(food_data, safe=False)
+
+class SaveReviewView(View):
+    @csrf_exempt
+    def post(self, request):
+        data = json.loads(request.body)
+        
+        restaurant = data.get('restaurant')
+        name = data.get('Name')
+        rating = data.get('Rating')
+        review = data.get('Review')
+        
+        # Create a new review object and save it to the database
+        review = Review(restaurant=restaurant, name=name, rating=rating, review=review)
+        review.save()
+        
+        return JsonResponse({'success': True})
+
+@csrf_exempt
+def save_reviews(request):
+    # Get the JSON data from the request
+    data = json.loads(request.body)
+
+    # Loop through the reviews and save them to the database
+    for restaurant, reviews in data["Reviews"].items():
+        for review in reviews:
+            r = Review(id=review["Id"], restaurant=restaurant, name=review["Name"], rating=review["Rating"], review=review["Review"])
+            r.save()
+
+    return JsonResponse({"message": "Reviews saved successfully"})
+
+@csrf_exempt
+def save_restaurant_data(request):
+    if request.method == 'POST':
+        data = json.loads(request.body.decode('utf-8'))
+        for restaurant in data:
+            Restaurant.objects.create(
+                id = restaurant['id'],
+                authentication_id = restaurant['authentication_id'],
+                vendor_category_en = restaurant['vendor_category_en'],
+                vendor_category_id = restaurant['vendor_category_id'],
+                delivery_charge = restaurant['delivery_charge'],
+                serving_distance = restaurant['serving_distance'],
+                OpeningTime = restaurant['OpeningTime'],
+                prepration_time = restaurant['prepration_time'],
+                discount_percentage = restaurant['discount_percentage'],
+                vendor_rating = restaurant['vendor_rating'],
+                vendor_tag = restaurant['vendor_tag'],
+                vendor_tag_name = restaurant['vendor_tag_name'],
+                created_at = restaurant['created_at'],
+                vendor_name = restaurant['vendor_name']
+            )
+        return JsonResponse({'status': 'success'})
+    else:
+        return JsonResponse({'status': 'failure', 'message': 'Invalid request method'})
+
+
+
+
+
 '''
 from django.middleware import csrf
 from django.views.decorators.csrf import ensure_csrf_cookie, get_token
@@ -235,3 +227,76 @@ def csrf(request):
     return JsonResponse({'csrftoken': token})
    # return JsonResponse({'csrftoken': 'success'})
 '''
+
+import mysql.connector
+import json
+
+# Establish a connection to your MySQL database
+mydb = mysql.connector.connect(
+  host="localhost",
+  user="root",
+  password="123456",
+  database="foodiko"
+)
+
+@csrf_exempt
+def get_reviews(request):
+    # Create a cursor object to execute queries
+    mycursor = mydb.cursor()
+
+    # Execute your query
+    mycursor.execute("SELECT * FROM ReviewTest")
+
+    # Fetch all rows as a list of tuples
+    rows = mycursor.fetchall()
+
+    # Create a dictionary to hold your reviews data
+    reviews_dict = {"Reviews": {}}
+
+    # Loop through each row and add it to the appropriate restaurant key
+    for row in rows:
+        restaurant = row[1]
+        review_dict = {
+            "Id": row[0],
+            "Name": row[2],
+            "Rating": row[3],
+            "Review": row[4]
+        }
+        if restaurant in reviews_dict["Reviews"]:
+            reviews_dict["Reviews"][restaurant].append(review_dict)
+        else:
+            reviews_dict["Reviews"][restaurant] = [review_dict]
+
+    # Convert your dictionary to a JSON string
+    json_string = json.dumps(reviews_dict)
+
+    # Send the JSON string as a response to your React application
+    print(json_string)
+
+    return HttpResponse(json_string)
+
+
+def complaint_status(request):
+    data = json.loads(request.body)
+  # Assuming the vendor ID is passed in the request body
+    print(data)  # Debugging statement to check the request data
+    
+    vendor_id = data.get('vendor_id')
+    print(vendor_id)  # Debugging statement to check the value of vendor_id
+    
+    complaints_count = 0
+    # Calculate the count of complaints with 'yes' status for the specific vendor ID
+    complaints_count = Complaint.objects.filter( vendor_id_id=vendor_id).count()
+    print(complaints_count)
+    # Assign the status based on the count
+    if complaints_count < 2:
+        status = 1
+    elif 2<= complaints_count <= 4:
+        status = 2
+    else:
+        status = 3
+
+    
+
+    # Return the status as a JSON response
+    return JsonResponse({'status': status})

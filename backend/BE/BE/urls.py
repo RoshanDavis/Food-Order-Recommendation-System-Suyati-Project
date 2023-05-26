@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from FoodApp.views import SignupView, LoginView, ResetPasswordView,user_list , UserList, UserDetail,food_list
+from FoodApp.views import SignupView, LoginView, ResetPasswordView,user_list , UserList, UserDetail,food_list,save_reviews,save_restaurant_data,get_reviews,SaveReviewView,complaint_status
 
 from django.views.decorators.csrf import csrf_exempt
 
@@ -26,7 +26,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     path('signup/',csrf_exempt( SignupView.as_view()), name='signup'),
-    path('login/', LoginView.as_view(), name='login'),
+    path('login/', csrf_exempt( LoginView.as_view()), name='login'),
     path('reset_password/', ResetPasswordView.as_view(), name='reset_password'),
     #path('api/users/', user_list, name='user_list'),
 
@@ -34,11 +34,17 @@ urlpatterns = [
     path('api/users/<int:pk>/', UserDetail.as_view(), name='user-detail'),
 
     #dash data
-
      path('api/food/', food_list, name='food_list'),
+ #saving the reviews
+     path('save_reviews', csrf_exempt(save_reviews), name='save_reviews'),
+     #posting a single review from user
+     path('save-review/', csrf_exempt( SaveReviewView.as_view()), name='save_review'),
+     path('get_reviews', csrf_exempt(get_reviews), name='get_reviews'),
+    path('save_data', csrf_exempt(save_restaurant_data), name='save_restaurant_data'),
+
+    path('status/', csrf_exempt(complaint_status), name='complaint_status'),
 
     #csrf token
     # path('csrf/', csrf, name='csrf'),
 
 ]
-
