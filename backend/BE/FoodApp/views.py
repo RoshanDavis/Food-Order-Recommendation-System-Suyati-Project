@@ -64,6 +64,10 @@ class LoginView(View):
         if existing_user is not None:
            
             user_id= existing_user.user_id
+            
+           #storing user id for session 
+            request.session['user_id'] = user_id 
+            
             print(existing_user.user_id)
             return JsonResponse({'success':True, 'user_id': user_id})
             #return JsonResponse({'success':True})
@@ -152,7 +156,10 @@ class UserDetail(APIView):
 
 ### dash data
 def food_list(request):
+    user_id = request.session.get('user_id')
+    print(user_id)
     food_data = list(FoodDataTest.objects.values())
+
     return JsonResponse(food_data, safe=False)
 
 class SaveReviewView(View):
