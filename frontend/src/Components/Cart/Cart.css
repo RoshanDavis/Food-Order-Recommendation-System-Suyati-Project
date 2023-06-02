@@ -83,7 +83,7 @@ header {
 .cart-icon img {
   width: 5rem;
   height: 5rem;
-  color: #2f80ed;
+  color: #ee6700;
 }
 
 .cart-icon p {
@@ -93,8 +93,8 @@ header {
   right: -1.2rem;
   top: 0.9rem;
   border-radius: 50%;
-  background: #99cbf7;
-  color: #fff;
+  background:coral;
+  color: coral;
   box-sizing: border-box;
   font-size: 1.6rem;
   display: flex;
