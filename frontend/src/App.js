@@ -4,6 +4,7 @@ import Home from './Components/Home';
 import Login from './Components/Login';
 import Signup from './Components/Signup';
 import Restaurant from './Components/Restaurant';
+import Checkout from './Components/Checkout';
 
 
 
@@ -13,6 +14,7 @@ import {BrowserRouter , Route, Routes } from 'react-router-dom';
 import Review from './Components/Review';
 import Order from './Components/Order';
 import Complaint from './Components/Complaint';
+import { FaCheckDouble } from 'react-icons/fa';
 
 
 function App() {
@@ -34,6 +36,7 @@ function App() {
               <Route path='/Review' element={<Review/>}/>
               <Route path='/Order' element={<Order/>}/>
               <Route path='/Complaint' element={<Complaint/>}/>
+              <Route path='/Checkout' element={<Checkout/>}/>
             </Routes>
    
           

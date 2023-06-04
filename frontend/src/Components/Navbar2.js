@@ -26,6 +26,9 @@ const Navbar2 = () => {
                 <Link to=''>Cart</Link>
             </li>
             <li className='nav-item'>
+                <Link to='/Checkout'>Checkout</Link>
+            </li>
+            <li className='nav-item'>
                 {/* <img src={require('../Assets/Profile.png')}  alt="" className='img-fluid w-50 profile-picture' onClick={toggleDropdown}/> */}
                 <ImMenu3 onClick={toggleDropdown} className='drop-down-menu-icon' size={37} />
                 {isDropdownOpen && (
