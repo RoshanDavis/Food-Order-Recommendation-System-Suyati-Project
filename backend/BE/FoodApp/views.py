@@ -19,6 +19,10 @@ from django.contrib.auth.hashers import make_password
 
 from django.core.exceptions import ValidationError
 
+
+
+from .Recommendation.Order.collect_pkl_and_run_pkl import Get_Recommendations
+
 class SignupView(View):
     @csrf_exempt
     def post(self, request):
@@ -159,6 +163,10 @@ def food_list(request):
     user_id = request.session.get('user_id')
     print(user_id)
     food_data = list(FoodDataTest.objects.values())
+
+    food_id_list = [11, 29, 7]
+    recommended_food_ids = Get_Recommendations(food_id_list)
+    print(list(map(int, recommended_food_ids)))
 
     return JsonResponse(food_data, safe=False)
 
