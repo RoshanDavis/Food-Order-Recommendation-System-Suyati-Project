@@ -5,19 +5,21 @@ from django.views import View
 from django.http import JsonResponse,HttpResponse
 from django.core import serializers
 from django.urls import reverse
-from .models import User, FoodDataTest,Review,Restaurant,Complaint
+from .models import User, FoodDataTest,Review,Restaurant,Complaint,Order,Cart
 import json
 
-from django.contrib.auth import authenticate, login
 
-from django.views.decorators.csrf import ensure_csrf_cookie, get_token
+
+
 
 
 
 from django.views.decorators.csrf import csrf_exempt
-from django.contrib.auth.hashers import make_password
 
-from django.core.exceptions import ValidationError
+
+
+
+from .Recommendation.Order.collect_pkl_and_run_pkl import Get_Recommendations
 
 class SignupView(View):
     @csrf_exempt
@@ -64,6 +66,10 @@ class LoginView(View):
         if existing_user is not None:
            
             user_id= existing_user.user_id
+            
+           #storing user id for session 
+            request.session['user_id'] = user_id 
+            
             print(existing_user.user_id)
             return JsonResponse({'success':True, 'user_id': user_id})
             #return JsonResponse({'success':True})
@@ -152,7 +158,11 @@ class UserDetail(APIView):
 
 ### dash data
 def food_list(request):
+    user_id = request.session.get('user_id')
+    print(user_id)
     food_data = list(FoodDataTest.objects.values())
+    
+
     return JsonResponse(food_data, safe=False)
 
 class SaveReviewView(View):
@@ -171,62 +181,6 @@ class SaveReviewView(View):
         
         return JsonResponse({'success': True})
 
-@csrf_exempt
-def save_reviews(request):
-    # Get the JSON data from the request
-    data = json.loads(request.body)
-
-    # Loop through the reviews and save them to the database
-    for restaurant, reviews in data["Reviews"].items():
-        for review in reviews:
-            r = Review(id=review["Id"], restaurant=restaurant, name=review["Name"], rating=review["Rating"], review=review["Review"])
-            r.save()
-
-    return JsonResponse({"message": "Reviews saved successfully"})
-
-@csrf_exempt
-def save_restaurant_data(request):
-    if request.method == 'POST':
-        data = json.loads(request.body.decode('utf-8'))
-        for restaurant in data:
-            Restaurant.objects.create(
-                id = restaurant['id'],
-                authentication_id = restaurant['authentication_id'],
-                vendor_category_en = restaurant['vendor_category_en'],
-                vendor_category_id = restaurant['vendor_category_id'],
-                delivery_charge = restaurant['delivery_charge'],
-                serving_distance = restaurant['serving_distance'],
-                OpeningTime = restaurant['OpeningTime'],
-                prepration_time = restaurant['prepration_time'],
-                discount_percentage = restaurant['discount_percentage'],
-                vendor_rating = restaurant['vendor_rating'],
-                vendor_tag = restaurant['vendor_tag'],
-                vendor_tag_name = restaurant['vendor_tag_name'],
-                created_at = restaurant['created_at'],
-                vendor_name = restaurant['vendor_name']
-            )
-        return JsonResponse({'status': 'success'})
-    else:
-        return JsonResponse({'status': 'failure', 'message': 'Invalid request method'})
-
-
-
-
-
-'''
-from django.middleware import csrf
-from django.views.decorators.csrf import ensure_csrf_cookie, get_token
-
-from django.views.decorators.csrf import csrf_protect
-
-@csrf_protect
-@ensure_csrf_cookie
-def csrf(request):
-    token = csrf.get_token(request)
-    print(token)
-    return JsonResponse({'csrftoken': token})
-   # return JsonResponse({'csrftoken': 'success'})
-'''
 
 import mysql.connector
 import json
@@ -300,3 +254,344 @@ def complaint_status(request):
 
     # Return the status as a JSON response
     return JsonResponse({'status': status})
+
+
+
+
+# Storing after ordered
+
+class OrderCreateView(View):
+    def post(self, request):
+        orders = json.loads(request.body)
+      
+        #Obtaining order_id and user_id
+        us_id = request.session.get('user_id')
+        existing_orders = Order.objects.all().values('order_id', 'food_id')
+
+
+        max_order_id = existing_orders.aggregate(Max('order_id'))['order_id__max']
+        ord_id = max_order_id + 1 
+
+    
+        for order in orders:                
+            # Create a new Order object and save it to the database
+            order_obj = Order(
+                order_id=ord_id,
+                user_id=us_id,
+                restaurant_id=order['restaurant_id'],
+                food_id=order['food_id'],
+                price=order['price'],
+                name=order['name'],
+                quantity=order['quantity']
+                )
+            order_obj.save()
+            
+        return JsonResponse({'message': 'Orders created successfully'})
+    
+@csrf_exempt
+def get_rest_data(request):
+    foods = Restaurant.objects.all()
+    food_list = []
+    
+    for food in foods:
+        food_data = {
+            "food_id": food.food_id,
+            "food": food.food,
+            "type": food.type,
+            "veg_non": food.veg_non,
+            "describe": food.describe,
+            "price": food.price,
+            "res_id": food.restaurant_id,
+            "delivery_charge": food.delivery_charge,
+            "serving_distance": food.serving_distance,
+            #"OpeningTime": food.OpeningTime,
+            "prepration_time": food.prepration_time,
+            "discount_percentage": food.discount_percentage,
+            "rating": food.rating,
+            "restaurant": food.restaurant,
+            #"contact": food.contact,
+            "address": food.address,
+            "indicator": food.indicator
+        }
+        food_list.append(food_data)
+    
+    return JsonResponse(food_list, safe=False)
+
+@csrf_exempt
+def cart_api(request):
+    if request.method == 'GET':
+        # Retrieve the cart data
+        cart_items = Cart.objects.all()
+
+        # Create a list to store the JSON representation of each cart item
+        cart_list = []
+
+        # Iterate over the cart items and create a dictionary for each one
+        for cart_item in cart_items:
+            cart_data = {
+                'cart_id': cart_item.id,
+                'restaurant_id': cart_item.restaurant_id,
+                'food_id': cart_item.food_id,
+                'price': cart_item.price,
+                'name': cart_item.name,
+                'quantity': cart_item.quantity
+            }
+
+            # Append the cart item dictionary to the list
+            cart_list.append(cart_data)
+
+        # Create the JSON response
+       
+        # Return the JSON response
+        return JsonResponse(cart_list,safe=False)
+
+    elif request.method == 'PUT':
+        # Update the quantity of a cart item
+        json_data = json.loads(request.body)
+        food_id = json_data.get('food_id')
+        new_quantity = json_data.get('quantity')
+
+        # Find the cart item with the specified food_id
+        cart_item = Cart.objects.get(food_id=food_id)
+
+        # Update the quantity of the cart item
+        cart_item.quantity = new_quantity
+        cart_item.save()
+
+        # Create the JSON response
+        response = {
+            'message': 'Cart item quantity updated successfully.'
+        }
+
+        # Return the JSON response
+        return JsonResponse(response)
+
+    elif request.method == 'DELETE':
+        # Delete a row from the cart
+        json_data = json.loads(request.body)
+        food_id = json_data.get('food_id')
+
+        # Find the cart item with the specified food_id
+        cart_item = Cart.objects.get(food_id=food_id)
+
+        # Delete the cart item
+        cart_item.delete()
+
+        # Create the JSON response
+        response = {
+            'message': 'Cart item deleted successfully.'
+        }
+
+        # Return the JSON response
+        return JsonResponse(response)
+    
+    elif request.method == 'POST':
+        # Add a new item to the cart
+        json_data = json.loads(request.body)
+
+    # Extract the values from the JSON data
+        food_id = json_data.get('food_id')
+        quantity = json_data.get('quantity')
+        restaurant_id = json_data.get('restaurant_id')
+        price = json_data.get('price')
+        name = json_data.get('name')
+
+
+        # Create a new cart item
+        cart_item = Cart(
+            restaurant_id=restaurant_id,
+            food_id=food_id,
+            price=price,
+            name=name,
+            quantity=quantity
+        )
+        cart_item.save()
+
+        response = {
+            'message': 'Cart item added successfully.'
+        }
+
+        # Return the JSON response
+        return JsonResponse(response)
+
+    else:
+        # Handle unsupported HTTP methods
+        # Create the JSON response
+        response = {
+            'message': 'Method not allowed.'
+        }
+
+        # Return the JSON response with a status code of 405 (Method Not Allowed)
+        return JsonResponse(response, status=405)
+
+
+@csrf_exempt
+def truncate_cart(request):
+    if request.method == 'POST':
+        # Truncate the Cart table
+        Cart.objects.all().delete()
+
+        # Create the JSON response
+        response = {
+            'message': 'Cart table truncated successfully.'
+        }
+
+        # Return the JSON response
+        return JsonResponse(response)
+
+###################REcommendation ##############
+
+class OrderRecommendation(View):
+    def get(self, request):
+        food_id_list = [11, 29, 7]
+        food_ids = Get_Recommendations(food_id_list)
+        data = []
+        #food_ids = [111, 97, 220, 77, 272, 62, 46, 302, 122, 185]
+        print(food_ids)
+
+        for id in food_ids:
+            print(type(id))
+
+        for id in food_ids:
+            try:
+                restaurants = Restaurant.objects.filter(food_id=id)
+                print(restaurants)
+                
+                for restaurant in restaurants:
+                    data_dict = {
+                        'restaurant_id': restaurant.restaurant_id,
+                        'food_id': restaurant.food_id,
+                        'food': restaurant.food,
+                        'type': restaurant.type,
+                        'veg_non': restaurant.veg_non,
+                        'describe': restaurant.describe,
+                        'price': restaurant.price,
+                        'delivery_charge': restaurant.delivery_charge,
+                        'serving_distance': restaurant.serving_distance,
+                        'prepration_time': restaurant.prepration_time,
+                        'discount_percentage': restaurant.discount_percentage,
+                        'rating': restaurant.rating,
+                        'restaurant': restaurant.restaurant,
+                        'address': restaurant.address,
+                        'indicator': restaurant.indicator
+                    }
+                    data.append(data_dict)
+            except Restaurant.DoesNotExist:
+                continue
+
+        return JsonResponse(data, safe=False)
+
+    ######################################Saving data #############
+
+
+@csrf_exempt
+def save_reviews(request):
+    # Get the JSON data from the request
+    data = json.loads(request.body)
+
+    # Loop through the reviews and save them to the database
+    for restaurant, reviews in data["Reviews"].items():
+        for review in reviews:
+            r = Review(id=review["Id"], restaurant=restaurant, name=review["Name"], rating=review["Rating"], review=review["Review"])
+            r.save()
+
+    return JsonResponse({"message": "Reviews saved successfully"})
+
+@csrf_exempt
+def save_restaurants(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        for restaurant_data in data:
+            restaurant = Restaurant(
+                food_id=restaurant_data['food_id'],
+                food=restaurant_data['food'],
+                type=restaurant_data['type'],
+                veg_non=restaurant_data['veg_non'],
+                describe=restaurant_data['describe'],
+                price=restaurant_data['price'],
+                restaurant_id=restaurant_data['res_id'],
+                delivery_charge=restaurant_data['delivery_charge'],
+                serving_distance=restaurant_data['serving_distance'],
+                #OpeningTime=restaurant_data['OpeningTime'],   # Null issue
+                prepration_time=restaurant_data['prepration_time'],
+                discount_percentage=restaurant_data['discount_percentage'],
+                rating=restaurant_data['rating'],
+                restaurant=restaurant_data['restaurant'],
+                #contact=restaurant_data['contact'],          ####error , change to string
+                address=restaurant_data['address'],
+                indicator=restaurant_data['indicator']
+            )
+            restaurant.save()
+        
+        return JsonResponse({'message': 'Restaurant data saved successfully.'}, status=200)
+    else:
+        return JsonResponse({'error': 'Invalid request method.'}, status=400)
+
+class OrderCreateAPIView(APIView):
+    @csrf_exempt
+    def post(self, request, format=None):
+        orders =json.loads(request.body)
+
+        for order_data in orders:
+            order = Order(
+                order_id=order_data.get('order_id'),
+                user_id=order_data.get('user_id'),
+                restaurant_id=order_data.get('restaurant_id'),
+                food_id=order_data.get('food_id'),
+                price=order_data.get('price'),
+                name=order_data.get('name'),
+                quantity=order_data.get('quantity'),
+            )
+            order.save()
+
+        return Response({'message': 'Orders created successfully'}, status=201)
+    
+@csrf_exempt
+def save_users(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        
+        for user_data in data:
+            user_id = user_data.get('user_id')
+            email = user_data.get('email')
+            password = user_data.get('password')
+            first_name = user_data.get('first_name')
+            last_name = user_data.get('last_name')
+            
+            user = User(user_id=user_id, email=email, password=password, first_name=first_name, last_name=last_name)
+            user.save()
+        
+        return JsonResponse({'message': 'Users saved successfully'}, status=201)
+    
+    return JsonResponse({'message': 'Invalid request'}, status=400)
+
+
+#Save test data 
+
+class SaveFoodDataView(View):
+    @csrf_exempt
+    def post(self, request):
+        data = json.loads(request.body)
+        
+        for item in data:
+            food_id = item.get('id')
+            restaurant = item.get('restaurant')
+            price = item.get('price')
+            food = item.get('food')
+            rating = item.get('rating')
+            link_img = item.get('linkImg')
+            restaurant_img = item.get('restaurantImg')
+            
+            # Create a new FoodDataTest object and save it to the database
+            food_data = FoodDataTest(
+                id=food_id,
+                restaurant=restaurant,
+                price=price,
+                food=food,
+                rating=rating,
+                linkImg=link_img,
+                restaurantImg=restaurant_img
+            )
+            food_data.save()
+        
+        return JsonResponse({'success': True})
