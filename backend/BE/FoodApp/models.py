@@ -102,3 +102,13 @@ class Order(models.Model):
         db_table='Orders'
 
 
+class Cart(models.Model):
+    restaurant_id = models.IntegerField()
+    food_id = models.IntegerField()
+    price = models.IntegerField()
+    name = models.CharField(max_length=255)
+    quantity = models.IntegerField()
+   
+
+    class Meta:
+        db_table='Cart'

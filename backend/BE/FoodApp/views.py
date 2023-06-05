@@ -5,7 +5,7 @@ from django.views import View
 from django.http import JsonResponse,HttpResponse
 from django.core import serializers
 from django.urls import reverse
-from .models import User, FoodDataTest,Review,Restaurant,Complaint,Order
+from .models import User, FoodDataTest,Review,Restaurant,Complaint,Order,Cart
 import json
 
 
@@ -317,18 +317,136 @@ def get_rest_data(request):
     
     return JsonResponse(food_list, safe=False)
 
+@csrf_exempt
+def cart_api(request):
+    if request.method == 'GET':
+        # Retrieve the cart data
+        cart_items = Cart.objects.all()
+
+        # Create a list to store the JSON representation of each cart item
+        cart_list = []
+
+        # Iterate over the cart items and create a dictionary for each one
+        for cart_item in cart_items:
+            cart_data = {
+                'cart_id': cart_item.id,
+                'restaurant_id': cart_item.restaurant_id,
+                'food_id': cart_item.food_id,
+                'price': cart_item.price,
+                'name': cart_item.name,
+                'quantity': cart_item.quantity
+            }
+
+            # Append the cart item dictionary to the list
+            cart_list.append(cart_data)
+
+        # Create the JSON response
+       
+        # Return the JSON response
+        return JsonResponse(cart_list,safe=False)
+
+    elif request.method == 'PUT':
+        # Update the quantity of a cart item
+        json_data = json.loads(request.body)
+        food_id = json_data.get('food_id')
+        new_quantity = json_data.get('quantity')
+
+        # Find the cart item with the specified food_id
+        cart_item = Cart.objects.get(food_id=food_id)
+
+        # Update the quantity of the cart item
+        cart_item.quantity = new_quantity
+        cart_item.save()
+
+        # Create the JSON response
+        response = {
+            'message': 'Cart item quantity updated successfully.'
+        }
+
+        # Return the JSON response
+        return JsonResponse(response)
+
+    elif request.method == 'DELETE':
+        # Delete a row from the cart
+        json_data = json.loads(request.body)
+        food_id = json_data.get('food_id')
+
+        # Find the cart item with the specified food_id
+        cart_item = Cart.objects.get(food_id=food_id)
+
+        # Delete the cart item
+        cart_item.delete()
+
+        # Create the JSON response
+        response = {
+            'message': 'Cart item deleted successfully.'
+        }
+
+        # Return the JSON response
+        return JsonResponse(response)
+    
+    elif request.method == 'POST':
+        # Add a new item to the cart
+        json_data = json.loads(request.body)
+
+    # Extract the values from the JSON data
+        food_id = json_data.get('food_id')
+        quantity = json_data.get('quantity')
+        restaurant_id = json_data.get('restaurant_id')
+        price = json_data.get('price')
+        name = json_data.get('name')
 
 
+        # Create a new cart item
+        cart_item = Cart(
+            restaurant_id=restaurant_id,
+            food_id=food_id,
+            price=price,
+            name=name,
+            quantity=quantity
+        )
+        cart_item.save()
 
+        response = {
+            'message': 'Cart item added successfully.'
+        }
+
+        # Return the JSON response
+        return JsonResponse(response)
+
+    else:
+        # Handle unsupported HTTP methods
+        # Create the JSON response
+        response = {
+            'message': 'Method not allowed.'
+        }
+
+        # Return the JSON response with a status code of 405 (Method Not Allowed)
+        return JsonResponse(response, status=405)
+
+
+@csrf_exempt
+def truncate_cart(request):
+    if request.method == 'POST':
+        # Truncate the Cart table
+        Cart.objects.all().delete()
+
+        # Create the JSON response
+        response = {
+            'message': 'Cart table truncated successfully.'
+        }
+
+        # Return the JSON response
+        return JsonResponse(response)
 
 ###################REcommendation ##############
 
 class OrderRecommendation(View):
     def get(self, request):
         food_id_list = [11, 29, 7]
-        recommended_food_ids = Get_Recommendations(food_id_list)
+        food_ids = Get_Recommendations(food_id_list)
         data = []
-        food_ids = [111, 97, 220, 77, 272, 62, 46, 302, 122, 185]
+        #food_ids = [111, 97, 220, 77, 272, 62, 46, 302, 122, 185]
         print(food_ids)
 
         for id in food_ids:
