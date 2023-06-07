@@ -28,7 +28,7 @@ const Footer = () => {
                         <h4>Legal</h4>
                         <ul class="list-unstyled">
                             <li><Link to='/Terms'>Terms and Conditons</Link></li>
-                            <li><Link to='/'>Privacy</Link></li>
+                            <li><Link to='/Privacy'>Privacy</Link></li>
                             <li><Link to='/'>Security</Link></li>
                         </ul>     
                     </div>
