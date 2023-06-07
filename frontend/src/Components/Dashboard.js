@@ -19,7 +19,7 @@ const Dashboard = () => {
   const [recommendedRestaurants, setrecommendedRestaurants] = useState([]);
   const fetchItems=async()=>{
     try{
-        const response=await axios.get("http://127.0.0.1:8000/api/food/");//api for food recommedation
+        const response=await axios.get("http://localhost:3030/food");//api for food recommedation
         if (response && response.data) { // Check if response and response.data exist
           setrecommended(response.data);
         }
@@ -27,20 +27,21 @@ const Dashboard = () => {
     }
     catch (error) {
         console.log(error);
-    try{
-      const response=await axios.get("http://127.0.0.1:8000/api/food/");//api for restaurant recommedation
-      if (response && response.data) { // Check if response and response.data exist
-        setrecommendedRestaurants(response.data);
-          
-      }
-        
-    }
-    catch (error) {
-        console.log(error);
-      }
+    
   }
+  try{
+    const response=await axios.get("http://localhost:3030/food");//api for restaurant recommedation
+    if (response && response.data) { // Check if response and response.data exist
+      setrecommendedRestaurants(response.data);
+      console.log(response.data)
+    }
+      
+  }
+  catch (error) {
+      console.log(error);
+    }
     try{
-      const response=await axios.get("http://127.0.0.1:8000/api/food/");//api for popular foods
+      const response=await axios.get("http://localhost:3030/food");//api for popular foods
       if (response && response.data) { // Check if response and response.data exist
         setpopular(response.data);
           
@@ -98,6 +99,7 @@ const Dashboard = () => {
             <div className="container pb-5">
               <h2 className='pt-5'>Restaurants for you</h2>
               <div className="container p-0 m-0">
+                {console.log(recommendedRestaurants)}
                 <ProductSlider data={recommendedRestaurants}/>
               </div>
             </div>
