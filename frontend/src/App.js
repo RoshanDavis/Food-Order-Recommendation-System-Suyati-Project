@@ -15,6 +15,7 @@ import Order from './Components/Order';
 import Complaint from './Components/Complaint';
 import Terms from './Components/FooterPages/Terms';
 import Privacy from './Components/FooterPages/Privacy';
+import Security from './Components/FooterPages/Security';
 
 
 function App() {
@@ -38,6 +39,7 @@ function App() {
               <Route path='/Complaint' element={<Complaint/>}/>
               <Route path='/Terms' element={<Terms/>}/>
               <Route path='/Privacy' element={<Privacy/>}/>
+              <Route path='/Security' element={<Security/>}/>
             </Routes>
    
           

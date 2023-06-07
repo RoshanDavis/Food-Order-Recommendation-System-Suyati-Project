@@ -29,7 +29,7 @@ const Footer = () => {
                         <ul class="list-unstyled">
                             <li><Link to='/Terms'>Terms and Conditons</Link></li>
                             <li><Link to='/Privacy'>Privacy</Link></li>
-                            <li><Link to='/'>Security</Link></li>
+                            <li><Link to='/Security'>Security</Link></li>
                         </ul>     
                     </div>
                     {/* Column 3 */}
