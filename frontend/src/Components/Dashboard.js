@@ -16,22 +16,34 @@ const Dashboard = () => {
 
   const [recommended, setrecommended] = useState([]);
   const [popular, setpopular] = useState([]);
-  const [offers, setoffers] = useState([]);
+  const [recommendedRestaurants, setrecommendedRestaurants] = useState([]);
   const fetchItems=async()=>{
     try{
-        const response=await axios.get("http://127.0.0.1:8000/api/food/");
-        if (response && response.data.ProductSlider) { // Check if response and response.data exist
-          setrecommended(response.data.ProductSlider);
+        const response=await axios.get("http://localhost:3030/food");//api for food recommedation
+        if (response && response.data) { // Check if response and response.data exist
+          setrecommended(response.data);
         }
         
     }
     catch (error) {
         console.log(error);
-      }
+    
+  }
+  try{
+    const response=await axios.get("http://localhost:3030/food");//api for restaurant recommedation
+    if (response && response.data) { // Check if response and response.data exist
+      setrecommendedRestaurants(response.data);
+      console.log(response.data)
+    }
+      
+  }
+  catch (error) {
+      console.log(error);
+    }
     try{
-      const response=await axios.get("http://127.0.0.1:8000/api/food/");
-      if (response && response.data.ProductSlider) { // Check if response and response.data exist
-        setpopular(response.data.ProductSlider);
+      const response=await axios.get("http://localhost:3030/food");//api for popular foods
+      if (response && response.data) { // Check if response and response.data exist
+        setpopular(response.data);
           
       }
         
@@ -40,17 +52,7 @@ const Dashboard = () => {
         console.log(error);
       }
 
-    try{
-      const response=await axios.get("http://127.0.0.1:8000/api/food/");
-      if (response && response.data.ProductSlider) { // Check if response and response.data exist
-        setoffers(response.data.ProductSlider);
-          
-      }
-        
-    }
-    catch (error) {
-        console.log(error);
-      }
+    
   }
 
   useEffect(()=>{
@@ -92,17 +94,20 @@ const Dashboard = () => {
               </div>
             </div>
 
+            
+
             <div className="container pb-5">
-              <h2 className='pt-5'>Popular</h2>
+              <h2 className='pt-5'>Restaurants for you</h2>
               <div className="container p-0 m-0">
-                <ProductSlider data={popular}/>
+                {console.log(recommendedRestaurants)}
+                <ProductSlider data={recommendedRestaurants}/>
               </div>
             </div>
 
             <div className="container pb-5">
-              <h2 className='pt-5'>Special Offers</h2>
+              <h2 className='pt-5'>Popular</h2>
               <div className="container p-0 m-0">
-                <ProductSlider data={offers}/>
+                <ProductSlider data={popular}/>
               </div>
             </div>
 
