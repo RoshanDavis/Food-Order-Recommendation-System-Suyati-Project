@@ -13,6 +13,7 @@ import {BrowserRouter , Route, Routes } from 'react-router-dom';
 import Review from './Components/Review';
 import Order from './Components/Order';
 import Complaint from './Components/Complaint';
+import Terms from './Components/FooterPages/Terms';
 
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
               <Route path='/Review' element={<Review/>}/>
               <Route path='/Order' element={<Order/>}/>
               <Route path='/Complaint' element={<Complaint/>}/>
+              <Route path='/Terms' element={<Terms/>}/>
             </Routes>
    
           

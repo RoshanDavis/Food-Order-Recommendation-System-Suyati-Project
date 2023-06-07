@@ -27,7 +27,7 @@ const Footer = () => {
                     <div className="col-md-3 col-sm-6">
                         <h4>Legal</h4>
                         <ul class="list-unstyled">
-                            <li><Link to='/'>Terms and Conditons</Link></li>
+                            <li><Link to='/Terms'>Terms and Conditons</Link></li>
                             <li><Link to='/'>Privacy</Link></li>
                             <li><Link to='/'>Security</Link></li>
                         </ul>     
