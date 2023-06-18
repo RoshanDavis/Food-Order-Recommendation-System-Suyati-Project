@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from FoodApp.views import SignupView, LoginView, ResetPasswordView, UserList,SaveFoodDataView, UserDetail,OrderRecommendation,cart_api,truncate_cart,get_rest_data,save_users,food_list,save_reviews,save_restaurants,get_reviews,SaveReviewView,complaint_status,OrderCreateAPIView
+from FoodApp.views import SignupView, LoginView, ResetPasswordView, UserList,SaveFoodDataView, UserDetail,OrderRecommendation,RestRecommendation,cart_api,truncate_cart,get_rest_data,save_users,food_list,save_reviews,save_restaurants,get_reviews,SaveReviewView,complaint_status,OrderCreateAPIView
 
 from django.views.decorators.csrf import csrf_exempt
 
@@ -49,7 +49,7 @@ urlpatterns = [
       path('cart/truncate/', truncate_cart, name='truncate_cart'),
 
     path('order-recommendation/', OrderRecommendation.as_view(), name='order_recommendation'),
-
+    path('rest-recommendation/', RestRecommendation.as_view(), name='rest_recommendation'),
     
 
 

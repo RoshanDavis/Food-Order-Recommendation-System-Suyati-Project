@@ -12,7 +12,7 @@ class User(models.Model):
     
     class Meta:
         db_table= 'users'
-''' 
+
     def save(self, *args, **kwargs):
         if not self.user_id:
             self.user_id = self.generate_user_id()
@@ -25,7 +25,7 @@ class User(models.Model):
             user_id = ''.join(random.choice(alphabet) for i in range(7))
             if not User.objects.filter(user_id=user_id).exists():
                 return user_id
-'''
+
 class FoodDataTest(models.Model):
     id = models.IntegerField(primary_key=True)
     restaurant = models.CharField(max_length=200)

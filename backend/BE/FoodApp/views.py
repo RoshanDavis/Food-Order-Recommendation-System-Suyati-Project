@@ -7,19 +7,13 @@ from django.core import serializers
 from django.urls import reverse
 from .models import User, FoodDataTest,Review,Restaurant,Complaint,Order,Cart
 import json
-
-
-
-
-
-
-
 from django.views.decorators.csrf import csrf_exempt
 
 
 
 
 from .Recommendation.Order.collect_pkl_and_run_pkl import Get_Recommendations
+from .Recommendation.Restaurant.res_recommendation import Get_Recommendation
 
 class SignupView(View):
     @csrf_exempt
@@ -38,7 +32,7 @@ class SignupView(View):
         else:
             
             user = User(
-            user_id=data['user_id'],
+            #user_id=data['user_id']
             email=data['email'], 
             password=data['password'], 
             first_name=data['first_name'],
@@ -455,6 +449,47 @@ class OrderRecommendation(View):
         for id in food_ids:
             try:
                 restaurants = Restaurant.objects.filter(food_id=id)
+                print(restaurants)
+                
+                for restaurant in restaurants:
+                    data_dict = {
+                        'restaurant_id': restaurant.restaurant_id,
+                        'food_id': restaurant.food_id,
+                        'food': restaurant.food,
+                        'type': restaurant.type,
+                        'veg_non': restaurant.veg_non,
+                        'describe': restaurant.describe,
+                        'price': restaurant.price,
+                        'delivery_charge': restaurant.delivery_charge,
+                        'serving_distance': restaurant.serving_distance,
+                        'prepration_time': restaurant.prepration_time,
+                        'discount_percentage': restaurant.discount_percentage,
+                        'rating': restaurant.rating,
+                        'restaurant': restaurant.restaurant,
+                        'address': restaurant.address,
+                        'indicator': restaurant.indicator
+                    }
+                    data.append(data_dict)
+            except Restaurant.DoesNotExist:
+                continue
+
+        return JsonResponse(data, safe=False)
+    
+
+
+class RestRecommendation(View):
+    def get(self, request):
+        customer_id = 'ZGFSYCZ'
+        customer_ratings = {}
+
+        recommended_res = Get_Recommendation(customer_id, customer_ratings)
+        data=[]
+        print(recommended_res)
+        
+
+        for id in recommended_res:
+            try:
+                restaurants = Restaurant.objects.filter(restaurant_id=id)
                 print(restaurants)
                 
                 for restaurant in restaurants:
