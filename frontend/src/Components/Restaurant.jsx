@@ -16,17 +16,17 @@ const Restaurant = () => {
   const location = useLocation();
 
   const [selected, setSelected] = useState(location.state?.data || null);
-  const handleAddProduct = (product)=>{
-    const ProductExist= cartItems.find((item)=>item.id===product.id);
-    if(ProductExist){
-      setCartItems(cartItems.map((item)=> item.id=== product.id?
-      {...ProductExist, quantity:ProductExist.quantity + 1}: item));
-    }
-    else{
-      setCartItems([...cartItems,{...product, quantity:1}]);
-    }
+  // const handleAddProduct = (product)=>{
+  //   const ProductExist= cartItems.find((item)=>item.id===product.id);
+  //   if(ProductExist){
+  //     setCartItems(cartItems.map((item)=> item.id=== product.id?
+  //     {...ProductExist, quantity:ProductExist.quantity + 1}: item));
+  //   }
+  //   else{
+  //     setCartItems([...cartItems,{...product, quantity:1}]);
+  //   }
   
-  };
+  // };
   
   useEffect(() => {
     if(location.state.data)
@@ -133,8 +133,8 @@ const Restaurant = () => {
                     <div className='selected-item d-flex flex-column gap-5 pt-3  align-items-center col'>
                         <FoodItem data={[selected]} showItemCountProp={true}/>
                         <div className='d-flex flex-column gap-3'>
-
-                            <Link to='/Cart' class="btn custom-button btn-lg " onClick={handleAddProduct(productItem)}>Add to Cart</Link>
+                            <Link to='/Cart' class="btn custom-button btn-lg " >Add to Cart</Link>
+                            {/* <Link to='/Cart' class="btn custom-button btn-lg " onClick={handleAddProduct(productItem)}>Add to Cart</Link> */}
                             <div className='d-flex flex-row justify-content-around gap-5'>
                                 <div to='' class="btn  restaurant-btn" onClick={() => handleMenuClick(menuRef)}>Menu</div>
                                 
