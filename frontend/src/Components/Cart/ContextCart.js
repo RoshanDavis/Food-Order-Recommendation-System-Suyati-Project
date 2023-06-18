@@ -2,7 +2,7 @@ import React, {useContext} from 'react';
 import {Scrollbars} from 'react-custom-scrollbars-2';
 import Items from './Items';
 import { CartContext } from './Cart';
-
+import { Link } from 'react-router-dom'
 const ContextCart = () => {
 
     const {item , clearCart,totalAmount , totalItem}= useContext(CartContext);
@@ -74,7 +74,8 @@ const ContextCart = () => {
         </div>
         <div className='card-total pb-5'>
             <h3>cart Total: <span>Rs {totalAmount}</span></h3>
-            <button>Checkout</button>
+            
+            <Link to='/Checkout'><button>Checkout</button></Link>
             <button className='clear-cart' onClick={clearCart}>Clear Cart</button>
         </div>
     </section>
