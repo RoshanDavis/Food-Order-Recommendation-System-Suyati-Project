@@ -11,7 +11,7 @@ const SearchBar = ({ onSearchResults }) => {
     
     const fetchItems=async()=>{
         try{
-            const response=await axios.get("http://127.0.0.1:8000/api/food/");
+            const response=await axios.get("http://localhost:3030/food");
             if (response && response.data) { // Check if response and response.data exist
                 setitems(response.data);
                 
@@ -64,7 +64,7 @@ const SearchBar = ({ onSearchResults }) => {
             {search.length>0 && 
                 <div className="search-dropdown d-flex flex-column">
                     {filtered.length>0?
-                        filtered.map((result,index)=>{
+                        filtered.slice(0, 9).map((result,index)=>{
                         return(
                             <div className="search-result-card ps-3" key={index} 
                             onClick={(e)=>{

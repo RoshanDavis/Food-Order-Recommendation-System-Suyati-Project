@@ -7,14 +7,15 @@ import FoodItem from './FoodItem'
 import ProductSlider from './ProductSlider'
 import axios from 'axios'
 import { Link,useLocation} from 'react-router-dom'
-import imgGirl from '../Assets/Icon.png';
+// import imgGirl from '../Assets/Icon.png';
 
 const Restaurant = () => {
 
   
 
   const location = useLocation();
-  const [selected, setSelected] = useState(location.state.data);
+
+  const [selected, setSelected] = useState(location.state?.data || null);
   const handleAddProduct = (product)=>{
     const ProductExist= cartItems.find((item)=>item.id===product.id);
     if(ProductExist){
@@ -27,11 +28,13 @@ const Restaurant = () => {
   
   };
   
-
   useEffect(() => {
+    if(location.state.data)
     setSelected(location.state.data);
-    console.log(selected);
   }, [location.state, selected]);
+
+
+
 
   const [scrollPosition, setScrollPosition] = useState(0);
   const [showButton, setShowButton] = useState(false);
@@ -60,13 +63,13 @@ const Restaurant = () => {
   };
 
     const menuRef = useRef(null);
-    const handleScroll = (ref) => {
-        window.scrollTo({
-          top: ref.current.offsetTop,
-          behavior: "smooth"
-        });
-      }
-
+    const handleMenuClick = (ref) => {
+      window.scrollTo({
+        top: ref.current.offsetTop,
+        behavior: "smooth"
+      });
+    }
+      
       
     const [menu, setmenu] = useState([]);
 
@@ -74,8 +77,8 @@ const Restaurant = () => {
     const fetchItems=async()=>{
         try{
             const response=await axios.get("http://127.0.0.1:8000/api/food/");
-            if (response && response.data) { // Check if response and response.data exist
-              setmenu(response.data);
+            if (response && response.data.ProductSlider) { // Check if response and response.data exist
+              setmenu(response.data.ProductSlider);
                 
             }
             
@@ -89,15 +92,15 @@ const Restaurant = () => {
         fetchItems()
         },[]);
         
-        const [defaultImage, setDefaultImage] = useState({});
-        const handleErrorImage = (data) => {
-          setDefaultImage((prev) => ({
-              ...prev,
-              [data.target.alt]: data.target.alt,
-              linkDefault: imgGirl,
-          }));
-          };
-
+        // const [defaultImage, setDefaultImage] = useState({});
+        // const handleErrorImage = (data) => {
+        //   setDefaultImage((prev) => ({
+        //       ...prev,
+        //       [data.target.alt]: data.target.alt,
+        //       linkDefault: imgGirl,
+        //   }));
+        //   };
+          
   return (
     <div>
         <nav>
@@ -111,17 +114,18 @@ const Restaurant = () => {
                     <div className='col ps-4'>
                         <img className='restaurant-img'
                         src={
-                        defaultImage[selected.restaurant] === selected.restaurant
-                            ? defaultImage[selected.restaurant] === defaultImage["'" + selected.restaurant + "'"]? defaultImage.linkDefault: selected.restaurantImg
-                            : selected.restaurantImg
+                        // defaultImage[selected.restaurant] === selected.restaurant
+                        //     ? defaultImage[selected.restaurant] === defaultImage["'" + selected.restaurant + "'"]? defaultImage.linkDefault: selected.restaurantImg
+                        //     : selected.restaurantImg
+                        selected.restaurantImg
                         }
                         alt={selected.restaurantImg}
-                        onError={handleErrorImage}
+                        // onError={handleErrorImage}
                         />
-                        <div className="restaurant-details d-flex flex-column justify-content-center ps-2 pt-3">
+                        <div className=" d-flex flex-column justify-content-center ps-2 pt-3">
                             
-                            <h2 className='restaurant-details'>Louis Lane, Pandit Karuppan Road, Perumanoor Thevera, Kochi</h2>
-                            <h3 className='restaurant-contact'>Call : +919633276393</h3>
+                            <h2 className='restaurant-details'>{selected.address}</h2>
+                            <h2 className='restaurant-details'>Call : {selected.contact}</h2>
                         </div>
                     </div>
                     
@@ -132,15 +136,16 @@ const Restaurant = () => {
 
                             <Link to='/Cart' class="btn custom-button btn-lg " onClick={handleAddProduct(productItem)}>Add to Cart</Link>
                             <div className='d-flex flex-row justify-content-around gap-5'>
-                                <div to='' class="btn  restaurant-btn" onClick={() => handleScroll(menuRef)}>Menu</div>
-                                <Link to='' class="btn  restaurant-btn">Review</Link>
+                                <div to='' class="btn  restaurant-btn" onClick={() => handleMenuClick(menuRef)}>Menu</div>
+                                
+                                <Link to={{pathname: "/Review"}} state={{data:selected}} class="btn  restaurant-btn" >Review</Link>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div className="menu" ref={menuRef}>
+            <div className="menu" ref={menuRef} >
                 <div className="container pb-5">
                 <h2 className='pt-5'>Menu</h2>
                 <div className="container p-0 m-0">

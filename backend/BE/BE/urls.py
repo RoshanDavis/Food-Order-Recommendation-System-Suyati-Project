@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from FoodApp.views import SignupView, LoginView, ResetPasswordView,user_list , UserList, UserDetail,food_list
+from FoodApp.views import SignupView, LoginView, ResetPasswordView, UserList,SaveFoodDataView, UserDetail,OrderRecommendation,cart_api,truncate_cart,get_rest_data,save_users,food_list,save_reviews,save_restaurants,get_reviews,SaveReviewView,complaint_status,OrderCreateAPIView
 
 from django.views.decorators.csrf import csrf_exempt
 
@@ -26,19 +26,45 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     path('signup/',csrf_exempt( SignupView.as_view()), name='signup'),
-    path('login/', LoginView.as_view(), name='login'),
+    path('login/', csrf_exempt( LoginView.as_view()), name='login'),
     path('reset_password/', ResetPasswordView.as_view(), name='reset_password'),
-    #path('api/users/', user_list, name='user_list'),
+   
 
     path('api/users/', UserList.as_view(), name='user-list'),
     path('api/users/<int:pk>/', UserDetail.as_view(), name='user-detail'),
 
-    #dash data
-
+    #dash Test Data
      path('api/food/', food_list, name='food_list'),
+ 
+     #posting a single review from user
+     path('save-review/', csrf_exempt( SaveReviewView.as_view()), name='save_review'),
+     path('get_reviews', csrf_exempt(get_reviews), name='get_reviews'),
+    
 
-    #csrf token
-    # path('csrf/', csrf, name='csrf'),
+    path('status/', csrf_exempt(complaint_status), name='complaint_status'),
+    #Actual restdata
+    path('api/restdata/', get_rest_data, name='get_rest_data'),
+
+    path('cart/', csrf_exempt(cart_api), name='cart_api'),
+      path('cart/truncate/', truncate_cart, name='truncate_cart'),
+
+    path('order-recommendation/', OrderRecommendation.as_view(), name='order_recommendation'),
+
+    
+
+
+
+
+    ######Saving Data############
+    #saving the reviews
+    path('api/save_restaurants/', csrf_exempt(save_restaurants), name='save_restaurants'),
+     path('save_reviews', csrf_exempt(save_reviews), name='save_reviews'),
+    path('save_orders', csrf_exempt(OrderCreateAPIView.as_view()), name='order-create'),
+    path('api/save_users/', csrf_exempt(save_users), name='save_users'),
+
+    #test data
+
+    path('api/save_food_data/', csrf_exempt(SaveFoodDataView.as_view()), name='save_food_data'),
+
 
 ]
-
