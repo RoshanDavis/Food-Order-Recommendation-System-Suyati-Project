@@ -1,4 +1,4 @@
-.container {
+.checkout-container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -7,7 +7,7 @@
 
 .form-section1 {
   margin-bottom: auto;
-  min-width: 60%;
+  min-width: 70%;
 
 }
 
@@ -56,5 +56,6 @@
   font-size: 16px;
   text-align: center;
   width: 200px;
-  margin-top: 20px;
+  /* margin-top: 20px; */
+  margin-bottom: 100px;
 }

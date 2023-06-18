@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './Checkout.css';
+import { Link } from 'react-router-dom'
 
 const CustomerForm = () => {
   const [firstName, setFirstName] = useState('');
@@ -255,13 +256,16 @@ const Page = () => {
     };
   
     return (
-      <div className="container">
+      <div className="checkout-container">
         <CustomerForm />
         <PaymentForm />
         <BillingForm />
-        <button className="checkout-button" onClick={handleCheckout}>
-          Checkout and Pay
-        </button>
+        
+        <Link to='/Dashboard'>
+          <button className="checkout-button" onClick={handleCheckout}>
+            Checkout and Pay
+          </button>
+        </Link>
       </div>
     );
   };
