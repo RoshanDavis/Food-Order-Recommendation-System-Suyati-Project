@@ -12,7 +12,7 @@ class User(models.Model):
     
     class Meta:
         db_table= 'users'
-    
+''' 
     def save(self, *args, **kwargs):
         if not self.user_id:
             self.user_id = self.generate_user_id()
@@ -25,7 +25,7 @@ class User(models.Model):
             user_id = ''.join(random.choice(alphabet) for i in range(7))
             if not User.objects.filter(user_id=user_id).exists():
                 return user_id
-
+'''
 class FoodDataTest(models.Model):
     id = models.IntegerField(primary_key=True)
     restaurant = models.CharField(max_length=200)
@@ -40,23 +40,29 @@ class FoodDataTest(models.Model):
 
 
 class Restaurant(models.Model):
-    vendor_id = models.IntegerField(primary_key=True)
-    authentication_id = models.IntegerField()
-    vendor_category_en = models.CharField(max_length=255)
-    vendor_category_id = models.IntegerField()
-    delivery_charge = models.FloatField()
+
+    restaurant_id = models.IntegerField(primary_key=True)
+    food_id = models.IntegerField()
+    food = models.CharField(max_length=255)
+    type = models.CharField(max_length=255)
+    veg_non = models.CharField(max_length=255)
+    describe = models.TextField()
+    price = models.IntegerField()
+    delivery_charge = models.IntegerField()
     serving_distance = models.IntegerField()
-    OpeningTime = models.CharField(max_length=255)
+    #OpeningTime = models.CharField(max_length=255)
     prepration_time = models.IntegerField()
-    discount_percentage = models.FloatField()
-    vendor_rating = models.FloatField()
-    vendor_tag = models.CharField(max_length=255)
-    vendor_tag_name = models.CharField(max_length=255)
-    created_at = models.DateTimeField()
-    vendor_name = models.CharField(max_length=255)
+    discount_percentage = models.IntegerField()
+    rating = models.FloatField()
+    restaurant = models.CharField(max_length=255)
+    #contact = models.BigIntegerField()
+    address = models.CharField(max_length=255)
+    indicator = models.IntegerField()
+    #DishImg = models.URLField(max_length=500)
+    #restaurantImg = models.URLField(max_length=500)
 
     class Meta:
-        db_table='data'
+        db_table='RestDetails'
 
 class Review(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE,default='')
@@ -66,9 +72,7 @@ class Review(models.Model):
     rating = models.IntegerField()
     review = models.TextField()
     class Meta:
-        db_table='ReviewTest'
-
-
+        db_table='Review'
 
 
 
@@ -80,4 +84,31 @@ class Complaint(models.Model):
     complaint = models.BooleanField(default=True)
     review = models.TextField()
     class Meta:
-        db_table='ComplaintTest'
+        db_table='Complaint'
+
+
+
+class Order(models.Model):
+    order_id = models.IntegerField()
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE,default='')
+    restaurant_id = models.IntegerField()
+    food_id = models.IntegerField()
+    price = models.IntegerField()
+    name = models.CharField(max_length=255)
+    quantity = models.IntegerField()
+   
+
+    class Meta:
+        db_table='Orders'
+
+
+class Cart(models.Model):
+    restaurant_id = models.IntegerField()
+    food_id = models.IntegerField()
+    price = models.IntegerField()
+    name = models.CharField(max_length=255)
+    quantity = models.IntegerField()
+   
+
+    class Meta:
+        db_table='Cart'
