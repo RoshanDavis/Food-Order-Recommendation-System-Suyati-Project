@@ -16,8 +16,9 @@ import Complaint from './Components/Complaint';
 import Terms from './Components/FooterPages/Terms';
 import Privacy from './Components/FooterPages/Privacy';
 import Security from './Components/FooterPages/Security';
-
-
+import About from './Components/FooterPages/About';
+import Team from './Components/FooterPages/Team';
+import FAQ from './Components/FooterPages/FAQ';
 function App() {
   return (
     <div className="App">
@@ -40,6 +41,9 @@ function App() {
               <Route path='/Terms' element={<Terms/>}/>
               <Route path='/Privacy' element={<Privacy/>}/>
               <Route path='/Security' element={<Security/>}/>
+              <Route path='/About' element={<About/>}/>
+              <Route path='/Team' element={<Team/>}/>
+              <Route path='/FAQ' element={<FAQ/>}/>
             </Routes>
    
           
