@@ -261,7 +261,7 @@ const Page = () => {
         <PaymentForm />
         <BillingForm />
         
-        <Link to='/Dashboard'>
+        <Link to='/Order'>
           <button className="checkout-button" onClick={handleCheckout}>
             Checkout and Pay
           </button>
