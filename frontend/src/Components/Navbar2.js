@@ -23,7 +23,9 @@ const Navbar2 = () => {
                 <Link to='/Order'>Orders</Link>
             </li>
             <li className='nav-item'>
-                <Link to=''>Cart</Link>
+
+                <Link to='/Cart'>Cart</Link>
+
             </li>
             <li className='nav-item'>
                 {/* <img src={require('../Assets/Profile.png')}  alt="" className='img-fluid w-50 profile-picture' onClick={toggleDropdown}/> */}

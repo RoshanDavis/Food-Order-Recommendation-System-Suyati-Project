@@ -11,9 +11,22 @@ import { Link,useLocation} from 'react-router-dom'
 
 const Restaurant = () => {
 
-  const location = useLocation();
   
+
+  const location = useLocation();
+
   const [selected, setSelected] = useState(location.state?.data || null);
+  const handleAddProduct = (product)=>{
+    const ProductExist= cartItems.find((item)=>item.id===product.id);
+    if(ProductExist){
+      setCartItems(cartItems.map((item)=> item.id=== product.id?
+      {...ProductExist, quantity:ProductExist.quantity + 1}: item));
+    }
+    else{
+      setCartItems([...cartItems,{...product, quantity:1}]);
+    }
+  
+  };
   
   useEffect(() => {
     if(location.state.data)
@@ -121,7 +134,7 @@ const Restaurant = () => {
                         <FoodItem data={[selected]} showItemCountProp={true}/>
                         <div className='d-flex flex-column gap-3'>
 
-                            <Link to='' class="btn custom-button btn-lg ">Proceed to Checkout</Link>
+                            <Link to='/Cart' class="btn custom-button btn-lg " onClick={handleAddProduct(productItem)}>Add to Cart</Link>
                             <div className='d-flex flex-row justify-content-around gap-5'>
                                 <div to='' class="btn  restaurant-btn" onClick={() => handleMenuClick(menuRef)}>Menu</div>
                                 
