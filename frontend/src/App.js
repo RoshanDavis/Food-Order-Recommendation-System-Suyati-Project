@@ -5,7 +5,9 @@ import Login from './Components/Login';
 import Signup from './Components/Signup';
 import Restaurant from './Components/Restaurant';
 
+import Checkout from './Components/Checkout';
 
+import Cart from './Components/Cart/Cart';
 
 
 
@@ -13,12 +15,19 @@ import {BrowserRouter , Route, Routes } from 'react-router-dom';
 import Review from './Components/Review';
 import Order from './Components/Order';
 import Complaint from './Components/Complaint';
+
 import Terms from './Components/FooterPages/Terms';
 import Privacy from './Components/FooterPages/Privacy';
 import Security from './Components/FooterPages/Security';
 import About from './Components/FooterPages/About';
 import Team from './Components/FooterPages/Team';
 import FAQ from './Components/FooterPages/FAQ';
+
+// import { FaCheckDouble } from 'react-icons/fa';
+
+
+
+
 function App() {
   return (
     <div className="App">
@@ -35,15 +44,24 @@ function App() {
               <Route path="/Signup" element={<Signup />} />
               <Route path='/Dashboard' element={<Dashboard/>}/>
               <Route path='/Restaurant' element={<Restaurant/>}/>
+
+               <Route path='/Cart' element={<Cart/>}/> 
+
               <Route path='/Review' element={<Review/>}/>
               <Route path='/Order' element={<Order/>}/>
               <Route path='/Complaint' element={<Complaint/>}/>
+
               <Route path='/Terms' element={<Terms/>}/>
               <Route path='/Privacy' element={<Privacy/>}/>
               <Route path='/Security' element={<Security/>}/>
               <Route path='/About' element={<About/>}/>
               <Route path='/Team' element={<Team/>}/>
               <Route path='/FAQ' element={<FAQ/>}/>
+
+
+              <Route path='/Checkout' element={<Checkout/>}/>
+
+
             </Routes>
    
           
