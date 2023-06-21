@@ -13,7 +13,7 @@ class Command(BaseCommand):
 
         for item in data:
             Restaurant.objects.create(
-                restaurant_id=item['food_id'],
+                restaurant_id=item['restaurant_id'],
                 food_id=item['food_id'],
                 food=item['food'],
                 type=item['type'],

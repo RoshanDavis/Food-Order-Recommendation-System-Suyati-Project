@@ -96,7 +96,7 @@ class Order(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE,default='')
     #restaurant_id= models.ForeignKey(Restaurant, on_delete=models.CASCADE,default='')
     restaurant_id = models.IntegerField()
-    food_id = models.IntegerField()
+    food_id = models.ForeignKey(Restaurant, on_delete=models.CASCADE,default='')
     price = models.IntegerField()
     name = models.CharField(max_length=255)
     quantity = models.IntegerField()
@@ -109,7 +109,7 @@ class Order(models.Model):
 class Cart(models.Model):
     #restaurant_id= models.ForeignKey(Restaurant, on_delete=models.CASCADE,default='')
     restaurant_id = models.IntegerField()
-    food_id = models.IntegerField()
+    food_id = models.ForeignKey(Restaurant, on_delete=models.CASCADE,default='')
     price = models.IntegerField()
     name = models.CharField(max_length=255)
     quantity = models.IntegerField()
