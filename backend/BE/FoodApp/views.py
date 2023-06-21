@@ -588,7 +588,9 @@ class RestRecommendation(View):
                         'rating': restaurant.rating,
                         'restaurant': restaurant.restaurant,
                         'address': restaurant.address,
-                        'indicator': restaurant.indicator
+                        'indicator': restaurant.indicator,
+                        'dishImg' :restaurant.dishImg,
+                        'restaurantImg':restaurant.restaurantImg
                     }
                     data.append(data_dict)
             except Restaurant.DoesNotExist:
