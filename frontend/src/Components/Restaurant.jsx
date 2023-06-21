@@ -76,8 +76,8 @@ const Restaurant = () => {
     
     const fetchItems=async()=>{
       try {
-        const response = await axios.post('http://localhost:3030/Review-Post', {
-          restaurant_id: selected.restaurant
+        const response = await axios.post('http://127.0.0.1:8000/menu/', {
+          restaurant_id: selected.restaurant_id
         });
         if (response && response.data) { // Check if response and response.data exist
           setmenu(response.data);
