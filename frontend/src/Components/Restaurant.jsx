@@ -100,7 +100,31 @@ const Restaurant = () => {
         //       linkDefault: imgGirl,
         //   }));
         //   };
-          
+        function getIndicatorColor(indicator) {
+          if (indicator === 1) {
+            return 'circle-green';
+          } else if (indicator === 2) {
+            return 'circle-yellow';
+          } else if (indicator === 3) {
+            return 'circle-red';
+          } else {
+            return 'circle-default'; // default color if the indicator value is not recognized
+          }
+        }
+
+        function getStatusText(indicator) {
+          if (indicator === 1) {
+            return 'Amazing';
+          } else if (indicator === 2) {
+            return 'Moderate';
+          } else if (indicator === 3) {
+            return 'Poor';
+          } else {
+            return '';
+          }
+        }
+        
+        
   return (
     <div>
         <nav>
@@ -109,7 +133,16 @@ const Restaurant = () => {
         <body>
             
             <div className='restaurant'>
-                <h1 className='restaurant-name ps-3'>{selected.restaurant}</h1>
+              
+              <div className='d-flex flex-row gap-1'>
+                <h1 className='restaurant-name ps-3'>
+                  {selected.restaurant}
+                </h1>
+                <div className={`indicator-circle ${getIndicatorColor(selected.indicator)} mt-1`}>
+                  <span className="status-tooltip">{getStatusText(selected.indicator)}</span>
+                </div>
+              </div>
+
                 <div className="row">
                     <div className='col ps-4'>
                         <img className='restaurant-img'
