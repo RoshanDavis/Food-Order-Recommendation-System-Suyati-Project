@@ -75,17 +75,18 @@ const Restaurant = () => {
 
     
     const fetchItems=async()=>{
-        try{
-            const response=await axios.get("http://127.0.0.1:8000/api/food/");
-            if (response && response.data.ProductSlider) { // Check if response and response.data exist
-              setmenu(response.data.ProductSlider);
-                
-            }
+      try {
+        const response = await axios.post('http://localhost:3030/Review-Post', {
+          restaurant_id: selected.restaurant
+        });
+        if (response && response.data) { // Check if response and response.data exist
+          setmenu(response.data);
             
         }
-        catch (error) {
-            console.log(error);
-          }
+      } catch (error) {
+        console.error(error);
+      }
+        
       }
     
       useEffect(()=>{
