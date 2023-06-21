@@ -375,7 +375,7 @@ def get_rest_data(request):
             "veg_non": food.veg_non,
             "describe": food.describe,
             "price": food.price,
-            "res_id": food.restaurant_id,
+            "restaurant_id": food.restaurant_id,
             "delivery_charge": food.delivery_charge,
             "serving_distance": food.serving_distance,
             #"OpeningTime": food.OpeningTime,

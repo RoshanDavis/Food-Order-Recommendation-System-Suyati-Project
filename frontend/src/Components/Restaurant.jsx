@@ -16,6 +16,7 @@ const Restaurant = () => {
   const location = useLocation();
 
   const [selected, setSelected] = useState(location.state?.data || null);
+  console.log(selected.restaurant_id)
   // const handleAddProduct = (product)=>{
   //   const ProductExist= cartItems.find((item)=>item.id===product.id);
   //   if(ProductExist){

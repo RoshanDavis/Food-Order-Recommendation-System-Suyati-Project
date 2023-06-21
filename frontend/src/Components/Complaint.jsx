@@ -74,7 +74,7 @@ const Complaint = () => {
     const [complaintDetails, setComplaintDetails] = useState({
         item: '',
         description: '',
-        res_Id:'',
+        restaurant_id:'',
       });
     const submitComplaint=()=>{
 
@@ -106,7 +106,7 @@ const Complaint = () => {
         const newComplaint = {
             Name: complaintDetails.item,
             Complaint: complaintDetails.description,
-            res_Id:complaintDetails.res_Id,
+            restaurant_id:complaintDetails.restaurant_id,
         };
 
         // Add the new complaint at the beginning of the current complaints
@@ -129,7 +129,7 @@ const Complaint = () => {
         setComplaintDetails({
             item: '',
             description: '',
-            res_Id:'',
+            restaurant_id:'',
         });
 
         // Close the complaint form pop-up
@@ -207,7 +207,7 @@ const Complaint = () => {
                                                     setComplaintDetails((prevDetails) => ({
                                                         ...prevDetails,
                                                         item: searchRef.current.value,
-                                                        res_Id:result.res_Id?result.res_Id:0
+                                                        restaurant_id:result.restaurant_id?result.restaurant_id:0
                                                       }));
                                                     // setSearchResults([result]);
                                                     toggleDropdown()

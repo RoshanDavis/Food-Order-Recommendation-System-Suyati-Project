@@ -4,6 +4,7 @@ import imgGirl from '../Assets/Icon.png';
 
 const FoodItem = ({data,showItemCountProp,showCancelButtonProp}) => {
 
+    console.log(data[0].restaurant_id)
     const handleClickCancel = () => {
         console.log(data[0].food+" canceled")
         /*     Api need to be created for canceling item in cart*/
