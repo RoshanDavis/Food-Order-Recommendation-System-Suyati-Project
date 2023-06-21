@@ -5,6 +5,9 @@ import { CartContext } from './Cart';
 import { Link } from 'react-router-dom'
 const ContextCart = () => {
 
+    const handleGoBack = () => {
+        window.history.back();
+      };
     const {item , clearCart,totalAmount , totalItem}= useContext(CartContext);
     if(item.length === 0){
         return(
@@ -15,7 +18,7 @@ const ContextCart = () => {
             
      <header>
             
-        <div className='continue-shopping'>
+        <div className='continue-shopping' onClick={handleGoBack}>
             <img src={require('../../Assets/arrow.png')} alt="arrow" className='arrow-icon' />
             <h3>Continue Shopping</h3>
             <div className='cart-icon'>
@@ -42,7 +45,7 @@ const ContextCart = () => {
     <div className="Cart-Container ">
      <header>
             
-        <div className='continue-shopping'>
+        <div className='continue-shopping' onClick={handleGoBack}>
             <img src={require('../../Assets/arrow.png')} alt="arrow" className='arrow-icon' />
             <h3>Continue Shopping</h3>
             <div className='cart-icon'>
@@ -74,9 +77,9 @@ const ContextCart = () => {
         </div>
         <div className='card-total pb-5'>
             <h3>cart Total: <span>Rs {totalAmount}</span></h3>
+            <button className='clear-cart me-5' onClick={clearCart}>Clear Cart</button>
+            <Link to='/Checkout'><button >Checkout</button></Link>
             
-            <Link to='/Checkout'><button>Checkout</button></Link>
-            <button className='clear-cart' onClick={clearCart}>Clear Cart</button>
         </div>
     </section>
     </div>
