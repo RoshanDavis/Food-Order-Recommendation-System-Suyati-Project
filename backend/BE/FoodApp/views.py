@@ -159,22 +159,6 @@ def food_list(request):
 
     return JsonResponse(food_data, safe=False)
 
-class SaveReviewView(View):
-    @csrf_exempt
-    def post(self, request):
-        data = json.loads(request.body)
-        
-        restaurant = data.get('restaurant')
-        name = data.get('Name')
-        rating = data.get('Rating')
-        review = data.get('Review')
-        
-        # Create a new review object and save it to the database
-        review = Review(restaurant=restaurant, name=name, rating=rating, review=review)
-        review.save()
-        
-        return JsonResponse({'success': True})
-
 
 import mysql.connector
 import json
@@ -186,7 +170,7 @@ mydb = mysql.connector.connect(
   password="123456",
   database="foodiko"
 )
-
+############################################# REVIEWS ################################################################
 @csrf_exempt
 def get_reviews(request):
     # Create a cursor object to execute queries
@@ -223,18 +207,114 @@ def get_reviews(request):
 
     return HttpResponse(json_string)
 
+class ReviewCreateView(View):
+    @csrf_exempt
+    def post(self, request):
+        # Deserialize JSON data from request body
+        data = json.loads(request.body)
+        
+        # Extract the necessary data from the JSON
+        user_id = data.get('user_id')
+        restaurant_id = data.get('restaurant_id')
+        vendor_name = data.get('vendor_name')
+        first_name = data.get('first_name')
+        rating = data.get('rating')
+        review_text = data.get('review')
+
+        # Create a new review instance
+        review = Review(
+            user_id=user_id,
+            restaurant_id=restaurant_id,
+            vendor_name=vendor_name,
+            first_name=first_name,
+            rating=rating,
+            review=review_text
+        )
+
+        # Save the review to the database
+        review.save()
+
+        # Return a success response
+        return JsonResponse({'success': True})
+    
+
+
+class SaveReviewView(View):
+    @csrf_exempt
+    def post(self, request):
+        data = json.loads(request.body)
+        
+        restaurant = data.get('restaurant')
+        name = data.get('Name')
+        rating = data.get('Rating')
+        review = data.get('Review')
+        
+        # Create a new review object and save it to the database
+        review = Review(restaurant=restaurant, name=name, rating=rating, review=review)
+        review.save()
+        
+        return JsonResponse({'success': True})
+#################################################################################################
+
+
+
+########################## COMPLAINT ######################################################
+
+class Menu(View):
+    @csrf_exempt
+    def post(self, request):
+        # Deserialize JSON data from request body
+        data = json.loads(request.body)
+
+        # Extract the restaurant_id from the request data
+        restaurant_id = data.get('restaurant_id')
+
+        print(restaurant_id)
+        # Retrieve the rows with the specified restaurant_id
+        rows = Restaurant.objects.filter(restaurant_id=restaurant_id)
+
+        print(rows)
+        # Create a list to store the JSON representation of each row
+        row_list = []
+
+        # Iterate over the rows and create a dictionary for each one
+        for row in rows:
+            row_data = {
+                'restaurant_id': row.restaurant_id,
+                'food_id': row.food_id,
+                'food': row.food,
+                'type': row.type,
+                'veg_non': row.veg_non,
+                'describe': row.describe,
+                'price': row.price,
+                'delivery_charge': row.delivery_charge,
+                'serving_distance': row.serving_distance,
+                'discount_percentage': row.discount_percentage,
+                'rating': row.rating,
+                'restaurant': row.restaurant,
+                'address': row.address,
+                'indicator': row.indicator
+            }
+
+            # Append the row dictionary to the list
+            row_list.append(row_data)
+
+        return JsonResponse(row_list,safe=False)
+
+
+
 
 def complaint_status(request):
     data = json.loads(request.body)
   # Assuming the vendor ID is passed in the request body
     print(data)  # Debugging statement to check the request data
     
-    vendor_id = data.get('vendor_id')
-    print(vendor_id)  # Debugging statement to check the value of vendor_id
+    restaurant_id = data.get('restaurant_id')
+    print(restaurant_id)  # Debugging statement to check the value of restaurant_id
     
     complaints_count = 0
     # Calculate the count of complaints with 'yes' status for the specific vendor ID
-    complaints_count = Complaint.objects.filter( vendor_id_id=vendor_id).count()
+    complaints_count = Complaint.objects.filter( restaurant_id_id=restaurant_id).count()
     print(complaints_count)
     # Assign the status based on the count
     if complaints_count < 2:
@@ -544,7 +624,7 @@ def save_restaurants(request):
                 veg_non=restaurant_data['veg_non'],
                 describe=restaurant_data['describe'],
                 price=restaurant_data['price'],
-                restaurant_id=restaurant_data['res_id'],
+                restaurant_id=restaurant_data['restaurant_id'],
                 delivery_charge=restaurant_data['delivery_charge'],
                 serving_distance=restaurant_data['serving_distance'],
                 #OpeningTime=restaurant_data['OpeningTime'],   # Null issue
