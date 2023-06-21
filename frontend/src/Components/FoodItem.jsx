@@ -1,6 +1,7 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import imgGirl from '../Assets/Icon.png';
-// import axios from 'axios';
+import axios from 'axios';
+
 
 const FoodItem = ({data,showItemCountProp,showCancelButtonProp}) => {
 
@@ -23,17 +24,93 @@ const FoodItem = ({data,showItemCountProp,showCancelButtonProp}) => {
     const [defaultImage, setDefaultImage] = useState({});
 
     const [count, setCount] = useState(0);
-  
+
+    const fetchItems=async()=>{
+        try{
+            const response=await axios.get("http://127.0.0.1:8000/cart/");
+            if (response && response.data) { // Check if response and response.data exist
+              setCount(response.data.quantity);
+            }
+            
+        }
+        catch (error) {
+            console.log(error);
+        
+      }
+    }
+    useEffect(()=>{
+        fetchItems()
+        },[]);
     const handleIncrement = () => {
         setCount(count + 1);
-        //API for chaning count in cart
+        if(count===1)
+        {
+            axios.post('http://127.0.0.1:8000/cart/', {
+                "restaurant_id": data[0].restaurant_id,
+                "food_id": data[0].food_id,
+                "price":data[0].price ,
+                "name": data[0].food,
+                "quantity": count
+
+            })
+            .then(response => {
+            console.log(response);
+            })
+            .catch(error => {
+            // Handle any errors that occur during the request
+            });
+        }
+        else{
+            axios.put('http://127.0.0.1:8000/cart/', {
+                "food_id": data[0].food_id,
+                "quantity": count
+
+            })
+            .then(response => {
+            console.log(response);
+            })
+            .catch(error => {
+            // Handle any errors that occur during the request
+            });
+        }
+        
+       
     };
     
     const handleDecrement = () => {
+        
+        
         if(count>0)
         {
         setCount(count - 1);
-        //API for changing
+        if(count===0){
+            axios.delete('http://127.0.0.1:8000/cart/',{
+
+                "food_id": data[0].food_id,
+            })
+            .then(response => {
+            console.log(response);
+            })
+            .catch(error => {
+            // Handle any errors that occur during the request
+            });
+        }
+        else{
+            //API for changing
+            axios.put('http://127.0.0.1:8000/cart/', {
+
+                "food_id": data[0].food_id,
+                "quantity": count
+
+            })
+            .then(response => {
+            console.log(response);
+            })
+            .catch(error => {
+            // Handle any errors that occur during the request
+            });
+            }
+        
         }
     };
     
