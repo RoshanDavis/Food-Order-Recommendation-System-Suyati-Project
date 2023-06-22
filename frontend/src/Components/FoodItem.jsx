@@ -5,7 +5,7 @@ import axios from 'axios';
 
 const FoodItem = ({data,showItemCountProp,showCancelButtonProp}) => {
 
-    console.log(data[0].restaurant_id)
+    // console.log(data[0].restaurant_id)
     const handleClickCancel = () => {
         console.log(data[0].food+" canceled")
         /*     Api need to be created for canceling item in cart*/
@@ -28,29 +28,37 @@ const FoodItem = ({data,showItemCountProp,showCancelButtonProp}) => {
     const fetchItems=async()=>{
         try{
             const response=await axios.get("http://127.0.0.1:8000/cart/");
-            if (response && response.data) { // Check if response and response.data exist
-              setCount(response.data.quantity);
-            }
+            if (response && response.data) {
+
+              
+                // Find the item in the response data with a matching food ID
+                const matchingItem = response.data.find(item => item.food_id === data[0].food_id);
+              
+                if (matchingItem) {
+                  setCount(matchingItem.quantity); // Set count to the quantity if a match is found
+                }
+              }
             
         }
         catch (error) {
             console.log(error);
         
       }
+    
     }
     useEffect(()=>{
         fetchItems()
         },[]);
     const handleIncrement = () => {
         setCount(count + 1);
-        if(count===1)
+        if(count===0)
         {
             axios.post('http://127.0.0.1:8000/cart/', {
                 "restaurant_id": data[0].restaurant_id,
                 "food_id": data[0].food_id,
                 "price":data[0].price ,
                 "name": data[0].food,
-                "quantity": count
+                "quantity": count+1
 
             })
             .then(response => {
@@ -61,9 +69,15 @@ const FoodItem = ({data,showItemCountProp,showCancelButtonProp}) => {
             });
         }
         else{
+            console.log(
+            {
+                "food_id": data[0].food_id,
+                "quantity": count+1
+
+            });
             axios.put('http://127.0.0.1:8000/cart/', {
                 "food_id": data[0].food_id,
-                "quantity": count
+                "quantity": count+1
 
             })
             .then(response => {
@@ -83,10 +97,13 @@ const FoodItem = ({data,showItemCountProp,showCancelButtonProp}) => {
         if(count>0)
         {
         setCount(count - 1);
-        if(count===0){
-            axios.delete('http://127.0.0.1:8000/cart/',{
 
-                "food_id": data[0].food_id,
+        if(count===1){
+            
+            axios.post('http://127.0.0.1:8000/cart/delete/', {
+
+                "food_id": data[0].food_id
+
             })
             .then(response => {
             console.log(response);
@@ -100,7 +117,7 @@ const FoodItem = ({data,showItemCountProp,showCancelButtonProp}) => {
             axios.put('http://127.0.0.1:8000/cart/', {
 
                 "food_id": data[0].food_id,
-                "quantity": count
+                "quantity": count-1
 
             })
             .then(response => {

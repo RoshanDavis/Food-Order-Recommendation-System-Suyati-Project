@@ -441,7 +441,7 @@ def cart_api(request):
         for cart_item in cart_items:
             cart_data = {
                 'cart_id': cart_item.id,
-                'restaurant_id': cart_item.restaurant_id,
+                'restaurant_id':  cart_item.restaurant_id.id,
                 'food_id': cart_item.food_id,
                 'price': cart_item.price,
                 'name': cart_item.name,
@@ -458,6 +458,7 @@ def cart_api(request):
 
     elif request.method == 'PUT':
         # Update the quantity of a cart item
+        print(request.body)
         json_data = json.loads(request.body)
         food_id = json_data.get('food_id')
         new_quantity = json_data.get('quantity')
@@ -479,6 +480,7 @@ def cart_api(request):
 
     elif request.method == 'DELETE':
         # Delete a row from the cart
+        print(request.body)
         json_data = json.loads(request.body)
         food_id = json_data.get('food_id')
 
@@ -498,6 +500,7 @@ def cart_api(request):
     
     elif request.method == 'POST':
         # Add a new item to the cart
+        print(request.body)
         json_data = json.loads(request.body)
 
     # Extract the values from the JSON data
@@ -538,6 +541,26 @@ def cart_api(request):
         # Return the JSON response with a status code of 405 (Method Not Allowed)
         return JsonResponse(response, status=405)
 
+
+class CartDeleteView(View):
+    @csrf_exempt
+    def post(self, request):
+        print(request.body)
+        json_data = json.loads(request.body)
+        food_id = json_data.get('food_id')
+
+        # Find the cart item with the specified food_id
+        cart_item = Cart.objects.get(food_id=food_id)
+
+        # Delete the cart item
+        cart_item.delete()
+
+        # Create the JSON response
+        response = {
+            'message': 'Cart item deleted successfully.'
+        }
+
+        return JsonResponse(response)
 
 @csrf_exempt
 def truncate_cart(request):
