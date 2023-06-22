@@ -159,9 +159,7 @@ const FoodItem = ({data,showItemCountProp,showCancelButtonProp}) => {
                  {item.linkImg?(    
                 <img
                     src={
-                    defaultImage[item.restaurant] === item.restaurant
-                        ? defaultImage[item.restaurant] === defaultImage["'" + item.restaurant + "'"]? defaultImage.linkDefault: item.linkImg
-                        : item.linkImg
+                     item.linkImg
                     }
                     alt={item.restaurant}
                     onError={handleErrorImage}
