@@ -452,7 +452,7 @@ def cart_api(request):
                 'restaurant_id':  cart_item.restaurant_id.id,
                 'food_id': cart_item.food_id,
                 'price': cart_item.price,
-                'name': cart_item.name,
+                'food': cart_item.name,
                 'quantity': cart_item.quantity
             }
 
