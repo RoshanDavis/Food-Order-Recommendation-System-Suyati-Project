@@ -109,10 +109,10 @@ export default function Login() {
   };
   return (
     <div className='formlbg'>
-      <form onSubmit={handleSubmit}>
+      <form className='formlogin' onSubmit={handleSubmit}>
         <h3>Login</h3>
         <div className="form-group">
-          <label htmlFor="email">Email</label>
+          <label className='labellogin' htmlFor="email">Email</label>
           <input
             type="email"
             className="form-control"
@@ -124,7 +124,7 @@ export default function Login() {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="password">Password</label>
+          <label className='labellogin' htmlFor="password">Password</label>
           <input
             type="password"
             className="form-control"
