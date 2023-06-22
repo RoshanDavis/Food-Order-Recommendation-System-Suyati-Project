@@ -2,3 +2,5 @@ v/
 db.sqlite3
 __pycache__
 BE/FoodApp/Recommendation/
+BE/data/
+RestData.json

@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from FoodApp.views import SignupView, LoginView,Menu, ResetPasswordView,ReviewCreateView, UserList,SaveFoodDataView, UserDetail,OrderRecommendation,RestRecommendation,cart_api,truncate_cart,get_rest_data,save_users,food_list,save_reviews,save_restaurants,get_reviews,SaveReviewView,complaint_status,OrderCreateAPIView
+from FoodApp.views import SignupView, LoginView,Menu,post_complaint,OrderCreateView, ResetPasswordView,ReviewCreateView, UserList,SaveFoodDataView, UserDetail,OrderRecommendation,RestRecommendation,cart_api,truncate_cart,get_rest_data,save_users,food_list,save_reviews,save_restaurants,get_reviews,SaveReviewView,complaint_status,OrderCreateAPIView
 
 from django.views.decorators.csrf import csrf_exempt
 
@@ -46,6 +46,9 @@ urlpatterns = [
     #Actual restdata
     path('api/restdata/', get_rest_data, name='get_rest_data'),
 
+    ###Make Order
+
+       path('order/', csrf_exempt( OrderCreateView.as_view()), name='ordercreate'), 
     #Menu
     path('menu/',csrf_exempt(Menu.as_view()), name='Menu'),
 
@@ -55,7 +58,9 @@ urlpatterns = [
     path('order-recommendation/', OrderRecommendation.as_view(), name='order_recommendation'),
     path('rest-recommendation/', RestRecommendation.as_view(), name='rest_recommendation'),
     
+############## Complaint###############
 
+    path('complaint/', post_complaint, name='post_complaint'),
 
 
 

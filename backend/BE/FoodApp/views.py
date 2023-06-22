@@ -8,6 +8,7 @@ from django.urls import reverse
 from .models import User, FoodDataTest,Review,Restaurant,Complaint,Order,Cart
 import json
 from django.views.decorators.csrf import csrf_exempt
+from django.db.models import Max
 
 
 
@@ -63,8 +64,12 @@ class LoginView(View):
             
            #storing user id for session 
             request.session['user_id'] = user_id 
+            #us_id = request.session.get('user_id')
+
+            #print(us_id)
             
             print(existing_user.user_id)
+            
             return JsonResponse({'success':True, 'user_id': user_id})
             #return JsonResponse({'success':True})
         else:
@@ -259,7 +264,36 @@ class SaveReviewView(View):
 
 
 ########################## COMPLAINT ######################################################
+@csrf_exempt
+def post_complaint(request):
+    if request.method == 'POST':
+        # Assuming the complaint data is sent as JSON in the request body
+        complaint_data = json.loads(request.body)
 
+        # Extract the required fields from the complaint_data dictionary
+        user_id = complaint_data['user_id']
+        restaurant_id = complaint_data['restaurant_id']
+        vendor_name = complaint_data['vendor_name']
+        first_name = complaint_data['first_name']
+        review = complaint_data['review']
+
+        # Create a Complaint object and save it to the database
+        complaint = Complaint.objects.create(
+            user_id=user_id,
+            restaurant_id=restaurant_id,
+            vendor_name=vendor_name,
+            first_name=first_name,
+            review=review
+        )
+        complaint.save
+        # Return a JSON response indicating success
+        response_data = {'message': 'Complaint posted successfully'}
+        return JsonResponse(response_data)
+
+
+
+
+########################## MENU ################################################
 class Menu(View):
     @csrf_exempt
     def post(self, request):
@@ -340,6 +374,7 @@ class OrderCreateView(View):
       
         #Obtaining order_id and user_id
         us_id = request.session.get('user_id')
+        print(us_id)
         existing_orders = Order.objects.all().values('order_id', 'food_id')
 
 
@@ -348,11 +383,13 @@ class OrderCreateView(View):
 
     
         for order in orders:                
+            restaurant_id = order.get('restaurant_id')#####################################
+            restaurant = Restaurant.objects.filter(restaurant_id=restaurant_id).first()#############################
             # Create a new Order object and save it to the database
             order_obj = Order(
                 order_id=ord_id,
                 user_id=us_id,
-                restaurant_id=order['restaurant_id'],
+                restaurant_id= restaurant,
                 food_id=order['food_id'],
                 price=order['price'],
                 name=order['name'],
@@ -470,10 +507,13 @@ def cart_api(request):
         price = json_data.get('price')
         name = json_data.get('name')
 
+       
+        restaurant = Restaurant.objects.filter(restaurant_id=restaurant_id).first() ##########################################
+
 
         # Create a new cart item
         cart_item = Cart(
-            restaurant_id=restaurant_id,
+            restaurant_id=restaurant,
             food_id=food_id,
             price=price,
             name=name,
@@ -650,10 +690,14 @@ class OrderCreateAPIView(APIView):
         orders =json.loads(request.body)
 
         for order_data in orders:
+            user_id=order_data.get('user_id')
+            user = User.objects.get(user_id=user_id)
+            restaurant_id= order_data.get('restaurant_id')
+            restaurant = Restaurant.objects.filter(restaurant_id=restaurant_id).first()
             order = Order(
                 order_id=order_data.get('order_id'),
-                user_id=order_data.get('user_id'),
-                restaurant_id=order_data.get('restaurant_id'),
+                user_id=user,
+                restaurant_id=restaurant,
                 food_id=order_data.get('food_id'),
                 price=order_data.get('price'),
                 name=order_data.get('name'),

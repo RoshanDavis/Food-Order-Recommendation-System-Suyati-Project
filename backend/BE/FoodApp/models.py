@@ -60,16 +60,15 @@ class Restaurant(models.Model):
     #contact = models.BigIntegerField()
     address = models.CharField(max_length=255)
     indicator = models.IntegerField()
-    dishImg = models.URLField(max_length=500, null=True)
-    restaurantImg = models.URLField(max_length=500, null=True)
+    #DishImg = models.URLField(max_length=500)
+    #restaurantImg = models.URLField(max_length=500)
 
     class Meta:
         db_table='RestDetails'
 
 class Review(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE,default='')
-    #restaurant_id = models.ForeignKey(Restaurant, on_delete=models.CASCADE,default='')
-    restaurant_id = models.IntegerField()
+    restaurant_id = models.ForeignKey(Restaurant, on_delete=models.CASCADE,default='')
     vendor_name = models.CharField(max_length=100)
     first_name = models.CharField(max_length=100)
     rating = models.IntegerField()
@@ -81,8 +80,7 @@ class Review(models.Model):
 
 class Complaint(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE,default='')
-    #restaurant_id= models.ForeignKey(Restaurant, on_delete=models.CASCADE,default='')
-    restaurant_id = models.IntegerField()
+    restaurant_id= models.ForeignKey(Restaurant, on_delete=models.CASCADE,default='')
     vendor_name = models.CharField(max_length=100)
     first_name = models.CharField(max_length=100)
     review = models.TextField()
@@ -94,9 +92,8 @@ class Complaint(models.Model):
 class Order(models.Model):
     order_id = models.IntegerField()
     user_id = models.ForeignKey(User, on_delete=models.CASCADE,default='')
-    #restaurant_id= models.ForeignKey(Restaurant, on_delete=models.CASCADE,default='')
-    restaurant_id = models.IntegerField()
-    food_id = models.ForeignKey(Restaurant, on_delete=models.CASCADE,default='')
+    restaurant_id= models.ForeignKey(Restaurant, on_delete=models.CASCADE,default='')
+    food_id = models.IntegerField()
     price = models.IntegerField()
     name = models.CharField(max_length=255)
     quantity = models.IntegerField()
@@ -107,9 +104,8 @@ class Order(models.Model):
 
 
 class Cart(models.Model):
-    #restaurant_id= models.ForeignKey(Restaurant, on_delete=models.CASCADE,default='')
-    restaurant_id = models.IntegerField()
-    food_id = models.ForeignKey(Restaurant, on_delete=models.CASCADE,default='')
+    restaurant_id= models.ForeignKey(Restaurant, on_delete=models.CASCADE,default='')
+    food_id = models.IntegerField()
     price = models.IntegerField()
     name = models.CharField(max_length=255)
     quantity = models.IntegerField()
