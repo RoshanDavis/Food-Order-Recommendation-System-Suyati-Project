@@ -1,12 +1,25 @@
+/* 
 .formlbg {
-    background-image: url('../Assets/login.png');
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+   */
+  /* Set background image */
+  body {
+    background-image: url("../Assets/login.png");
     background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-}
-.form-group label{
-    color: aliceblue;
+  }
+  .formlogin{
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 
+      
 }
-  
+.labellogin{
+    color: aliceblue;
+}
