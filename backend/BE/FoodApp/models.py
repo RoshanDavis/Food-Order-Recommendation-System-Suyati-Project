@@ -60,7 +60,7 @@ class Restaurant(models.Model):
     #contact = models.BigIntegerField()
     address = models.CharField(max_length=255)
     indicator = models.IntegerField()
-    #DishImg = models.URLField(max_length=500)
+    linkImg = models.URLField(max_length=500)
     #restaurantImg = models.URLField(max_length=500)
 
     class Meta:
