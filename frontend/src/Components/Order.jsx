@@ -6,6 +6,20 @@ import ProductSlider from './ProductSlider'
 import Stepper from './Stepper'
 const Order = () => {
 
+  const handleClickCancel = () => {
+        
+        /*     Api need to be created for truncating cart*/
+        // // Send a POST request to the backend API using Axios
+        // axios
+        //   .post("/your-backend-endpoint", JSON.stringify(data))
+        //   .then((response) => {
+        //     // Handle the response from the backend
+        //     console.log("Message sent to backend successfully");
+        //   })
+        //   .catch((error) => {
+        //     console.error("Failed to send message to backend", error);
+        //   });
+      };
 
   const [orders, setorders] = useState([]);
   const [prevOrders, setprevOrders] = useState([]);
@@ -73,6 +87,11 @@ const Order = () => {
               <div className="container p-0 m-0">
                 <ProductSlider data={prevOrders}/>
               </div>
+              {showCancelButton &&
+              <div className="item-count d-flex flex-row justify-content-around pt-3 pb-3" style={{fontSize: '3rem'}}>
+                            <button className='btn custom-button' onClick={handleClickCancel}>Cancel</button>
+              </div>
+              }
             </div>
             ):
             (

@@ -21,23 +21,23 @@ fetchProducts()
 
 const FoodItem = ({data,showItemCountProp,showCancelButtonProp}) => {
 
-    // console.log(data[0].restaurant_id)
-    const handleClickCancel = () => {
-        console.log(data[0].food+" canceled")
-        /*     Api need to be created for canceling item in cart*/
-        // // Send a POST request to the backend API using Axios
-        // axios
-        //   .post("/your-backend-endpoint", JSON.stringify(data))
-        //   .then((response) => {
-        //     // Handle the response from the backend
-        //     console.log("Message sent to backend successfully");
-        //   })
-        //   .catch((error) => {
-        //     console.error("Failed to send message to backend", error);
-        //   });
-      };
+    // Uncomment this function for individual item cancelling buttons
+    // const handleClickCancel = () => {
+    //     console.log(data[0].food+" canceled")
+    //     /*     Api need to be created for canceling item in cart*/
+    //     // // Send a POST request to the backend API using Axios
+    //     // axios
+    //     //   .post("/your-backend-endpoint", JSON.stringify(data))
+    //     //   .then((response) => {
+    //     //     // Handle the response from the backend
+    //     //     console.log("Message sent to backend successfully");
+    //     //   })
+    //     //   .catch((error) => {
+    //     //     console.error("Failed to send message to backend", error);
+    //     //   });
+    //   };
 
-    const [defaultImage, setDefaultImage] = useState({});
+    // const [defaultImage, setDefaultImage] = useState({});
 
     const [count, setCount] = useState(0);
 
@@ -143,13 +143,13 @@ const FoodItem = ({data,showItemCountProp,showCancelButtonProp}) => {
         }
     };
     
-    const handleErrorImage = (data) => {
-        setDefaultImage((prev) => ({
-            ...prev,
-            [data.target.alt]: data.target.alt,
-            linkDefault: imgGirl,
-        }));
-        };
+    // const handleErrorImage = (data) => {
+    //     setDefaultImage((prev) => ({
+    //         ...prev,
+    //         [data.target.alt]: data.target.alt,
+    //         linkDefault: imgGirl,
+    //     }));
+    //     };
   return (
     <div className='d-flex flex-row justify-content-center'>
         <div style={{ width: '300px'}}>
@@ -162,7 +162,7 @@ const FoodItem = ({data,showItemCountProp,showCancelButtonProp}) => {
                      item.linkImg
                     }
                     alt={item.restaurant}
-                    onError={handleErrorImage}
+                    // onError={handleErrorImage}
                 />
                  ):(
                     <img src={imgGirl} alt={item.restaurant}/>
@@ -194,11 +194,12 @@ const FoodItem = ({data,showItemCountProp,showCancelButtonProp}) => {
                         <div onClick={handleIncrement} class="btn  restaurant-btn add-sub-btn p-0">+</div>
                     </div>
                 }
-                { showCancelButtonProp &&
+                {/* Used for individual item cancelling
+                    { showCancelButtonProp &&
                     <div className="item-count d-flex flex-row justify-content-around pt-3 pb-3" style={{fontSize: '3rem'}}>
                             <button className='btn custom-button' onClick={handleClickCancel}>Cancel</button>
                     </div>
-                }
+                } */}
             </div>
             
             ))}
