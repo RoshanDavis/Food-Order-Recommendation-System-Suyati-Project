@@ -1,16 +1,8 @@
-/* 
+
 .formlbg {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }
-   */
-  /* Set background image */
-  body {
     background-image: url("../Assets/login.png");
     background-size: cover;
-  }
+}
   .formlogin{
     height: 100vh;
     display: flex;
