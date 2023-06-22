@@ -327,7 +327,8 @@ class Menu(View):
                 'rating': row.rating,
                 'restaurant': row.restaurant,
                 'address': row.address,
-                'indicator': row.indicator
+                'indicator': row.indicator,
+                'linkImg':row.linkImg
             }
 
             # Append the row dictionary to the list
@@ -422,11 +423,18 @@ def get_rest_data(request):
             "restaurant": food.restaurant,
             #"contact": food.contact,
             "address": food.address,
-            "indicator": food.indicator
+            "indicator": food.indicator,
+            "linkImg":food.linkImg
         }
         food_list.append(food_data)
     
     return JsonResponse(food_list, safe=False)
+
+''' food_data = list(Restaurant.objects.values())
+    
+
+    return JsonResponse(food_data, safe=False)'''
+
 
 @csrf_exempt
 def cart_api(request):
@@ -610,7 +618,8 @@ class OrderRecommendation(View):
                         'rating': restaurant.rating,
                         'restaurant': restaurant.restaurant,
                         'address': restaurant.address,
-                        'indicator': restaurant.indicator
+                        'indicator': restaurant.indicator,
+                        'linkImg':restaurant.linkImg
                     }
                     data.append(data_dict)
             except Restaurant.DoesNotExist:
@@ -651,9 +660,8 @@ class RestRecommendation(View):
                         'rating': restaurant.rating,
                         'restaurant': restaurant.restaurant,
                         'address': restaurant.address,
-                        'indicator': restaurant.indicator,
-                        'dishImg' :restaurant.dishImg,
-                        'restaurantImg':restaurant.restaurantImg
+                        'indicator': restaurant.indicator
+                        
                     }
                     data.append(data_dict)
             except Restaurant.DoesNotExist:
