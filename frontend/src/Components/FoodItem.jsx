@@ -1,6 +1,22 @@
 import React,{useState,useEffect} from 'react'
 import imgGirl from '../Assets/Icon.png';
 import axios from 'axios';
+import fetchProducts   from './Cart/products';
+let products = []; // Define an initial empty array
+
+
+fetchProducts()
+  .then(fetchedProducts => {
+    // Assign the fetched products to the 'products' variable
+    products = fetchedProducts;
+
+    // Use the fetched products here
+    // console.log(products);
+  })
+  .catch(error => {
+    // Handle any errors that occurred during the fetch
+    console.error(error);
+  });
 
 
 const FoodItem = ({data,showItemCountProp,showCancelButtonProp}) => {
@@ -25,14 +41,13 @@ const FoodItem = ({data,showItemCountProp,showCancelButtonProp}) => {
 
     const [count, setCount] = useState(0);
 
-    const fetchItems=async()=>{
-        try{
-            const response=await axios.get("http://127.0.0.1:8000/cart/");
-            if (response && response.data) {
+    const getCartCount=async()=>{
+       
+            if (products) {
 
               
                 // Find the item in the response data with a matching food ID
-                const matchingItem = response.data.find(item => item.food_id === data[0].food_id);
+                const matchingItem = products.find(item => item.food_id === data[0].food_id);
               
                 if (matchingItem) {
                   setCount(matchingItem.quantity); // Set count to the quantity if a match is found
@@ -40,14 +55,11 @@ const FoodItem = ({data,showItemCountProp,showCancelButtonProp}) => {
               }
             
         }
-        catch (error) {
-            console.log(error);
-        
-      }
+       
     
-    }
+    
     useEffect(()=>{
-        fetchItems()
+        getCartCount()
         },[]);
     const handleIncrement = () => {
         setCount(count + 1);
