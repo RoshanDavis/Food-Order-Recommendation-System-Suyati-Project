@@ -40,7 +40,7 @@ export default function Signup() {
 
   return (
     <div className='formbg'>
-      <form onSubmit={handleSubmit}>
+      <form className='forms' onSubmit={handleSubmit}>
         <h3>Sign Up</h3>
         <div className='form-group'>
           <label htmlFor='firstName'>First Name</label>
