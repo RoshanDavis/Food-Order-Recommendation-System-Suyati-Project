@@ -4,6 +4,22 @@ import Footer from './Footer'
 import axios from 'axios'
 import ProductSlider from './ProductSlider'
 import Stepper from './Stepper'
+import fetchProducts   from './Cart/products';
+let products = []; // Define an initial empty array
+
+
+fetchProducts()
+  .then(fetchedProducts => {
+    // Assign the fetched products to the 'products' variable
+    products = fetchedProducts;
+
+    // Use the fetched products here
+    // console.log(products);
+  })
+  .catch(error => {
+    // Handle any errors that occurred during the fetch
+    console.error(error);
+  });
 const Order = () => {
 
   const handleClickCancel = () => {
@@ -56,6 +72,15 @@ const Order = () => {
 
     const handleStepChange = (nextStep) => {
         setShowCancelButton(nextStep<3); // Update showCancelButton state based on currentStep
+        if(!setShowCancelButton){
+          axios.post('http://127.0.0.1:8000/cart/', products)
+            .then(response => {
+            console.log(response);
+            })
+            .catch(error => {
+            // Handle any errors that occur during the request
+            });
+        }
       };
   return (
     <div>
