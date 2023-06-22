@@ -189,7 +189,7 @@ const Restaurant = () => {
                 </div>
             </div>
             <div className='d-flex justify-content-center p-5'>
-                <Link to='' class="btn custom-button btn-lg center-button" >Proceed to Checkout</Link>
+                <Link to='/Cart' class="btn custom-button btn-lg center-button" >Proceed to Checkout</Link>
             </div>
             {showButton && (
                 <button className="scroll-to-top btn custom-button btn-lg center-button" onClick={scrollToTop}>
