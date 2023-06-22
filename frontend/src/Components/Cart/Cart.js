@@ -1,19 +1,41 @@
-import React, {createContext, useEffect, useReducer} from 'react'
+import React, {createContext, useEffect, useReducer, useState} from 'react'
 import "./Cart.css";
-import {products} from "./products";
+// import {products} from "./products";
 import ContextCart from './ContextCart';
 import {reducer} from "./Reducer";
-
+import axios from 'axios';
 export const CartContext = createContext();
 
-const initialState={
-    item: products,
-    totalAmount:0,
-    totalItem:0,
-}
+
+
+
 
 
 const Cart = () => {
+
+    const [products, setproducts] = useState([])
+    const fetchItems=async()=>{
+        try{
+            const response=await axios.get("http://127.0.0.1:8000/cart/");
+            if (response && response.data) {
+            
+            }
+            
+        }
+        catch (error) {
+            console.log(error);
+        
+      }
+    
+    }
+    useEffect(()=>{
+        fetchItems()
+        },[]);
+    const initialState={
+        item: products,
+        totalAmount:0,
+        totalItem:0,
+    }
 // const [item,setItem]=useState(products);
 const [state, dispatch] = useReducer(reducer, initialState);
 //to delete the indivisual elements from an item cart
