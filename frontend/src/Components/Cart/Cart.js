@@ -3,7 +3,7 @@
 
 import React, {createContext, useEffect, useReducer, useState} from 'react'
 import "./Cart.css";
-import fetchProducts   from './Products';
+import fetchProducts   from './products';
 
 import ContextCart from './ContextCart';
 import {reducer} from "./Reducer";
