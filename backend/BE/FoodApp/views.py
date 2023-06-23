@@ -449,7 +449,7 @@ def cart_api(request):
         for cart_item in cart_items:
             cart_data = {
                 'cart_id': cart_item.id,
-                'restaurant_id':  cart_item.restaurant_id.id,
+                'restaurant_id':  cart_item.restaurant_id,
                 'food_id': cart_item.food_id,
                 'price': cart_item.price,
                 'food': cart_item.name,
