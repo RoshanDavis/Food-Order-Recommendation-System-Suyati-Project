@@ -13,10 +13,11 @@ class Command(BaseCommand):
 
         for item in data:
             link_img = item.get('linkImg')  # Check if 'linkImg' key exists
+            food_id = item['food_id']
             if link_img:
                 Restaurant.objects.create(
                     restaurant_id=item['restaurant_id'],
-                    food_id=item['food_id'],
+                    food_id=food_id,
                     food=item['food'],
                     type=item['type'],
                     veg_non=item['veg_non'],
@@ -35,7 +36,7 @@ class Command(BaseCommand):
             else:
                 Restaurant.objects.create(
                     restaurant_id=item['restaurant_id'],
-                    food_id=item['food_id'],
+                    food_id=food_id,
                     food=item['food'],
                     type=item['type'],
                     veg_non=item['veg_non'],

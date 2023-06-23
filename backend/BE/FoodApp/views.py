@@ -324,7 +324,7 @@ class Menu(View):
                 'delivery_charge': row.delivery_charge,
                 'serving_distance': row.serving_distance,
                 'discount_percentage': row.discount_percentage,
-                'rating': row.rating,
+               # 'rating': row.rating,
                 'restaurant': row.restaurant,
                 'address': row.address,
                 'indicator': row.indicator,
@@ -519,13 +519,14 @@ def cart_api(request):
         name = json_data.get('name')
 
        
-        restaurant = Restaurant.objects.filter(restaurant_id=restaurant_id).first() ##########################################
-
+        #foodid = Restaurant.objects.filter(food_id=food_id) ##########################################
+        print(food_id)
 
         # Create a new cart item
         cart_item = Cart(
-            restaurant_id=restaurant,
-            food_id=food_id,
+            restaurant_id=restaurant_id,
+           # food_id=foodid,
+           food_id=food_id,
             price=price,
             name=name,
             quantity=quantity
