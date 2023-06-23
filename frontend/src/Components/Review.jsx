@@ -27,10 +27,13 @@ const Review = () => {
     const [reviewData, setreviewData] = useState([])
     const fetchItems = useCallback(async () => {
         try {
-          const response = await axios.get("http://localhost:3030/Reviews");
+          const response = await axios.post("http://localhost:3030/Reviews",{
+            restaurant_id: selected.restaurant_id,
+          }
+          );
           
-          if (response && response.data[selected.restaurant]) {
-            setreviewData(response.data[selected.restaurant]);
+          if (response && response.data) {
+            setreviewData(response.data);
             
           }
         } catch (error) {
@@ -75,8 +78,7 @@ const Review = () => {
               setuserReview(reviewText)
               try {
                 const response = await axios.post('http://localhost:3030/Review-Post', {
-                  restaurant: selected.restaurant,
-                  Name: "current user",
+                  restaurant_id: selected.restaurant_id,
                   Rating: reviewStar,
                   Review: reviewText
                 });
