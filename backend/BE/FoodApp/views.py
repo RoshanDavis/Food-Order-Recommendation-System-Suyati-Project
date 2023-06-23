@@ -370,7 +370,7 @@ def complaint_status(request):
 
 
 # Storing after ordered
-
+############################################ ORDERS ###########################################
 class OrderCreateView(View):
     def post(self, request):
         orders = json.loads(request.body)
@@ -410,6 +410,43 @@ class OrderCreateView(View):
         Cart.objects.all().delete()  
     
         return JsonResponse({'message': 'Orders created successfully'})
+    
+
+class OrderHistoryView(View):
+    @csrf_exempt
+    def get(self, request):
+        #orders = Order.objects.all().select_related('user_id', 'restaurant_id')
+        us_id= Login.objects.first()
+        
+        user = User.objects.get(user_id=us_id.user_id)
+        orders = Order.objects.filter(user_id=user)
+        order_history = []
+
+        for order in orders:
+            # Retrieve the associated restaurant for each order
+         
+            restaurant = Restaurant.objects.filter(restaurant_id=order.restaurant_id).first()
+            restaurant_name = restaurant.restaurant
+
+            food = Restaurant.objects.filter(food_id=order.food_id).first()
+            name = food.food
+
+            order_data = {
+                'order_id': order.order_id,
+                'user_id': order.user_id.user_id,
+                'restaurant_id': order.restaurant_id,
+                'food_id': order.food_id,
+                'price': order.price,
+                'food': name,
+                'quantity': order.quantity,
+                'restaurant': restaurant_name,
+                'restaurant_address': restaurant.address,
+                # Add more fields from the Restaurant model as needed
+            }
+
+            order_history.append(order_data)
+
+        return JsonResponse(order_history, safe=False)
         
     
 @csrf_exempt

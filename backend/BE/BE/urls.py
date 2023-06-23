@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from FoodApp.views import SignupView, LoginView,Menu,post_complaint,OrderCreateView,CartDeleteView, ResetPasswordView,ReviewCreateView, UserList,SaveFoodDataView, UserDetail,OrderRecommendation,RestRecommendation,cart_api,truncate_cart,get_rest_data,save_users,food_list,save_reviews,save_restaurants,get_reviews,SaveReviewView,complaint_status,OrderCreateAPIView
+from FoodApp.views import SignupView, LoginView,Menu,post_complaint,OrderCreateView,OrderHistoryView,CartDeleteView, ResetPasswordView,ReviewCreateView, UserList,SaveFoodDataView, UserDetail,OrderRecommendation,RestRecommendation,cart_api,truncate_cart,get_rest_data,save_users,food_list,save_reviews,save_restaurants,get_reviews,SaveReviewView,complaint_status,OrderCreateAPIView
 
 from django.views.decorators.csrf import csrf_exempt
 
@@ -49,6 +49,7 @@ urlpatterns = [
     ###Make Order
 
        path('order/', csrf_exempt( OrderCreateView.as_view()), name='ordercreate'), 
+        path('order-history/', csrf_exempt(OrderHistoryView.as_view()), name='order_history'),
     #Menu
     path('menu/',csrf_exempt(Menu.as_view()), name='Menu'),
 
