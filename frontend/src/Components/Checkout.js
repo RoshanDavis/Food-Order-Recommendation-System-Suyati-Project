@@ -1,6 +1,15 @@
 import React, { useState } from 'react';
 import './Checkout.css';
 import { Link } from 'react-router-dom'
+import Footer from './Footer';
+
+
+
+import 'bootstrap/dist/css/bootstrap.min.css';  
+import {Container ,Card, Col, Row} from 'react-bootstrap';  
+import img1 from '../Assets/GPay.jpg'; 
+import img2 from '../Assets/UPI.jpg'; 
+
 
 const CustomerForm = () => {
   const [firstName, setFirstName] = useState('');
@@ -13,7 +22,13 @@ const CustomerForm = () => {
   const [pinCode, setPinCode] = useState('');
 
   return (
+    
+    
     <div className="form-section1">
+              <div className='checkoutfoodiko'>
+            <img src={require('../Assets/Icon.png')} alt=""/>
+            <a href="" >Foodiko</a>
+        </div> 
       <h2>Customer Info</h2>
       <form className='bf'>
         <label>
@@ -85,6 +100,7 @@ const CustomerForm = () => {
   );
 };
 
+
 const PaymentForm = () => {
   const [paymentMethod, setPaymentMethod] = useState('');
   const [cardNumber, setCardNumber] = useState('');
@@ -110,6 +126,37 @@ const PaymentForm = () => {
             onChange={handlePaymentMethodChange}
           />
         </label>
+        {paymentMethod === 'test' && (
+          <div className="App">  
+
+
+                      <Container className='p-4 '>  
+                            <Col md="10">  
+                            <Card>  
+                            <Card.Img variant="top" src={img1} />  
+                            <Card.Body>  
+                              <Card.Title>GPay</Card.Title>  
+                            </Card.Body>  
+                          </Card>  
+                              </Col>  
+                          </Container>  
+
+                          <Container className='p-4'>  
+                            <Col md="10">  
+                            <Card>  
+                            <Card.Img variant="top" src={img2} />  
+                            <Card.Body>  
+                              <Card.Title>UPI</Card.Title>  
+                            </Card.Body>  
+                          </Card>  
+                              </Col>  
+                          </Container> 
+
+
+                      </div>
+
+      )}
+
         <label>
         Credit Card
           <input
@@ -243,6 +290,7 @@ const BillingForm = () => {
           />
         </label>
       </form>
+
     </div>
   );
 };
@@ -266,6 +314,10 @@ const Page = () => {
             Checkout and Pay
           </button>
         </Link>
+
+        <div>
+         <Footer></Footer>
+      </div>
       </div>
     );
   };
