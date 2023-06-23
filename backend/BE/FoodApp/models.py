@@ -45,9 +45,6 @@ class FoodDataTest(models.Model):
         super().__init__(*args, **kwargs)'''
 
 class Restaurant(models.Model):
-    
-    
-    
     #food_id = CustomPrimaryKeyField()
     food_id =models.IntegerField()
     food = models.CharField(max_length=255)
@@ -75,6 +72,7 @@ class Restaurant(models.Model):
 class Review(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE,default='')
     restaurant_id = models.IntegerField()
+    restaurant = models.CharField(max_length=255)
     first_name = models.CharField(max_length=100)
     rating = models.IntegerField()
     review = models.TextField()
@@ -86,7 +84,7 @@ class Review(models.Model):
 class Complaint(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE,default='')
     restaurant_id= models.IntegerField()
-    vendor_name = models.CharField(max_length=100)
+    restaurant = models.CharField(max_length=255)
     first_name = models.CharField(max_length=100)
     review = models.TextField()
     class Meta:

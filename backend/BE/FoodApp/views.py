@@ -214,6 +214,29 @@ def get_reviews(request):
 
     return HttpResponse(json_string)
 
+
+
+class RestaurantReviewsView(View):
+    @csrf_exempt
+    def post(self, request):
+        restaurant_id = request.POST.get('restaurant_id')
+
+        reviews = Review.objects.filter(restaurant_id=restaurant_id)
+        review_list = []
+
+        for review in reviews:
+            review_data = {
+                'user_id': review.user_id.user_id,
+                'restaurant_id': review.restaurant_id,
+                'restaurant': review.restaurant,
+                'first_name': review.first_name,
+                'rating': review.rating,
+                'review': review.review,
+            }
+
+            review_list.append(review_data)
+
+        return JsonResponse(review_list, safe=False)
 class ReviewCreateView(View):
     @csrf_exempt
     def post(self, request):
@@ -293,6 +316,30 @@ def post_complaint(request):
         return JsonResponse(response_data)
 
 
+def complaint_status(request):
+    data = json.loads(request.body)
+  # Assuming the vendor ID is passed in the request body
+    print(data)  # Debugging statement to check the request data
+    
+    restaurant_id = data.get('restaurant_id')
+    print(restaurant_id)  # Debugging statement to check the value of restaurant_id
+    
+    complaints_count = 0
+    # Calculate the count of complaints with 'yes' status for the specific vendor ID
+    complaints_count = Complaint.objects.filter( restaurant_id_id=restaurant_id).count()
+    print(complaints_count)
+    # Assign the status based on the count
+    if complaints_count < 2:
+        status = 1
+    elif 2<= complaints_count <= 4:
+        status = 2
+    else:
+        status = 3
+
+    
+
+    # Return the status as a JSON response
+    return JsonResponse({'status': status})
 
 
 ########################## MENU ################################################
@@ -337,34 +384,13 @@ class Menu(View):
             row_list.append(row_data)
 
         return JsonResponse(row_list,safe=False)
-
-
-
-
-def complaint_status(request):
-    data = json.loads(request.body)
-  # Assuming the vendor ID is passed in the request body
-    print(data)  # Debugging statement to check the request data
-    
-    restaurant_id = data.get('restaurant_id')
-    print(restaurant_id)  # Debugging statement to check the value of restaurant_id
-    
-    complaints_count = 0
-    # Calculate the count of complaints with 'yes' status for the specific vendor ID
-    complaints_count = Complaint.objects.filter( restaurant_id_id=restaurant_id).count()
-    print(complaints_count)
-    # Assign the status based on the count
-    if complaints_count < 2:
-        status = 1
-    elif 2<= complaints_count <= 4:
-        status = 2
-    else:
-        status = 3
-
     
 
-    # Return the status as a JSON response
-    return JsonResponse({'status': status})
+
+
+
+
+
 
 
 

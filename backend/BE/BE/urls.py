@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from FoodApp.views import SignupView, LoginView,Menu,post_complaint,OrderCreateView,OrderHistoryView,CartDeleteView, ResetPasswordView,ReviewCreateView, UserList,SaveFoodDataView, UserDetail,OrderRecommendation,RestRecommendation,cart_api,truncate_cart,get_rest_data,save_users,food_list,save_reviews,save_restaurants,get_reviews,SaveReviewView,complaint_status,OrderCreateAPIView
+from FoodApp.views import SignupView, LoginView,Menu,post_complaint,RestaurantReviewsView,OrderCreateView,OrderHistoryView,CartDeleteView, ResetPasswordView,ReviewCreateView, UserList,SaveFoodDataView, UserDetail,OrderRecommendation,RestRecommendation,cart_api,truncate_cart,get_rest_data,save_users,food_list,save_reviews,save_restaurants,get_reviews,SaveReviewView,complaint_status,OrderCreateAPIView
 
 from django.views.decorators.csrf import csrf_exempt
 
@@ -39,6 +39,7 @@ urlpatterns = [
      #posting a single review from user
       path('review/create/', csrf_exempt(ReviewCreateView.as_view()), name='review-create'),
      path('save-review/', csrf_exempt( SaveReviewView.as_view()), name='save_review'),        ######extra
+      path('restaurant-reviews/',  csrf_exempt(RestaurantReviewsView.as_view()), name='restaurant_reviews'),
      path('get_reviews', csrf_exempt(get_reviews), name='get_reviews'),
     
 
