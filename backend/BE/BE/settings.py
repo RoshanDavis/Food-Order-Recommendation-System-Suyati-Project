@@ -59,11 +59,14 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    
 
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
 ]
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 
+SESSION_COOKIE_NAME = 'sessionid'
 ROOT_URLCONF = 'BE.urls'
 
 TEMPLATES = [

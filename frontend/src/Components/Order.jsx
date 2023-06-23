@@ -4,8 +4,38 @@ import Footer from './Footer'
 import axios from 'axios'
 import ProductSlider from './ProductSlider'
 import Stepper from './Stepper'
+import fetchProducts   from './Cart/products';
+let products = []; // Define an initial empty array
+
+
+fetchProducts()
+  .then(fetchedProducts => {
+    // Assign the fetched products to the 'products' variable
+    products = fetchedProducts;
+
+    // Use the fetched products here
+    // console.log(products);
+  })
+  .catch(error => {
+    // Handle any errors that occurred during the fetch
+    console.error(error);
+  });
 const Order = () => {
 
+  const handleClickCancel = () => {
+        
+        /*     Api need to be created for truncating cart*/
+        // // Send a POST request to the backend API using Axios
+        // axios
+        //   .post("/your-backend-endpoint", JSON.stringify(data))
+        //   .then((response) => {
+        //     // Handle the response from the backend
+        //     console.log("Message sent to backend successfully");
+        //   })
+        //   .catch((error) => {
+        //     console.error("Failed to send message to backend", error);
+        //   });
+      };
 
   const [orders, setorders] = useState([]);
   const [prevOrders, setprevOrders] = useState([]);
@@ -42,6 +72,16 @@ const Order = () => {
 
     const handleStepChange = (nextStep) => {
         setShowCancelButton(nextStep<3); // Update showCancelButton state based on currentStep
+        if(!showCancelButton){
+          console.log(products)
+          axios.post('http://127.0.0.1:8000/order/', products)
+            .then(response => {
+            console.log(response);
+            })
+            .catch(error => {
+            // Handle any errors that occur during the request
+            });
+        }
       };
   return (
     <div>
@@ -59,6 +99,11 @@ const Order = () => {
                 
                 <ProductSlider data={orders} showCancelButtonProp={showCancelButton} />
               </div>
+              {showCancelButton &&
+              <div className="item-count d-flex flex-row justify-content-around pt-3 pb-3" style={{fontSize: '3rem'}}>
+                            <button className='btn custom-button' onClick={handleClickCancel}>Cancel</button>
+              </div>
+              }
             </div>
             ):(
                 <div className="container pb-5">
@@ -73,6 +118,7 @@ const Order = () => {
               <div className="container p-0 m-0">
                 <ProductSlider data={prevOrders}/>
               </div>
+              
             </div>
             ):
             (
