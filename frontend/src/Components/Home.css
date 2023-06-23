@@ -47,11 +47,11 @@
     font-size: larger;
 }
 .custom-button {
-    background-color:coral; 
-    color: floralwhite; 
+    background-color:coral!important;
+    color: floralwhite!important; 
   }
   .custom-button:hover {
-    background-color: floralwhite; 
-    color: coral; 
-    border: 2px solid coral;
+    background-color: floralwhite!important;
+    color: coral!important;
+    border: 2px solid coral!important;
   }

@@ -27,7 +27,7 @@ const Review = () => {
     const [reviewData, setreviewData] = useState([])
     const fetchItems = useCallback(async () => {
         try {
-          const response = await axios.post("http://localhost:3030/Reviews",{
+          const response = await axios.post("http://127.0.0.1:8000/restaurant-reviews/",{
             restaurant_id: selected.restaurant_id,
           }
           );

@@ -5,7 +5,7 @@ import Footer from './Footer';
 
 
 
-import 'bootstrap/dist/css/bootstrap.min.css';  
+
 import {Container ,Card, Col, Row} from 'react-bootstrap';  
 import img1 from '../Assets/GPay.jpg'; 
 import img2 from '../Assets/UPI.jpg'; 
