@@ -397,7 +397,7 @@ class OrderCreateView(View):
                 quantity=order['quantity']
                 )
             order_obj.save()
-            
+        Cart.objects.all().delete()  
         return JsonResponse({'message': 'Orders created successfully'})
     
 @csrf_exempt
@@ -558,6 +558,8 @@ class CartDeleteView(View):
         json_data = json.loads(request.body)
         food_id = json_data.get('food_id')
 
+
+
         # Find the cart item with the specified food_id
         cart_item = Cart.objects.get(food_id=food_id)
 
@@ -570,10 +572,31 @@ class CartDeleteView(View):
         }
 
         return JsonResponse(response)
+'''
+@csrf_exempt
+def truncate_cart(request):
+    if request.method == 'POST':
+        us_id = request.session.get('user_id')
+        print(us_id)
+        cart_items = Cart.objects.all()
+
+        # Truncate the Cart table
+        Cart.objects.all().delete()
+
+        # Create the JSON response
+        response = {
+            'message': 'Cart table truncated successfully.'
+        }
+
+        # Return the JSON response
+        return JsonResponse(response)
+ '''   
 
 @csrf_exempt
 def truncate_cart(request):
     if request.method == 'POST':
+
+        
         # Truncate the Cart table
         Cart.objects.all().delete()
 
@@ -585,7 +608,8 @@ def truncate_cart(request):
         # Return the JSON response
         return JsonResponse(response)
 
-###################REcommendation ##############
+
+###################     Recommendation ##############
 
 class OrderRecommendation(View):
     def get(self, request):
@@ -726,13 +750,14 @@ class OrderCreateAPIView(APIView):
             user = User.objects.get(user_id=user_id)
             restaurant_id= order_data.get('restaurant_id')
             restaurant = Restaurant.objects.filter(restaurant_id=restaurant_id).first()
+            restaurant_name = restaurant.restaurant
             order = Order(
                 order_id=order_data.get('order_id'),
                 user_id=user,
-                restaurant_id=restaurant,
+                restaurant_id=restaurant_id,
                 food_id=order_data.get('food_id'),
                 price=order_data.get('price'),
-                name=order_data.get('name'),
+                name=restaurant_name,
                 quantity=order_data.get('quantity'),
             )
             order.save()

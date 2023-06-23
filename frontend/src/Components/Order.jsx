@@ -73,6 +73,11 @@ const Order = () => {
                 
                 <ProductSlider data={orders} showCancelButtonProp={showCancelButton} />
               </div>
+              {showCancelButton &&
+              <div className="item-count d-flex flex-row justify-content-around pt-3 pb-3" style={{fontSize: '3rem'}}>
+                            <button className='btn custom-button' onClick={handleClickCancel}>Cancel</button>
+              </div>
+              }
             </div>
             ):(
                 <div className="container pb-5">
@@ -87,11 +92,7 @@ const Order = () => {
               <div className="container p-0 m-0">
                 <ProductSlider data={prevOrders}/>
               </div>
-              {showCancelButton &&
-              <div className="item-count d-flex flex-row justify-content-around pt-3 pb-3" style={{fontSize: '3rem'}}>
-                            <button className='btn custom-button' onClick={handleClickCancel}>Cancel</button>
-              </div>
-              }
+              
             </div>
             ):
             (
