@@ -26,8 +26,8 @@ const Complaint = () => {
         //Fetch previous order history
         try{
             const response=await axios.get("http://127.0.0.1:8000/api/food/");
-            if (response && response.data.ProductSlider) { // Check if response and response.data exist
-                setitems(response.data.ProductSlider);
+            if (response && response.data) { // Check if response and response.data exist
+                setitems(response.data);
                 
             }
             
@@ -35,13 +35,23 @@ const Complaint = () => {
         catch (error) {
             console.log(error);
           }
-          
-          //Change when implementing api
-          if(complaintData)
-          {
-            sethasComplaint(true);
-            setCurrentComplaints(complaintData.Complaints);
+          try {
+            const response = await axios.get("http://localhost:3030/Complaints");
+            
+            if (response && response.data) {
+                setCurrentComplaints(response.data);
+                sethasComplaint(true);
+            }
+          } catch (error) {
+            console.log(error);
           }
+        
+          //Change when implementing api
+        //   if(complaintData)
+        //   {
+        //     sethasComplaint(true);
+        //     // setCurrentComplaints(complaintData.Complaints);
+        //   }
     }
     
 
