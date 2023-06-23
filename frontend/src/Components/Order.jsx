@@ -72,8 +72,9 @@ const Order = () => {
 
     const handleStepChange = (nextStep) => {
         setShowCancelButton(nextStep<3); // Update showCancelButton state based on currentStep
-        if(!setShowCancelButton){
-          axios.post('http://127.0.0.1:8000/cart/', products)
+        if(!showCancelButton){
+          console.log(products)
+          axios.post('http://127.0.0.1:8000/order/', products)
             .then(response => {
             console.log(response);
             })

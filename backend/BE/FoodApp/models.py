@@ -120,3 +120,17 @@ class Cart(models.Model):
 
     class Meta:
         db_table='Cart'
+
+'''class Login(models.Model):
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE,default='')
+   
+    class Meta:
+        db_table='Login'
+'''
+class Login(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    # Other fields...
+
+    
+    class Meta:
+        db_table='Login'

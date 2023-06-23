@@ -5,7 +5,7 @@ from django.views import View
 from django.http import JsonResponse,HttpResponse
 from django.core import serializers
 from django.urls import reverse
-from .models import User, FoodDataTest,Review,Restaurant,Complaint,Order,Cart
+from .models import User, FoodDataTest,Review,Restaurant,Complaint,Order,Cart,Login
 import json
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Max
@@ -61,14 +61,16 @@ class LoginView(View):
         if existing_user is not None:
            
             user_id= existing_user.user_id
-            
+
+            login = Login(user=existing_user)
+            login.save()
            #storing user id for session 
             request.session['user_id'] = user_id 
             #us_id = request.session.get('user_id')
 
             #print(us_id)
             
-            print(existing_user.user_id)
+            #print(existing_user.user_id)
             
             return JsonResponse({'success':True, 'user_id': user_id})
             #return JsonResponse({'success':True})
@@ -325,7 +327,7 @@ class Menu(View):
                 'serving_distance': row.serving_distance,
                 'discount_percentage': row.discount_percentage,
                # 'rating': row.rating,
-                'restaurant': row.restaurant,
+               # 'restaurant': row.restaurant,
                 'address': row.address,
                 'indicator': row.indicator,
                 'linkImg':row.linkImg
@@ -374,31 +376,41 @@ class OrderCreateView(View):
         orders = json.loads(request.body)
       
         #Obtaining order_id and user_id
-        us_id = request.session.get('user_id')
-        print(us_id)
+        #us_id = request.session.get('user_id')
+     
+        
+        us_id= Login.objects.first()
+        
+        user = User.objects.get(user_id=us_id.user_id)
+        print(user)
         existing_orders = Order.objects.all().values('order_id', 'food_id')
 
 
         max_order_id = existing_orders.aggregate(Max('order_id'))['order_id__max']
-        ord_id = max_order_id + 1 
-
+        if max_order_id is None:
+            ord_id = 1
+        else:
+            ord_id = max_order_id + 1 
+    
     
         for order in orders:                
             restaurant_id = order.get('restaurant_id')#####################################
-            restaurant = Restaurant.objects.filter(restaurant_id=restaurant_id).first()#############################
+           # restaurant = Restaurant.objects.filter(restaurant_id=restaurant_id).first()#############################
             # Create a new Order object and save it to the database
             order_obj = Order(
                 order_id=ord_id,
-                user_id=us_id,
-                restaurant_id= restaurant,
+                user_id=user,
+                restaurant_id= restaurant_id,
                 food_id=order['food_id'],
                 price=order['price'],
-                name=order['name'],
+                name=order['food'],
                 quantity=order['quantity']
                 )
             order_obj.save()
         Cart.objects.all().delete()  
+    
         return JsonResponse({'message': 'Orders created successfully'})
+        
     
 @csrf_exempt
 def get_rest_data(request):
