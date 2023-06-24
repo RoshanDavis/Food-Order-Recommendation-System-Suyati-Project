@@ -77,8 +77,9 @@ const Review = () => {
               setreviewIsSubmitted(true)
               setuserReview(reviewText)
               try {
-                const response = await axios.post('http://localhost:3030/Review-Post', {
+                const response = await axios.post('http://127.0.0.1:8000/save-review/', {
                   restaurant_id: selected.restaurant_id,
+                  restaurant:selected.restaurant,
                   Rating: reviewStar,
                   Review: reviewText
                 });

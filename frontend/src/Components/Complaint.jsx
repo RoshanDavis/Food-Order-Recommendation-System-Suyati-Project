@@ -25,9 +25,10 @@ const Complaint = () => {
 
         //Fetch previous order history
         try{
-            const response=await axios.get("http://127.0.0.1:8000/api/food/");
-            if (response && response.data) { // Check if response and response.data exist
-                setitems(response.data);
+            const response=await axios.get("http://127.0.0.1:8000/order-history/");
+            if (response && response.data.ProductSlider) { // Check if response and response.data exist
+                setitems(response.data.ProductSlider);
+
                 
             }
             

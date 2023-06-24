@@ -36,9 +36,9 @@ class SignupView(View):
             #user_id=data['user_id']
             email=data['email'], 
             password=data['password'], 
-            first_name=data['first_name'],
-            last_name=data['last_name'])
-        user.save()
+            first_name=data['firstName'],
+            last_name=data['lastName'])
+            user.save()
         return JsonResponse({'success': True})
 
 
@@ -175,7 +175,7 @@ mydb = mysql.connector.connect(
   host="localhost",
   user="root",
   password="123456",
-  database="foodiko"
+  database="jj3"
 )
 ############################################# REVIEWS ################################################################
 @csrf_exempt
@@ -184,7 +184,7 @@ def get_reviews(request):
     mycursor = mydb.cursor()
 
     # Execute your query
-    mycursor.execute("SELECT * FROM ReviewTest")
+    mycursor.execute("SELECT * FROM review")
 
     # Fetch all rows as a list of tuples
     rows = mycursor.fetchall()
@@ -220,23 +220,29 @@ class RestaurantReviewsView(View):
     @csrf_exempt
     def post(self, request):
         restaurant_id = request.POST.get('restaurant_id')
+        us_id= Login.objects.first()
+        
+   
 
         reviews = Review.objects.filter(restaurant_id=restaurant_id)
+        print(reviews)
         review_list = []
 
         for review in reviews:
             review_data = {
-                'user_id': review.user_id.user_id,
-                'restaurant_id': review.restaurant_id,
-                'restaurant': review.restaurant,
-                'first_name': review.first_name,
-                'rating': review.rating,
-                'review': review.review,
+                'Name': review.first_name,
+                'Rating': review.rating,
+                'Review': review.review,
             }
 
             review_list.append(review_data)
 
         return JsonResponse(review_list, safe=False)
+    ''' user = User.objects.get(user_id=us_id.user_id)
+        print(user.user_id)
+        name =  User.objects.get(user_id=us_id.user_id)
+        print(name.first_name)'''
+
 class ReviewCreateView(View):
     @csrf_exempt
     def post(self, request):
@@ -244,13 +250,16 @@ class ReviewCreateView(View):
         data = json.loads(request.body)
         
         # Extract the necessary data from the JSON
-        user_id = data.get('user_id')
+        
         restaurant_id = data.get('restaurant_id')
-        vendor_name = data.get('vendor_name')
-        first_name = data.get('first_name')
-        rating = data.get('rating')
-        review_text = data.get('review')
+        vendor_name = data.get('restaurant')
+      
+        rating = data.get('Rating')
+        review_text = data.get('Review')
 
+    
+        user_id = data.get('user_id')
+        first_name = data.get('Name')
         # Create a new review instance
         review = Review(
             user_id=user_id,
@@ -273,17 +282,25 @@ class SaveReviewView(View):
     @csrf_exempt
     def post(self, request):
         data = json.loads(request.body)
+
+        us_id= Login.objects.first()
         
+        user = User.objects.get(user_id=us_id.user_id)
+        print(user.user_id)
+        name =  User.objects.get(user_id=us_id.user_id)
+        print(name.first_name)
+        
+        restaurant_id=data.get('restaurant_id')
         restaurant = data.get('restaurant')
-        name = data.get('Name')
         rating = data.get('Rating')
         review = data.get('Review')
         
         # Create a new review object and save it to the database
-        review = Review(restaurant=restaurant, name=name, rating=rating, review=review)
+        review = Review( user_id=user,restaurant_id=restaurant_id,restaurant=restaurant, first_name=name.first_name, rating=rating, review=review)
         review.save()
-        
         return JsonResponse({'success': True})
+        
+        
 #################################################################################################
 
 
@@ -741,18 +758,18 @@ class RestRecommendation(View):
 
         for id in recommended_res:
             try:
-                restaurants = Restaurant.objects.filter(restaurant_id=id)
-                print(restaurants)
+                restaurant = Restaurant.objects.filter(restaurant_id=id).first()
+                #print(restaurants)
                 
-                for restaurant in restaurants:
-                    data_dict = {
+                #for restaurant in restaurants:
+                data_dict = {
                         'restaurant_id': restaurant.restaurant_id,
                         'food_id': restaurant.food_id,
-                        'food': restaurant.food,
+                        #'food': restaurant.food,
                         'type': restaurant.type,
                         'veg_non': restaurant.veg_non,
                         'describe': restaurant.describe,
-                        'price': restaurant.price,
+                        #'price': restaurant.price,
                         'delivery_charge': restaurant.delivery_charge,
                         'serving_distance': restaurant.serving_distance,
                         'prepration_time': restaurant.prepration_time,
@@ -760,10 +777,11 @@ class RestRecommendation(View):
                         'rating': restaurant.rating,
                         'restaurant': restaurant.restaurant,
                         'address': restaurant.address,
-                        'indicator': restaurant.indicator
+                        'indicator': restaurant.indicator,
+                        'linkImg':restaurant.linkImg
                         
                     }
-                    data.append(data_dict)
+                data.append(data_dict)
             except Restaurant.DoesNotExist:
                 continue
 

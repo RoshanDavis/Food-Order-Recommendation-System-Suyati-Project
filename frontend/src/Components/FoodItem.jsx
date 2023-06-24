@@ -183,9 +183,12 @@ const FoodItem = ({data,showItemCountProp,showCancelButtonProp}) => {
                 </div>
             
                 {/* <h3>{item.food}</h3> */}
+                {item.food &&
                 <h3>{item.food.charAt(0).toLocaleUpperCase() + item.food.slice(1).toLocaleLowerCase()}</h3>
-
+                }
+                {item.price &&
                 <h2 className='pt-4 ps-3'>Rs.{item.price}</h2>
+                }
                 </div>
                 
                 { showItemCountProp &&
