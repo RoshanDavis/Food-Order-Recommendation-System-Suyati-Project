@@ -219,13 +219,20 @@ def get_reviews(request):
 class RestaurantReviewsView(View):
     @csrf_exempt
     def post(self, request):
-        restaurant_id = request.POST.get('restaurant_id')
-        us_id= Login.objects.first()
-        
-   
 
+        data = json.loads(request.body)
+        restaurant_id = data.get('restaurant_id')
+        print(restaurant_id)
+        # us_id= Login.objects.first()
+        
+        # user_id=us_id.user_id
+        # print(user_id)
+
+    # ''' name = User.objects.filter(user_id=user_id)
+    #     first_name=name.first_name
+    #     print(first_name)'''
         reviews = Review.objects.filter(restaurant_id=restaurant_id)
-        print(reviews)
+       # print(reviews)
         review_list = []
 
         for review in reviews:
@@ -312,11 +319,17 @@ def post_complaint(request):
         # Assuming the complaint data is sent as JSON in the request body
         complaint_data = json.loads(request.body)
 
+        us_id= Login.objects.first()
+        
+        user = User.objects.get(user_id=us_id.user_id)
+        print(user.user_id)
+        name =  User.objects.get(user_id=us_id.user_id)
+        print(name.first_name)
         # Extract the required fields from the complaint_data dictionary
-        user_id = complaint_data['user_id']
+        user_id = user.user_id
         restaurant_id = complaint_data['restaurant_id']
         vendor_name = complaint_data['vendor_name']
-        first_name = complaint_data['first_name']
+        first_name = name.first_name
         review = complaint_data['review']
 
         # Create a Complaint object and save it to the database
@@ -706,10 +719,11 @@ def truncate_cart(request):
 class OrderRecommendation(View):
     def get(self, request):
         food_id_list = [11, 29, 7]
+        #food_id_list = [95,29,1]
         food_ids = Get_Recommendations(food_id_list)
         data = []
         #food_ids = [111, 97, 220, 77, 272, 62, 46, 302, 122, 185]
-        print(food_ids)
+        print("food",food_ids)
 
         for id in food_ids:
             print(type(id))

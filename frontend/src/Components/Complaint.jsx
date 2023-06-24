@@ -37,7 +37,7 @@ const Complaint = () => {
             console.log(error);
           }
           try {
-            const response = await axios.get("http://localhost:3030/Complaints");
+            const response = await axios.get("http://127.0.0.1:8000/order-history/");
             
             if (response && response.data) {
                 setCurrentComplaints(response.data);
