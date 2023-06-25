@@ -148,19 +148,20 @@ const Restaurant = () => {
                 <div className="row">
                     <div className='col ps-4'>
                         <img className='restaurant-img'
-                        src={
-                        // defaultImage[selected.restaurant] === selected.restaurant
-                        //     ? defaultImage[selected.restaurant] === defaultImage["'" + selected.restaurant + "'"]? defaultImage.linkDefault: selected.restaurantImg
-                        //     : selected.restaurantImg
-                        selected.restaurantImg
-                        }
+                        // src={
+                        // // defaultImage[selected.restaurant] === selected.restaurant
+                        // //     ? defaultImage[selected.restaurant] === defaultImage["'" + selected.restaurant + "'"]? defaultImage.linkDefault: selected.restaurantImg
+                        // //     : selected.restaurantImg
+                        // selected.restaurantImg
+                        // }
+                        src={require('../Assets/restaurant1.jpg')}
                         alt={selected.restaurantImg}
                         // onError={handleErrorImage}
                         />
                         <div className=" d-flex flex-column justify-content-center ps-2 pt-3">
                             
                             <h2 className='restaurant-details'>{selected.address}</h2>
-                            <h2 className='restaurant-details'>Call : {selected.contact}</h2>
+                            {/* <h2 className='restaurant-details'>Call : {selected.contact}</h2> */}
                         </div>
                     </div>
                     

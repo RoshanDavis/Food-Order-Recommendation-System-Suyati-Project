@@ -13,7 +13,7 @@ from django.db.models import Max
 
 
 
-from .Recommendation.Order.collect_pkl_and_run_pkl import Get_Recommendations
+from .Recommendation.Order.run_model import Get_Recommendations
 from .Recommendation.Restaurant.res_recommendation import Get_Recommendation
 
 class SignupView(View):
@@ -497,6 +497,7 @@ class OrderHistoryView(View):
                 'quantity': order.quantity,
                 'restaurant': restaurant_name,
                 'restaurant_address': restaurant.address,
+                'linkImg':restaurant.linkImg
                 # Add more fields from the Restaurant model as needed
             }
 
@@ -718,9 +719,20 @@ def truncate_cart(request):
 
 class OrderRecommendation(View):
     def get(self, request):
-        food_id_list = [11, 29, 7]
-        #food_id_list = [95,29,1]
-        food_ids = Get_Recommendations(food_id_list)
+        #food_id_list = [11, 29, 7]
+        #food_id_list = [298]
+
+        # latest_orders = Order.objects.order_by('-id')[:3]
+        # last_three_food_ids = latest_orders.values_list('food_id', flat=True)
+
+        us_id= Login.objects.first()
+        
+        user = User.objects.get(user_id=us_id.user_id)
+        print(user.user_id)
+        last_three_foods = Order.objects.filter(user_id=user.user_id).order_by('-id')[:3].values_list('food_id', flat=True)
+
+        print(last_three_foods)
+        food_ids = Get_Recommendations(last_three_foods)
         data = []
         #food_ids = [111, 97, 220, 77, 272, 62, 46, 302, 122, 185]
         print("food",food_ids)
@@ -759,15 +771,23 @@ class OrderRecommendation(View):
         return JsonResponse(data, safe=False)
     
 
-
+import random
 class RestRecommendation(View):
     def get(self, request):
         customer_id = 'ZGFSYCZ'
+
+        us_id= Login.objects.first()
+        
+        user = User.objects.get(user_id=us_id.user_id)
+        
         customer_ratings = {}
 
         recommended_res = Get_Recommendation(customer_id, customer_ratings)
         data=[]
         print(recommended_res)
+
+        # random_numbers = random.sample(range(1, 400), 10)
+        # print(random_numbers)
         
 
         for id in recommended_res:
@@ -798,7 +818,8 @@ class RestRecommendation(View):
                 data.append(data_dict)
             except Restaurant.DoesNotExist:
                 continue
-
+            
+            
         return JsonResponse(data, safe=False)
 
     ######################################Saving data #############
