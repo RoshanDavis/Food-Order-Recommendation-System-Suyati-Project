@@ -145,11 +145,12 @@ const Review = () => {
                 <div className="row">
                     <div className='col ps-4'>
                     <img className='restaurant-img'
-                        src={
-                        defaultImage[selected.restaurant] === selected.restaurant
-                            ? defaultImage[selected.restaurant] === defaultImage["'" + selected.restaurant + "'"]? defaultImage.linkDefault: selected.restaurantImg
-                            : selected.restaurantImg
-                        }
+                        // src={
+                        // defaultImage[selected.restaurant] === selected.restaurant
+                        //     ? defaultImage[selected.restaurant] === defaultImage["'" + selected.restaurant + "'"]? defaultImage.linkDefault: selected.restaurantImg
+                        //     : selected.restaurantImg
+                        // }
+                        src={require('../Assets/restaurant1.jpg')}
                         alt={selected.restaurantImg}
                         onError={handleErrorImage}
                         />

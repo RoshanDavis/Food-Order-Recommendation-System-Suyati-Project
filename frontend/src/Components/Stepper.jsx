@@ -3,7 +3,7 @@ import { TiTick } from "react-icons/ti";
 import './Stepper.css'
 
 const Stepper = ({onStepChange}) => {
-  const steps = ["Placing Order", "Preparing your food", "On the way", "Delievered"];
+  const steps = ["Placing Order", "Preparing your food", "On the way", "Delivered"];
   const [currentStep, setCurrentStep] = useState(1);
   const [complete, setComplete] = useState(false);
 

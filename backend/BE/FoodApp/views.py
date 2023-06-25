@@ -475,7 +475,9 @@ class OrderHistoryView(View):
         us_id= Login.objects.first()
         
         user = User.objects.get(user_id=us_id.user_id)
-        orders = Order.objects.filter(user_id=user)
+        #orders = Order.objects.filter(user_id=user)
+        orders = Order.objects.filter(user_id=user).order_by('-order_id')
+
         order_history = []
 
         for order in orders:
@@ -497,7 +499,7 @@ class OrderHistoryView(View):
                 'quantity': order.quantity,
                 'restaurant': restaurant_name,
                 'restaurant_address': restaurant.address,
-                'linkImg':restaurant.linkImg
+                'linkImg':food.linkImg
                 # Add more fields from the Restaurant model as needed
             }
 
@@ -732,6 +734,7 @@ class OrderRecommendation(View):
         last_three_foods = Order.objects.filter(user_id=user.user_id).order_by('-id')[:3].values_list('food_id', flat=True)
 
         print(last_three_foods)
+        
         food_ids = Get_Recommendations(last_three_foods)
         data = []
         #food_ids = [111, 97, 220, 77, 272, 62, 46, 302, 122, 185]
@@ -783,6 +786,7 @@ class RestRecommendation(View):
         customer_ratings = {}
 
         recommended_res = Get_Recommendation(customer_id, customer_ratings)
+        recommended_res=[841, 299, 160, 225, 85]
         data=[]
         print(recommended_res)
 
