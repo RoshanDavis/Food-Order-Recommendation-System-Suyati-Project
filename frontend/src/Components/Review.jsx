@@ -167,8 +167,8 @@ const Review = () => {
                           <span className="status-tooltip">{getStatusText(selected.indicator)}</span>
                         </div>
                       </div>
-                        <h2 className='restaurant-details'>Louis Lane, Pandit Karuppan Road, Perumanoor Thevera, Kochi</h2>
-                        <h2 className='restaurant-details'>Call : +919633276393</h2>
+                        <h2 className='restaurant-details'>{selected.address}</h2>
+                        <h2 className='restaurant-details'>Call : {selected.contact}</h2>
                         <div className='text-center card rate-card m-5'>
                             <h1>Rate us</h1>
                             <div className="star-rating">
