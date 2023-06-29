@@ -8,6 +8,7 @@ import ProductSlider from './ProductSlider'
 import axios from 'axios'
 import { Link,useLocation} from 'react-router-dom'
 // import imgGirl from '../Assets/Icon.png';
+import { Navigate } from 'react-router-dom'
 
 const Restaurant = () => {
 
@@ -126,6 +127,10 @@ const Restaurant = () => {
           }
         }
         
+        const handleReloadAndGo=()=>{
+          window.location.reload(); 
+          Navigate("/Cart")
+        }
         
   return (
     <div>
@@ -190,7 +195,7 @@ const Restaurant = () => {
                 </div>
             </div>
             <div className='d-flex justify-content-center p-5'>
-                <Link to='/Cart' class="btn custom-button btn-lg center-button" >Proceed to Checkout</Link>
+                <Link to='' onClick={handleReloadAndGo()} class="btn custom-button btn-lg center-button" >Proceed to Checkout</Link>
             </div>
             {showButton && (
                 <button className="scroll-to-top btn custom-button btn-lg center-button" onClick={scrollToTop}>
