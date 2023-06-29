@@ -14,7 +14,8 @@ from django.db.models import Max
 
 
 from .Recommendation.Order.run_model import Get_Recommendations
-from .Recommendation.Restaurant.res_recommendation import Get_Recommendation
+#from .Recommendation.Restaurant.res_recommendation import Get_Recommendation
+from .Recommendation.test.res_recommendation import Get_Recommendation
 
 class SignupView(View):
     @csrf_exempt
@@ -337,23 +338,60 @@ def post_complaint(request):
         # Extract the required fields from the complaint_data dictionary
         user_id = user.user_id
         restaurant_id = complaint_data['restaurant_id']
-        vendor_name = complaint_data['vendor_name']
+        restaurant = complaint_data['restaurant']
         first_name = name.first_name
         review = complaint_data['review']
 
         # Create a Complaint object and save it to the database
         complaint = Complaint.objects.create(
-            user_id=user_id,
+            user_id=user,
             restaurant_id=restaurant_id,
-            vendor_name=vendor_name,
+            restaurant=restaurant,
             first_name=first_name,
             review=review
         )
         complaint.save
+
+        #restaurant = Restaurant.objects.get(restaurant_id=restaurant_id)
+        complaints_count = Complaint.objects.filter(restaurant_id=restaurant_id).count()
+
+        if complaints_count < 2:
+            indicator = 1
+        elif 2 <= complaints_count <= 3:
+            indicator = 2
+        else:
+            indicator = 3
+
+        Restaurant.objects.filter(restaurant_id=restaurant_id).update(indicator=indicator)
+
         # Return a JSON response indicating success
         response_data = {'message': 'Complaint posted successfully'}
         return JsonResponse(response_data)
 
+
+class ComplaintsView(View):
+    csrf_exempt
+    def get(self, request):
+       
+        us_id= Login.objects.first()
+        
+        user = User.objects.get(user_id=us_id)
+
+
+        complaints = Complaint.objects.filter(user_id=user.user_id).values()
+
+        complaint_list = []
+        for complaint in complaints:
+            complaint_data = {
+                'user_id': user.user_id,
+                'restaurant_id': complaint.restaurant_id,
+                'restaurant': complaint.restaurant,
+                'first_name': complaint.first_name,
+                'review': complaint.review,
+            }
+            complaint_list.append(complaint_data)
+
+        return JsonResponse(complaint_list, safe=False)
 
 def complaint_status(request):
     data = json.loads(request.body)
@@ -786,16 +824,29 @@ class OrderRecommendation(View):
 import random
 class RestRecommendation(View):
     def get(self, request):
-        customer_id = 'ZGFSYCZ'
+        #customer_id = 'ZGFSYCZ'
 
         us_id= Login.objects.first()
         
         user = User.objects.get(user_id=us_id.user_id)
+        customer_id=user.user_id
+        print(customer_id)
         
+        reviews = Review.objects.filter(user_id=customer_id).values('restaurant_id', 'rating')
+
+        review_list = []
+        for review in reviews:
+            review_data = {
+                'restaurant_id': review['restaurant_id'],
+                'rating': review['rating'],
+        }
+            review_list.append(review_data)
+
+        print(review_list)
         customer_ratings = {}
 
         recommended_res = Get_Recommendation(customer_id, customer_ratings)
-        recommended_res=[841, 299, 160, 225, 85]
+        #recommended_res=[841, 299, 160, 225, 85]
         data=[]
         print(recommended_res)
 
