@@ -78,6 +78,15 @@ class LoginView(View):
             return JsonResponse({'error': 'User does not exist'})
       
 
+class SignoutView(View):
+    def get(self, request):
+        # Perform signout logic
+        
+        Cart.objects.all().delete()
+        Login.objects.all().delete()
+        # Return a JSON response or any other response if needed
+        return JsonResponse({'message': 'Signout successful'})
+    
 
 class ResetPasswordView(View):
     def post(self, request):

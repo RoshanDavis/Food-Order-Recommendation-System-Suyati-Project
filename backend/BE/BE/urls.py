@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from FoodApp.views import SignupView, LoginView,Menu,post_complaint,RestaurantReviewsView,OrderCreateView,OrderHistoryView,CartDeleteView, ResetPasswordView,ReviewCreateView, UserList,SaveFoodDataView, UserDetail,OrderRecommendation,RestRecommendation,cart_api,truncate_cart,get_rest_data,save_users,food_list,save_reviews,save_restaurants,get_reviews,SaveReviewView,complaint_status,OrderCreateAPIView
+from FoodApp.views import SignupView, LoginView,SignoutView,Menu,post_complaint,RestaurantReviewsView,OrderCreateView,OrderHistoryView,CartDeleteView, ResetPasswordView,ReviewCreateView, UserList,SaveFoodDataView, UserDetail,OrderRecommendation,RestRecommendation,cart_api,truncate_cart,get_rest_data,save_users,food_list,save_reviews,save_restaurants,get_reviews,SaveReviewView,complaint_status,OrderCreateAPIView
 
 from django.views.decorators.csrf import csrf_exempt
 
@@ -28,6 +28,7 @@ urlpatterns = [
     path('signup/',csrf_exempt( SignupView.as_view()), name='signup'),
     path('login/', csrf_exempt( LoginView.as_view()), name='login'),
     path('reset_password/', ResetPasswordView.as_view(), name='reset_password'),
+    path('signout/', SignoutView.as_view(), name='logout'),
    
 
     path('api/users/', UserList.as_view(), name='user-list'),
