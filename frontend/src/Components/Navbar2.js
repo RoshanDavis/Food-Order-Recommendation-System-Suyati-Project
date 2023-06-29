@@ -13,7 +13,7 @@ const Navbar2 = () => {
 
   const handleSignOut=async ()=>{
     try {
-        const response = await axios.post('Log out api here');//API for log out
+        const response = await axios.get('http://127.0.0.1:8000/signout');//API for log out
         
         console.log(response.data);
       } catch (error) {

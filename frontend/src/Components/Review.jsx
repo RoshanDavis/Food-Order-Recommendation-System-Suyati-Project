@@ -73,16 +73,20 @@ const Review = () => {
 
         const submitReview = async () => {
             setReviewStar(number);
+            
             if(number!==0){ 
               setreviewIsSubmitted(true)
               setuserReview(reviewText)
               try {
+                
                 const response = await axios.post('http://127.0.0.1:8000/save-review/', {
                   restaurant_id: selected.restaurant_id,
                   restaurant:selected.restaurant,
-                  Rating: reviewStar,
+                  Rating: number,
                   Review: reviewText
-                });
+                }
+                );
+
                 
                 console.log(response.data);
               } catch (error) {
@@ -94,7 +98,7 @@ const Review = () => {
                     return
             }
         };
-
+        console.log(reviewStar)
         const handleInputChange = (event) => {
             setReviewText(event.target.value);
         };

@@ -338,9 +338,9 @@ def post_complaint(request):
         # Extract the required fields from the complaint_data dictionary
         user_id = user.user_id
         restaurant_id = complaint_data['restaurant_id']
-        restaurant = complaint_data['restaurant']
+        restaurant = complaint_data['Name']
         first_name = name.first_name
-        review = complaint_data['review']
+        review = complaint_data['Complaint']
 
         # Create a Complaint object and save it to the database
         complaint = Complaint.objects.create(
@@ -374,20 +374,20 @@ class ComplaintsView(View):
     def get(self, request):
        
         us_id= Login.objects.first()
-        
-        user = User.objects.get(user_id=us_id)
+        print(us_id)
+        user = User.objects.get(user_id=us_id.user_id)
 
-
-        complaints = Complaint.objects.filter(user_id=user.user_id).values()
+        print(user.user_id)
+        complaints = Complaint.objects.filter(user_id=user.user_id)
 
         complaint_list = []
         for complaint in complaints:
             complaint_data = {
-                'user_id': user.user_id,
-                'restaurant_id': complaint.restaurant_id,
-                'restaurant': complaint.restaurant,
-                'first_name': complaint.first_name,
-                'review': complaint.review,
+              
+              
+                'Name': complaint.restaurant,
+              
+                'Complaint': complaint.review,
             }
             complaint_list.append(complaint_data)
 
@@ -602,13 +602,17 @@ def cart_api(request):
 
         # Iterate over the cart items and create a dictionary for each one
         for cart_item in cart_items:
+
+             # Get the corresponding restaurant for the cart item
+            restaurant = Restaurant.objects.get(food_id=cart_item.food_id)
             cart_data = {
                 'cart_id': cart_item.id,
                 'restaurant_id':  cart_item.restaurant_id,
                 'food_id': cart_item.food_id,
                 'price': cart_item.price,
                 'food': cart_item.name,
-                'quantity': cart_item.quantity
+                'quantity': cart_item.quantity,
+                'linkImg': restaurant.linkImg 
             }
 
             # Append the cart item dictionary to the list

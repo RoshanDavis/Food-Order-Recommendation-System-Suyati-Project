@@ -25,16 +25,18 @@ const Order = () => {
   const handleClickCancel = () => {
         
         /*     Api need to be created for truncating cart*/
-        // // Send a POST request to the backend API using Axios
-        // axios
-        //   .post("/your-backend-endpoint", JSON.stringify(data))
-        //   .then((response) => {
-        //     // Handle the response from the backend
-        //     console.log("Message sent to backend successfully");
-        //   })
-        //   .catch((error) => {
-        //     console.error("Failed to send message to backend", error);
-        //   });
+        // Send a POST request to the backend API using Axios
+        axios.post("http://127.0.0.1:8000/cart/truncate/")
+          .then((response) => {
+            // Handle the response from the backend
+            console.log("Message sent to backend successfully");
+          })
+          .catch((error) => {
+            console.error("Failed to send message to backend", error);
+          }
+          
+          );
+          window.location.reload();
       };
 
   const [orders, setorders] = useState([]);

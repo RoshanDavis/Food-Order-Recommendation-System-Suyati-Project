@@ -26,8 +26,8 @@ const Complaint = () => {
         //Fetch previous order history
         try{
             const response=await axios.get("http://127.0.0.1:8000/order-history/");
-            if (response && response.data.ProductSlider) { // Check if response and response.data exist
-                setitems(response.data.ProductSlider);
+            if (response && response.data) { // Check if response and response.data exist
+                setitems(response.data);
 
                 
             }
@@ -37,9 +37,10 @@ const Complaint = () => {
             console.log(error);
           }
           try {
-            const response = await axios.get("http://127.0.0.1:8000/order-history/");
+            const response = await axios.get("http://127.0.0.1:8000/complaints/");
             
             if (response && response.data) {
+                console.log(response.data)
                 setCurrentComplaints(response.data);
                 sethasComplaint(true);
             }
@@ -124,8 +125,7 @@ const Complaint = () => {
         setCurrentComplaints([newComplaint, ...currentComplaints]);
 
         // Post complaint to backend
-        axios
-        .post('http://localhost:3030/Complaint-Post', newComplaint)
+        axios.post('http://127.0.0.1:8000/post_complaint/', newComplaint)
         .then((response) => {
             console.log('Complaint posted successfully:', response.data);
             // Perform any additional actions or handle the response as needed
