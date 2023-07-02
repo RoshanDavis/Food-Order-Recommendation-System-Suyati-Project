@@ -30,7 +30,7 @@ export default function Signup() {
         if (response.data.success) {
           window.location.href = '/Login';
         } else {
-          alert("Signup failed. Please try again.");
+          alert("Email already exists");
         }
       })
       .catch((error) => {

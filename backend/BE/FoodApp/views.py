@@ -18,6 +18,7 @@ from .Recommendation.Order.run_model import Get_Recommendations
 from .Recommendation.test.res_recommendation import Get_Recommendation
 
 class SignupView(View):
+    
     @csrf_exempt
     def post(self, request):
         # Deserialize JSON data from request body
@@ -31,6 +32,7 @@ class SignupView(View):
         # existing_user = User.objects.filter(email=data[0]['email']).first()
         if existing_user is not None:
             return JsonResponse({'error': 'User with this email already exists'})
+            
         else:
             
             user = User(
@@ -166,7 +168,7 @@ class UserDetail(APIView):
         user.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-
+'''
 ### dash data
 def food_list(request):
     user_id = request.session.get('user_id')
@@ -175,8 +177,8 @@ def food_list(request):
     
 
     return JsonResponse(food_data, safe=False)
-
-
+'''
+'''
 import mysql.connector
 import json
 
@@ -222,7 +224,7 @@ def get_reviews(request):
     # Send the JSON string as a response to your React application
     print(json_string)
 
-    return HttpResponse(json_string)
+    return HttpResponse(json_string)'''
 
 
 
@@ -392,7 +394,7 @@ class ComplaintsView(View):
             complaint_list.append(complaint_data)
 
         return JsonResponse(complaint_list, safe=False)
-
+'''
 def complaint_status(request):
     data = json.loads(request.body)
   # Assuming the vendor ID is passed in the request body
@@ -417,7 +419,7 @@ def complaint_status(request):
 
     # Return the status as a JSON response
     return JsonResponse({'status': status})
-
+'''
 
 ########################## MENU ################################################
 class Menu(View):
@@ -451,7 +453,7 @@ class Menu(View):
                 'serving_distance': row.serving_distance,
                 'discount_percentage': row.discount_percentage,
                # 'rating': row.rating,
-               # 'restaurant': row.restaurant,
+               'restaurant': row.restaurant,
                 'address': row.address,
                 'indicator': row.indicator,
                 'linkImg':row.linkImg

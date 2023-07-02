@@ -99,7 +99,7 @@ export default function Login() {
     if (response.data.success) {
      window.location.href = '/Dashboard/';
     } else {
-      alert('User does not exist');
+      alert('Invalid credentials');
     }
   })
   .catch((error) => {

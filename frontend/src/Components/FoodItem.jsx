@@ -100,7 +100,7 @@ const FoodItem = ({data,showItemCountProp,showCancelButtonProp}) => {
             });
         }
         
-       
+        window.location.reload();//Temporary fix
     };
     
     const handleDecrement = () => {
@@ -141,6 +141,7 @@ const FoodItem = ({data,showItemCountProp,showCancelButtonProp}) => {
             }
         
         }
+        window.location.reload();//Temporary fix
     };
     
     // const handleErrorImage = (data) => {

@@ -41,23 +41,23 @@ const Cart = () => {
 
     console.log(products)
     
-    const fetchItems=async()=>{
-        try{
-            const response=await axios.get("http://127.0.0.1:8000/cart/");
-            if (response && response.data) {
+    // const fetchItems=async()=>{
+    //     try{
+    //         const response=await axios.get("http://127.0.0.1:8000/cart/");
+    //         if (response && response.data) {
             
-            }
+    //         }
             
-        }
-        catch (error) {
-            console.log(error);
+    //     }
+    //     catch (error) {
+    //         console.log(error);
         
-      }
+    //   }
     
-    }
-    useEffect(()=>{
-        fetchItems()
-        },[]);
+    // }
+    // useEffect(()=>{
+    //     fetchItems()
+    //     },[]);
         
     // const initialState={
     //     item: products,
@@ -75,8 +75,22 @@ const removeItem=(id)=>{
 };
 // clear the cart
 const clearCart=()=>{
+    try{
+        const response=axios.post("http://127.0.0.1:8000/cart/truncate/");
+        if (response && response.data) {
+            console.log(response)
+        
+        }
+        
+    }
+    catch (error) {
+        console.log(error);
+    
+  }
+    
     return dispatch({
         type:"CLEAR_CART"
+        
     });
 };
 // increment the item
