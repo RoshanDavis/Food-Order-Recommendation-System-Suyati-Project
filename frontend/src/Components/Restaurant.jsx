@@ -129,10 +129,10 @@ const Restaurant = () => {
         
   return (
     <div>
-        <nav>
+        <nav className='pb-5'>
             <Navbar2/>
         </nav>
-        <body>
+        <body className='pt-5'>
             
             <div className='restaurant'>
               

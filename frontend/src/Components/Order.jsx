@@ -87,7 +87,7 @@ const Order = () => {
       };
   return (
     <div>
-        <nav>
+        <nav className ='pb-4'>
             <Navbar2/>
         </nav>
         <body>
@@ -108,7 +108,7 @@ const Order = () => {
               }
             </div>
             ):(
-                <div className="container pb-5">
+                <div className="container pb-5 pt-5">
                     <h2 className='pt-5'>Orders on the way</h2>
                     <h4 className='d-flex flex-row justify-content-center' style={{color:"gray"}}>You have no current orders :)</h4>
                 </div>

@@ -62,7 +62,7 @@ const Dashboard = () => {
     
   return (
     <div className='dashboard'>
-        <nav>
+        <nav className='pb-5'>
             <Navbar2/>
         </nav>
         <body className='dashboard-body'>

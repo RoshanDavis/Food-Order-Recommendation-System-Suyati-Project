@@ -15,16 +15,16 @@ const Items = ({restaurant, price, food, id ,linkImg, quantity}) => {
                 <p className='cart-text'>{restaurant}</p>
             </div>
             <div className='add-minus-quantity'>
-                <i className='fas fa-minus minus' onClick={()=> decrement(id)}></i>
-                <input type="text" placeholder={quantity} />
-                <i className='fas fa-plus add' onClick={()=> increment(id)}></i>
+                {/* <i className='fas fa-minus minus' onClick={()=> decrement(id)}></i> */}
+                <input  placeholder={quantity} />
+                {/* <i className='fas fa-plus add' onClick={()=> increment(id)}></i> */}
             </div>
             <div className='price'>
                 <h3>Rs {price}</h3>
             </div>
             <div className='remove-item'>
-                <i className='fas fa-trash-alt remove' 
-                onClick={()=>removeItem(id)}></i>
+                {/* <i className='fas fa-trash-alt remove' 
+                onClick={()=>removeItem(id)}></i> */}
             </div>
         </div>
         <hr /> 

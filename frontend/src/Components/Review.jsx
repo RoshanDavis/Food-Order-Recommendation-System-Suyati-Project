@@ -126,7 +126,7 @@ const Review = () => {
 
         function getStatusText(indicator) {
           if (indicator === 1) {
-            return 'Amazing';
+            return 'All clear';
           } else if (indicator === 2) {
             return 'Moderate';
           } else if (indicator === 3) {

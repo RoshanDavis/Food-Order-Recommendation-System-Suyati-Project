@@ -42,6 +42,7 @@ const Complaint = () => {
             if (response && response.data) {
                 console.log(response.data)
                 setCurrentComplaints(response.data);
+                if(response.data.length>0)
                 sethasComplaint(true);
             }
           } catch (error) {
@@ -149,12 +150,12 @@ const Complaint = () => {
     }
   return (
     <div>
-        <nav>
+        <nav className ='pb-4'>
             <Navbar2/>
         </nav>
         <body>
             {!hasComplaint &&
-            <div className="complaints-container">
+            <div className="complaints-container ">
                 <div className="container pb-5">
                     <h2 className='pt-5'>Complaints</h2>
                     <h4 className='d-flex flex-row justify-content-center' style={{color:"gray"}}>You have no complaints:)</h4>
