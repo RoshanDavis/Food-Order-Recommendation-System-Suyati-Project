@@ -1,0 +1,11 @@
+# Use an official MySQL image as the base
+FROM mysql:latest
+
+# Set environment variables
+ENV MYSQL_ROOT_PASSWORD=123456
+ENV MYSQL_DATABASE=foodorder
+
+
+
+# Expose the MySQL port
+EXPOSE 3306

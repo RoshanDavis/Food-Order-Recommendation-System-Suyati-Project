@@ -7,6 +7,6 @@ admin.site.register(User)
 admin.site.register(Order)
 admin.site.register(Review)
 admin.site.register(Restaurant)
-admin.site.register(Login)
+#admin.site.register(Login)
 admin.site.register(Complaint)
 #admin.site.register(Login 

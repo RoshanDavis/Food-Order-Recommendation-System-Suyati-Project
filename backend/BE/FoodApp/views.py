@@ -1,6 +1,4 @@
 from django.shortcuts import render
-
-# Create your views here.
 from django.views import View
 from django.http import JsonResponse,HttpResponse
 from django.core import serializers
@@ -14,8 +12,8 @@ from django.db.models import Max
 
 
 from .Recommendation.Order.run_model import Get_Recommendations
-#from .Recommendation.Restaurant.res_recommendation import Get_Recommendation
-from .Recommendation.test.res_recommendation import Get_Recommendation
+from .Recommendation.Restaurant.res_model import Get_Recommendation
+#from .Recommendation.test.res_recommendation import Get_Recommendation
 
 class SignupView(View):
     
@@ -27,16 +25,14 @@ class SignupView(View):
         print('Received data:', data)
 
         existing_user = User.objects.filter(email=data.get('email')).first()
-        # Check if the user already exists in the database
         
-        # existing_user = User.objects.filter(email=data[0]['email']).first()
         if existing_user is not None:
             return JsonResponse({'error': 'User with this email already exists'})
             
         else:
             
             user = User(
-            #user_id=data['user_id']
+            
             email=data['email'], 
             password=data['password'], 
             first_name=data['firstName'],
@@ -357,9 +353,9 @@ def post_complaint(request):
         #restaurant = Restaurant.objects.get(restaurant_id=restaurant_id)
         complaints_count = Complaint.objects.filter(restaurant_id=restaurant_id).count()
 
-        if complaints_count < 2:
+        if complaints_count < 1:
             indicator = 1
-        elif 2 <= complaints_count <= 3:
+        elif 1 <= complaints_count <= 2:
             indicator = 2
         else:
             indicator = 3
@@ -793,13 +789,11 @@ class OrderRecommendation(View):
         #food_ids = [111, 97, 220, 77, 272, 62, 46, 302, 122, 185]
         print("food",food_ids)
 
-        for id in food_ids:
-            print(type(id))
 
         for id in food_ids:
             try:
                 restaurants = Restaurant.objects.filter(food_id=id)
-                print(restaurants)
+                
                 
                 for restaurant in restaurants:
                     data_dict = {
@@ -841,16 +835,23 @@ class RestRecommendation(View):
         reviews = Review.objects.filter(user_id=customer_id).values('restaurant_id', 'rating')
 
         review_list = []
-        for review in reviews:
+        ''' for review in reviews:
             review_data = {
-                'restaurant_id': review['restaurant_id'],
+                'vendor': review['restaurant_id'],
                 'rating': review['rating'],
-        }
-            review_list.append(review_data)
+        }'''
+        for review in reviews:
+            restaurant_id = review['restaurant_id']
+            rating = float(review['rating'])
+            review_list.append((restaurant_id,rating))
 
-        print(review_list)
-        customer_ratings = {}
+        # Convert the list of tuples to a dictionary
+        customer_ratings = dict(review_list)
 
+        
+        
+        #recommended_res = mf_dl_recom_vendor_list(customer_id, customer_ratings)
+        print(customer_id)
         recommended_res = Get_Recommendation(customer_id, customer_ratings)
         #recommended_res=[841, 299, 160, 225, 85]
         data=[]

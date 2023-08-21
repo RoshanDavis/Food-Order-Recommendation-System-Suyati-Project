@@ -1,0 +1,10 @@
+Django==4.2.1
+djangorestframework==3.14.0
+mysqlclient==2.1.1
+pandas==1.5.3
+drf-yasg==1.21.5
+django-cors-headers==3.14.0
+matplotlib==3.7.1
+seaborn==0.12.2
+scikit-learn==1.2.1
+numpy==1.23.5

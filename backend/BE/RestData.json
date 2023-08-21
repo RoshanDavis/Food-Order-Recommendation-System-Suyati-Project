@@ -1236,7 +1236,8 @@
       "restaurant": "The Epicure's Haven",
       "contact": 9876543239,
       "address": "321, HIJ Marg, Alappuzha, Kerala, 688003",
-      "indicator": 1
+      "indicator": 1,
+      "linkImg":"https://d167y3o4ydtmfg.cloudfront.net/357/studio/assets/v1545740695812_247560690/Savory%20Meat%20Pizza.jpg"
     },
     {
       "food_id": 87,
